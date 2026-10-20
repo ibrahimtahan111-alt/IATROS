@@ -1,0 +1,11 @@
+.mark {
+  flex: none;
+}
+
+.tile {
+  fill: var(--color-accent);
+}
+
+.pulse {
+  stroke: var(--color-accent-contrast);
+}

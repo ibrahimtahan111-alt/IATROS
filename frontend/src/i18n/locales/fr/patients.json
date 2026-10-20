@@ -1,0 +1,123 @@
+{
+  "add": "Ajouter un patient",
+  "search": "Rechercher par nom, téléphone ou e-mail",
+  "count_one": "{{count}} patient",
+  "count_other": "{{count}} patients",
+  "caption": "Patients",
+  "age_one": "({{count}} an)",
+  "age_other": "({{count}} ans)",
+  "filters": {
+    "primaryDoctor": "Médecin traitant",
+    "allDoctors": "Tous les médecins",
+    "status": "Statut"
+  },
+  "columns": {
+    "name": "Patient",
+    "dateOfBirth": "Date de naissance",
+    "contact": "Contact",
+    "primaryDoctor": "Médecin traitant",
+    "nextAppointment": "Prochain rendez-vous",
+    "status": "Statut"
+  },
+  "status": {
+    "ACTIVE": "Actif",
+    "ARCHIVED": "Archivé"
+  },
+  "gender": {
+    "FEMALE": "Femme",
+    "MALE": "Homme",
+    "OTHER": "Autre",
+    "UNDISCLOSED": "Préfère ne pas le dire"
+  },
+  "empty": {
+    "title": "Aucun patient pour le moment",
+    "description": "Ajoutez votre premier patient pour prendre des rendez-vous et tenir son dossier médical."
+  },
+  "noResults": {
+    "title": "Aucun patient ne correspond",
+    "description": "Essayez une autre recherche ou effacez les filtres.",
+    "clear": "Effacer la recherche et les filtres"
+  },
+  "fields": {
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "dateOfBirth": "Date de naissance",
+    "gender": "Genre",
+    "phone": "Téléphone",
+    "email": "E-mail",
+    "address": "Adresse",
+    "emergencyContactName": "Personne à prévenir",
+    "emergencyContactPhone": "Téléphone de la personne à prévenir",
+    "primaryDoctor": "Médecin traitant",
+    "doctor": "Médecin"
+  },
+  "form": {
+    "personal": "Informations personnelles",
+    "contact": "Coordonnées",
+    "clinic": "Informations du cabinet",
+    "clinicDescription": "Le médecin traitant est responsable du patient. Le responsable du cabinet peut ensuite donner accès à d’autres médecins.",
+    "genderPlaceholder": "Non précisé",
+    "primaryDoctorPlaceholder": "Choisir un médecin"
+  },
+  "new": {
+    "title": "Ajouter un patient",
+    "submit": "Créer le patient",
+    "created": "{{name}} a été ajouté(e).",
+    "yourPatient": "Vous serez le médecin traitant : {{name}}.",
+    "noDoctors": {
+      "title": "Aucun médecin disponible",
+      "owner": "Chaque patient a besoin d’un médecin traitant. Ajoutez d’abord un médecin à votre équipe.",
+      "other": "Chaque patient a besoin d’un médecin traitant. Demandez au responsable du cabinet d’ajouter un médecin à l’équipe.",
+      "addDoctor": "Ajouter un médecin"
+    }
+  },
+  "edit": {
+    "title": "Modifier {{name}}",
+    "saved": "Modifications enregistrées.",
+    "archived": "Ce patient est archivé. Restaurez-le avant de le modifier."
+  },
+  "profile": {
+    "addedOn": "Ajouté le",
+    "emergencyContact": "Personne à prévenir",
+    "notSet": "Non renseigné",
+    "medicalRecord": "Dossier médical",
+    "archivedBanner": "Ce patient a été archivé le {{date}}. Son dossier est conservé mais ne peut plus être modifié."
+  },
+  "doctors": {
+    "title": "Médecins",
+    "description": "Seuls ces médecins peuvent voir le patient. Changer de médecin ne supprime jamais l’historique du patient.",
+    "caption": "Médecins ayant accès à {{name}}",
+    "access": "Accès",
+    "actions": "Actions",
+    "deactivated": "Désactivé",
+    "relationship": {
+      "PRIMARY": "Médecin traitant",
+      "AUTHORIZED": "Autorisé"
+    },
+    "changePrimary": "Changer de médecin traitant",
+    "changePrimaryTitle": "Changer le médecin traitant de {{name}}",
+    "changePrimaryDescription": "Le médecin traitant actuel garde l’accès en tant que médecin autorisé. Vous pourrez le retirer ensuite.",
+    "primaryChanged": "Le médecin traitant a été changé.",
+    "add": "Donner accès",
+    "addTitle": "Donner accès à {{name}} à un autre médecin",
+    "addDescription": "Le médecin pourra voir ce patient et son dossier médical.",
+    "added": "Accès accordé.",
+    "remove": "Retirer l’accès de {{name}}",
+    "removeTitle": "Retirer l’accès de {{name}} ?",
+    "removeConsequence": "{{doctor}} ne verra plus {{patient}} ni son dossier médical. Rien n’est supprimé du dossier.",
+    "removeConfirm": "Retirer l’accès",
+    "removed": "{{name}} n’a plus accès."
+  },
+  "archive": {
+    "action": "Archiver le patient",
+    "title": "Archiver {{name}} ?",
+    "consequence": "{{name}} n’apparaît plus dans la liste des patients et ne peut plus être modifié(e) ni recevoir de rendez-vous. Son historique est conservé et il ou elle peut être restauré(e) à tout moment.",
+    "done": "{{name}} a été archivé(e)."
+  },
+  "restore": {
+    "action": "Restaurer",
+    "title": "Restaurer {{name}} ?",
+    "consequence": "{{name}} réapparaît dans la liste des patients et peut de nouveau recevoir des rendez-vous.",
+    "done": "{{name}} a été restauré(e)."
+  }
+}

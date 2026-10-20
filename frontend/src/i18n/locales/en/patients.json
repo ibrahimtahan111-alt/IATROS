@@ -1,0 +1,123 @@
+{
+  "add": "Add patient",
+  "search": "Search by name, phone, or email",
+  "count_one": "{{count}} patient",
+  "count_other": "{{count}} patients",
+  "caption": "Patients",
+  "age_one": "({{count}} year)",
+  "age_other": "({{count}} years)",
+  "filters": {
+    "primaryDoctor": "Primary doctor",
+    "allDoctors": "All doctors",
+    "status": "Status"
+  },
+  "columns": {
+    "name": "Patient",
+    "dateOfBirth": "Date of birth",
+    "contact": "Contact",
+    "primaryDoctor": "Primary doctor",
+    "nextAppointment": "Next appointment",
+    "status": "Status"
+  },
+  "status": {
+    "ACTIVE": "Active",
+    "ARCHIVED": "Archived"
+  },
+  "gender": {
+    "FEMALE": "Female",
+    "MALE": "Male",
+    "OTHER": "Other",
+    "UNDISCLOSED": "Prefer not to say"
+  },
+  "empty": {
+    "title": "No patients yet",
+    "description": "Add your first patient to start booking appointments and keeping their medical record."
+  },
+  "noResults": {
+    "title": "No patients match",
+    "description": "Try another search or clear the filters.",
+    "clear": "Clear search and filters"
+  },
+  "fields": {
+    "firstName": "First name",
+    "lastName": "Last name",
+    "dateOfBirth": "Date of birth",
+    "gender": "Gender",
+    "phone": "Phone",
+    "email": "Email",
+    "address": "Address",
+    "emergencyContactName": "Emergency contact",
+    "emergencyContactPhone": "Emergency contact phone",
+    "primaryDoctor": "Primary doctor",
+    "doctor": "Doctor"
+  },
+  "form": {
+    "personal": "Personal information",
+    "contact": "Contact information",
+    "clinic": "Clinic information",
+    "clinicDescription": "The primary doctor is responsible for the patient. The owner can give other doctors access later.",
+    "genderPlaceholder": "Not specified",
+    "primaryDoctorPlaceholder": "Choose a doctor"
+  },
+  "new": {
+    "title": "Add patient",
+    "submit": "Create patient",
+    "created": "{{name}} has been added.",
+    "yourPatient": "You will be the primary doctor: {{name}}.",
+    "noDoctors": {
+      "title": "No doctor available",
+      "owner": "Every patient needs a primary doctor. Add a doctor to your team first.",
+      "other": "Every patient needs a primary doctor. Ask the clinic owner to add a doctor to the team.",
+      "addDoctor": "Add a doctor"
+    }
+  },
+  "edit": {
+    "title": "Edit {{name}}",
+    "saved": "Changes saved.",
+    "archived": "This patient is archived. Restore them before making changes."
+  },
+  "profile": {
+    "addedOn": "Added on",
+    "emergencyContact": "Emergency contact",
+    "notSet": "Not provided",
+    "medicalRecord": "Medical record",
+    "archivedBanner": "This patient was archived on {{date}}. Their record is kept but cannot be changed."
+  },
+  "doctors": {
+    "title": "Doctors",
+    "description": "Only these doctors can see the patient. Changing doctors never removes the patient's history.",
+    "caption": "Doctors with access to {{name}}",
+    "access": "Access",
+    "actions": "Actions",
+    "deactivated": "Deactivated",
+    "relationship": {
+      "PRIMARY": "Primary doctor",
+      "AUTHORIZED": "Authorized"
+    },
+    "changePrimary": "Change primary doctor",
+    "changePrimaryTitle": "Change the primary doctor of {{name}}",
+    "changePrimaryDescription": "The current primary doctor keeps access as an authorized doctor. You can remove them afterwards.",
+    "primaryChanged": "The primary doctor has been changed.",
+    "add": "Give access",
+    "addTitle": "Give another doctor access to {{name}}",
+    "addDescription": "The doctor will be able to see this patient and their medical record.",
+    "added": "Access granted.",
+    "remove": "Remove access for {{name}}",
+    "removeTitle": "Remove access for {{name}}?",
+    "removeConsequence": "{{doctor}} will no longer see {{patient}} or their medical record. Nothing in the record is deleted.",
+    "removeConfirm": "Remove access",
+    "removed": "{{name}} no longer has access."
+  },
+  "archive": {
+    "action": "Archive patient",
+    "title": "Archive {{name}}?",
+    "consequence": "{{name}} is hidden from the patient list and can no longer be changed or booked. Their history is kept, and they can be restored at any time.",
+    "done": "{{name}} has been archived."
+  },
+  "restore": {
+    "action": "Restore",
+    "title": "Restore {{name}}?",
+    "consequence": "{{name}} returns to the patient list and can be booked again.",
+    "done": "{{name}} has been restored."
+  }
+}

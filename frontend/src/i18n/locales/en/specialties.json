@@ -1,0 +1,22 @@
+{
+  "GENERAL_PRACTICE": "General practice",
+  "INTERNAL_MEDICINE": "Internal medicine",
+  "PEDIATRICS": "Pediatrics",
+  "CARDIOLOGY": "Cardiology",
+  "DERMATOLOGY": "Dermatology",
+  "ENDOCRINOLOGY": "Endocrinology",
+  "GASTROENTEROLOGY": "Gastroenterology",
+  "GYNECOLOGY_OBSTETRICS": "Gynecology and obstetrics",
+  "NEPHROLOGY": "Nephrology",
+  "NEUROLOGY": "Neurology",
+  "ONCOLOGY": "Oncology",
+  "OPHTHALMOLOGY": "Ophthalmology",
+  "ORTHOPEDICS": "Orthopedics",
+  "OTOLARYNGOLOGY": "Otolaryngology (ENT)",
+  "PSYCHIATRY": "Psychiatry",
+  "PULMONOLOGY": "Pulmonology",
+  "RHEUMATOLOGY": "Rheumatology",
+  "UROLOGY": "Urology",
+  "DENTISTRY": "Dentistry",
+  "OTHER": "Other specialty"
+}

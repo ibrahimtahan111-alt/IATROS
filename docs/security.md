@@ -126,7 +126,7 @@ Passwords must never be stored as plaintext.
 
 Passwords must be stored using a modern, strong, one-way password hashing algorithm supported by the chosen Spring Security configuration.
 
-The exact hashing algorithm/configuration will be selected during implementation.
+**Decision:** `DelegatingPasswordEncoder` with Argon2id as the default (`decisions.md` D-013).
 
 Requirements:
 
@@ -140,9 +140,15 @@ Requirements:
 
 # 6. Authentication Tokens / Sessions
 
-The exact authentication mechanism will be finalized during implementation.
+**Decision (`decisions.md` D-010):** server-side sessions managed by Spring Security and stored in PostgreSQL via Spring Session JDBC.
 
-Regardless of the chosen mechanism:
+* Session cookie: `HttpOnly`, `Secure` outside local development, `SameSite=Lax`.
+* No authentication token is readable by JavaScript or stored in `localStorage`.
+* Idle timeout 30 minutes; absolute lifetime 12 hours.
+* Session ID is rotated on login (session-fixation protection).
+* Logout, deactivation, and password change invalidate the relevant sessions on the server immediately.
+
+Requirements:
 
 * Authentication credentials must be protected.
 * Tokens/session identifiers must not be unnecessarily exposed.
@@ -266,7 +272,7 @@ They must not have unrestricted access to:
 * Clinic administration
 * Clinic KPIs
 
-The exact patient fields exposed to secretaries should follow data-minimization principles.
+The exact patient fields exposed to secretaries are defined in `decisions.md` D-029.
 
 ---
 
@@ -358,8 +364,10 @@ User from Clinic A
         ↓
 Requests Patient belonging to Clinic B
         ↓
-403 Forbidden / appropriate protected-resource response
+404 Not Found (existence is not revealed)
 ```
+
+Resources outside the user's clinic or authorized scope return `404`. `403` is reserved for operations the user's role may never perform (`decisions.md` D-014).
 
 This must apply to:
 
@@ -374,6 +382,16 @@ This must apply to:
 * Nested resources
 
 A user must not be able to discover another clinic's information indirectly.
+
+**Implementation (Phase 13):** `SecurityAbuseTests` is an abuse matrix that discovers every `/api/v1` route with a path variable from the running application (50 routes at the time of writing) and calls it with real IDs of clinic A, using valid request bodies so that refusals come from authorization rather than validation:
+
+* Another clinic's owner (the most privileged outsider) must receive `404` on every route, with no clinic A data in any response, no audit event in clinic A, and an unchanged view of every attacked resource afterwards.
+* A secretary must receive `403` on every clinical route (medical record, consultations, documents).
+* A doctor who is not linked to the patient must receive `403` or `404` on every route except reading colleagues' schedules, and must change nothing.
+* Clinic A's IDs placed in request bodies (booking, rescheduling, primary or authorized doctor, consultation-to-appointment links, document-to-consultation links) are rejected with `4xx`, and clinic A's IDs used as filters (patients, appointments, availability, calendar, activity, KPIs, consultations, documents) return no clinic A data.
+* A positive control: clinic A's own owner receives `200` on every `GET` route of the matrix, which proves the IDs and URLs are real.
+
+A new route that accepts a request body fails the matrix until it is given an attack body, so new endpoints cannot silently escape it.
 
 ---
 
@@ -421,6 +439,8 @@ must verify:
 * document access permission.
 
 Direct public file URLs should not be used for sensitive medical documents.
+
+Implementation (D-044): every document route checks clinical access to the patient before opening the file; another clinic's, an unlinked patient's, or an archived document is `404 DOCUMENT_NOT_FOUND`. Files are served with their verified content type, `X-Content-Type-Options: nosniff`, and no-cache headers, and each view or download is audited as `DOCUMENT_VIEWED` without the file name.
 
 ---
 
@@ -596,7 +616,7 @@ Uploaded filenames should not directly determine filesystem paths.
 
 Files should be stored using generated identifiers rather than trusting user-provided filenames.
 
-The exact storage provider will be decided later.
+Storage: `DocumentStorage` abstraction; local filesystem in development, S3-compatible storage in production. Defaults: 20 MB maximum, PDF/JPEG/PNG/WEBP only, type verified from file signature (`decisions.md` D-032). The extension must also match the detected content, so a renamed file is rejected; display names are stripped of path parts and control characters; storage keys are generated UUIDs, and the local adapter rejects any other key (D-044).
 
 ---
 
@@ -613,6 +633,36 @@ The React application should:
 * Clear authentication state on logout.
 
 Frontend route guards improve UX but are not a replacement for backend authorization.
+
+### Browser hardening headers (`decisions.md` D-045)
+
+Every API response, including errors and public auth endpoints, carries:
+
+| Header | Value |
+| --- | --- |
+| `Content-Security-Policy` | `default-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'` |
+| `Referrer-Policy` | `no-referrer` |
+| `Cross-Origin-Resource-Policy` | `same-origin` |
+| `Permissions-Policy` | `camera=(), microphone=(), geolocation=(), payment=(), usb=()` |
+| `X-Content-Type-Options` | `nosniff` |
+| `X-Frame-Options` | `DENY` |
+| `Cache-Control` | `no-cache, no-store, max-age=0, must-revalidate` |
+| `Strict-Transport-Security` | sent on HTTPS requests (behind the proxy, via `forward-headers-strategy: native`) |
+
+The API returns only JSON and stored documents, so its policy allows nothing to load, run, submit, or frame. A document opened inline (for example a PDF) therefore cannot execute script even if a crafted file passed validation. `sandbox` is deliberately not used because it disables browsers' built-in PDF viewers.
+
+The single-page application's HTML, scripts, and styles are served by the reverse proxy, which must send this policy for them:
+
+```text
+Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;
+  font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self';
+  frame-ancestors 'none'
+Referrer-Policy: no-referrer
+X-Content-Type-Options: nosniff
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+```
+
+The built application contains no inline script or style: the pre-paint theme and language script is the static file `public/theme-init.js`, so the policy needs no `'unsafe-inline'` or hashes. Keep it that way; a new inline script would be blocked in production.
 
 ---
 
@@ -671,6 +721,8 @@ Development origins may be explicitly configured for the local React application
 
 Wildcard CORS configuration should not be used as a shortcut.
 
+**Decision (`decisions.md` D-012):** the frontend and API share one origin in production (reverse proxy), and the Vite dev server proxies `/api` in development. CORS is therefore disabled by default.
+
 ---
 
 # 32. CSRF
@@ -679,7 +731,7 @@ The CSRF strategy must be determined based on the final authentication/session a
 
 The implementation must not simply disable CSRF protection without evaluating whether the chosen authentication mechanism requires it.
 
-The final decision will be documented when the authentication architecture is finalized.
+**Decision (`decisions.md` D-011):** because authentication is cookie-based, CSRF protection remains enabled using `CookieCsrfTokenRepository`. The frontend echoes the `XSRF-TOKEN` cookie in the `X-XSRF-TOKEN` header on every state-changing request.
 
 ---
 
@@ -696,6 +748,8 @@ Priority areas include:
 * Other publicly reachable endpoints
 
 The exact limits can be defined during deployment/security hardening.
+
+**Client IP behind the proxy:** per-IP limits use the address Tomcat resolves from `X-Forwarded-For` (`forward-headers-strategy: native`). Tomcat only trusts that header from internal-network proxies (its default `internal-proxies` pattern covers private and loopback ranges), so a client cannot choose its own address. If the reverse proxy reaches the backend from a public address, set `server.tomcat.remoteip.internal-proxies` to exactly that address; otherwise every request appears to come from the proxy and all users would share one per-IP budget.
 
 ---
 
@@ -760,7 +814,9 @@ must not allow a doctor to discover patients they are not authorized to access.
 
 Authorization must happen before returning resource data.
 
-The exact identifier strategy will be finalized in the implementation stage.
+Account enumeration is resisted the same way: login checks the password before the account status, performs a dummy hash for unknown emails, and audits a failure identically whether or not the account exists; forgot-password always returns `202` and sends mail on a background executor, so its timing does not depend on whether a reset email was sent.
+
+**Decision:** public identifiers are UUID v7 (`decisions.md` D-003). Non-sequential IDs are defense in depth only; authorization checks remain mandatory.
 
 ---
 
@@ -860,6 +916,14 @@ The project should periodically check for:
 * Vulnerable third-party libraries
 
 Dependencies should not be added without a reason.
+
+**Process:**
+
+* Frontend: `npm audit` must report no vulnerabilities before a release.
+* Backend: almost every library version is managed by the Spring Boot parent, so staying on the latest patch release of a supported Spring Boot line is the main control. Check with `.\mvnw.cmd versions:display-parent-updates versions:display-property-updates`, and ignore milestone (`-M`) and release-candidate (`-RC`) versions. The only directly pinned library is BouncyCastle (`bouncycastle.version`, used for Argon2).
+* A full CVE scan of the backend (for example OWASP Dependency-Check, which requires an NVD API key) belongs in the CI pipeline once the repository has one.
+
+Phase 13 baseline (October 2026): `npm audit` reported 0 vulnerabilities; Spring Boot 4.0.8 (the latest 4.0 patch) and BouncyCastle 1.86 (the latest release).
 
 ---
 

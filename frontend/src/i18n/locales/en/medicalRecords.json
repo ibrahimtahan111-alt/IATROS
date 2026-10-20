@@ -1,0 +1,171 @@
+{
+  "title": "Medical record",
+  "pageTitle": "Medical record · {{name}}",
+  "backToPatient": "Back to {{name}}",
+  "archivedBanner": "This patient is archived. Their medical record can be read but not changed.",
+  "actions": {
+    "add": "Add",
+    "edit": "Edit {{name}}",
+    "remove": "Remove {{name}}",
+    "removeConfirm": "Remove",
+    "saveEntry": "Save"
+  },
+  "remove": {
+    "title": "Remove {{name}}?",
+    "consequence": "It no longer appears in the medical record. The removal is recorded in the clinic's activity log.",
+    "done": "{{name}} has been removed."
+  },
+  "saved": "Saved.",
+  "allergies": {
+    "title": "Allergies",
+    "empty": "No known allergies recorded.",
+    "addTitle": "Add an allergy",
+    "editTitle": "Edit allergy",
+    "fields": {
+      "allergen": "Allergen",
+      "reaction": "Reaction",
+      "severity": "Severity",
+      "notes": "Notes"
+    },
+    "severityPlaceholder": "Not specified",
+    "severity": {
+      "MILD": "Mild",
+      "MODERATE": "Moderate",
+      "SEVERE": "Severe",
+      "UNKNOWN": "Unknown"
+    }
+  },
+  "conditions": {
+    "title": "Chronic conditions",
+    "empty": "No conditions recorded.",
+    "addTitle": "Add a condition",
+    "editTitle": "Edit condition",
+    "fields": {
+      "name": "Condition",
+      "description": "Description",
+      "status": "Status",
+      "diagnosedOn": "Diagnosed on"
+    },
+    "status": {
+      "ACTIVE": "Active",
+      "RESOLVED": "Resolved"
+    },
+    "diagnosed": "Diagnosed {{date}}"
+  },
+  "medications": {
+    "title": "Medications",
+    "empty": "No medications recorded.",
+    "addTitle": "Add a medication",
+    "editTitle": "Edit medication",
+    "fields": {
+      "name": "Medication",
+      "dosage": "Dosage",
+      "frequency": "Frequency",
+      "startDate": "Start date",
+      "endDate": "End date",
+      "active": "Currently taken",
+      "notes": "Notes"
+    },
+    "active": "Current",
+    "stopped": "Stopped",
+    "period": "{{from}} – {{to}}",
+    "since": "Since {{date}}",
+    "until": "Until {{date}}"
+  },
+  "history": {
+    "title": "Past medical history",
+    "empty": "No past history recorded.",
+    "addTitle": "Add a history entry",
+    "editTitle": "Edit history entry",
+    "fields": {
+      "description": "Description",
+      "occurredOn": "Date",
+      "notes": "Notes"
+    },
+    "undated": "Date unknown"
+  },
+  "notes": {
+    "title": "General notes",
+    "description": "Only the author of a note can edit or remove it.",
+    "empty": "No notes yet.",
+    "list": "General notes",
+    "new": "New note",
+    "add": "Add note",
+    "added": "Note added.",
+    "editTitle": "Edit note",
+    "byOn": "{{author}} · {{date}}",
+    "unknownAuthor": "Former team member",
+    "edited": "Edited",
+    "editAction": "Edit note from {{date}}",
+    "removeAction": "Remove note from {{date}}",
+    "removeTitle": "Remove this note?",
+    "removed": "Note removed."
+  },
+  "consultations": {
+    "title": "Consultations",
+    "empty": "No consultations recorded yet.",
+    "caption": "Consultations of {{name}}",
+    "new": "New consultation",
+    "columns": {
+      "date": "Date",
+      "doctor": "Doctor",
+      "reason": "Reason",
+      "diagnosis": "Diagnosis"
+    },
+    "fields": {
+      "consultedAt": "Date and time",
+      "doctor": "Doctor",
+      "reason": "Reason for visit",
+      "diagnosis": "Diagnosis",
+      "clinicalNotes": "Clinical notes",
+      "treatmentNotes": "Treatment and plan",
+      "followUpNotes": "Follow-up instructions",
+      "followUpOn": "Follow-up date"
+    },
+    "help": {
+      "consultedAt": "In the clinic's time zone.",
+      "followUpOn": "When the patient should be seen again."
+    },
+    "newTitle": "New consultation · {{name}}",
+    "editTitle": "Edit consultation · {{name}}",
+    "detailTitle": "Consultation · {{date}}",
+    "create": "Save consultation",
+    "created": "Consultation saved.",
+    "saved": "Changes saved.",
+    "readOnly": "Only {{doctor}} can edit this consultation.",
+    "notRecorded": "Not recorded",
+    "lastChanged": "Last changed {{date}}"
+  },
+  "documents": {
+    "title": "Documents",
+    "description": "PDF files and images (JPEG, PNG, WebP), up to 20 MB each.",
+    "consultationDescription": "Documents attached to this consultation. PDF files and images, up to 20 MB each.",
+    "empty": "No documents.",
+    "emptyEditable": "No documents yet. Upload referral letters, results or scans here.",
+    "noMatch": "No documents match this search.",
+    "search": "Search documents",
+    "caption": "Documents",
+    "columns": {
+      "name": "Name",
+      "size": "Size",
+      "uploadedBy": "Added by",
+      "uploadedAt": "Added on",
+      "actions": "Actions"
+    },
+    "upload": "Upload document",
+    "uploaded": "{{name}} was added.",
+    "download": "Download {{name}}",
+    "archive": "Archive {{name}}",
+    "archiveTitle": "Archive {{name}}?",
+    "archiveConsequence": "It no longer appears in the medical record. The file is kept and the action is recorded in the clinic's activity log.",
+    "archiveConfirm": "Archive",
+    "archived": "{{name}} was archived.",
+    "errors": {
+      "UNSUPPORTED_FILE_TYPE": "This file type is not accepted. Upload a PDF, JPEG, PNG or WebP file.",
+      "FILE_TYPE_MISMATCH": "This file's content does not match its extension. Check the file and try again.",
+      "FILE_EMPTY": "This file is empty.",
+      "FILE_TOO_LARGE": "This file is larger than 20 MB.",
+      "DOCUMENT_NOT_FOUND": "This document no longer exists or is not available to you."
+    }
+  }
+}

@@ -457,6 +457,8 @@ Search, filtering, and sorting interactions should follow consistent patterns th
 
 IATROS must operate as a web application and provide a usable interface across supported desktop and tablet screen sizes.
 
+Small (phone-sized) browser screens must remain usable for viewing and quick actions. A native mobile application is not part of V1.
+
 ## UI-002 — Consistent Navigation
 
 Navigation must remain consistent throughout the application.
@@ -687,15 +689,15 @@ Requirements should generally be implemented in this order:
 * Search
 * Filtering
 * Sorting
-* Notifications where included
 
-### Priority 4 — User Experience
+### Priority 4 — User Experience Refinement
 
-* Localization
-* Theme support
-* Responsive behavior
-* Empty/loading/error states
+* Localization review and completeness
+* Theme polish
+* Responsive refinement
 * UX refinement
+
+Priority 4 is refinement only. The localization and theme **foundations**, plus loading/empty/error states, are built with the application shell and are required for every feature from the start (see `roadmap.md` Phase 4).
 
 ---
 

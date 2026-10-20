@@ -1,0 +1,110 @@
+{
+  "today": "Aujourd’hui",
+  "previous": "Période précédente",
+  "next": "Période suivante",
+  "view": {
+    "label": "Vue du calendrier",
+    "day": "Jour",
+    "week": "Semaine",
+    "month": "Mois"
+  },
+  "filters": {
+    "doctor": "Médecin",
+    "allDoctors": "Tous les médecins",
+    "showCancelled": "Afficher les annulés"
+  },
+  "empty": {
+    "period": "Aucun rendez-vous sur cette période.",
+    "noDoctors": {
+      "title": "Aucun médecin à afficher",
+      "description": "Les rendez-vous apparaissent ici dès que le cabinet compte des médecins actifs avec des horaires."
+    }
+  },
+  "month": {
+    "more_one": "+{{count}} autre",
+    "more_other": "+{{count}} autres"
+  },
+  "minutes_one": "{{count}} min",
+  "minutes_other": "{{count}} min",
+  "type": {
+    "NEW_PATIENT": "Nouveau patient",
+    "FOLLOW_UP": "Suivi",
+    "ROUTINE": "Routine",
+    "PROCEDURE": "Acte",
+    "URGENT": "Urgent",
+    "OTHER": "Autre"
+  },
+  "fields": {
+    "patient": "Patient",
+    "doctor": "Médecin",
+    "date": "Date",
+    "time": "Heure de début",
+    "duration": "Durée",
+    "type": "Type",
+    "reason": "Motif de consultation",
+    "notes": "Notes",
+    "when": "Quand",
+    "cancellationReason": "Motif d’annulation",
+    "bookedBy": "Réservé par"
+  },
+  "help": {
+    "notes": "Notes administratives, visibles par toute personne ayant accès à ce rendez-vous. Les notes cliniques vont dans la consultation."
+  },
+  "book": {
+    "action": "Prendre rendez-vous",
+    "title": "Prendre un rendez-vous",
+    "submit": "Réserver",
+    "done": "Rendez-vous réservé.",
+    "searchPatient": "Rechercher un patient par nom, téléphone ou e-mail",
+    "patientResults": "Patients correspondants",
+    "noPatients": "Aucun patient actif ne correspond à cette recherche.",
+    "changePatient": "Changer",
+    "chooseDoctor": "Choisir un médecin",
+    "freeTimes": "Heures de début libres",
+    "noFreeTimes": "Aucun créneau libre pour cette durée ce jour-là."
+  },
+  "panel": {
+    "title": "Rendez-vous",
+    "startConsultation": "Commencer la consultation",
+    "viewConsultation": "Voir la consultation",
+    "openPatient": "Ouvrir le patient",
+    "medicalRecord": "Dossier médical"
+  },
+  "status": {
+    "label": "Changer le statut",
+    "done": "Statut changé : {{status}}.",
+    "action": {
+      "SCHEDULED": "Marquer comme planifié",
+      "CONFIRMED": "Confirmer",
+      "WAITING": "Enregistrer l’arrivée",
+      "IN_CONSULTATION": "Commencer la visite",
+      "COMPLETED": "Terminer",
+      "CANCELLED": "Annuler",
+      "NO_SHOW": "Marquer absent"
+    }
+  },
+  "reschedule": {
+    "action": "Déplacer",
+    "title": "Déplacer le rendez-vous",
+    "submit": "Déplacer",
+    "done": "Rendez-vous déplacé."
+  },
+  "edit": {
+    "action": "Modifier les détails",
+    "title": "Modifier les détails du rendez-vous",
+    "done": "Rendez-vous mis à jour."
+  },
+  "cancel": {
+    "action": "Annuler le rendez-vous",
+    "title": "Annuler ce rendez-vous ?",
+    "consequence": "Le rendez-vous avec {{name}} est annulé et le créneau est libéré. Il reste dans l’historique du patient.",
+    "keep": "Conserver le rendez-vous",
+    "done": "Rendez-vous annulé."
+  },
+  "patientSection": {
+    "title": "Rendez-vous",
+    "description": "Rendez-vous à venir et passés, les plus récents en premier.",
+    "empty": "Aucun rendez-vous pour l’instant.",
+    "book": "Prendre rendez-vous"
+  }
+}

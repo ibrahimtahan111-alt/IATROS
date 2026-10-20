@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    url: ${IATROS_DB_URL}
+    username: ${IATROS_DB_USERNAME}
+    password: ${IATROS_DB_PASSWORD}
+  mail:
+    host: ${IATROS_SMTP_HOST}
+    port: ${IATROS_SMTP_PORT:587}
+    username: ${IATROS_SMTP_USERNAME:}
+    password: ${IATROS_SMTP_PASSWORD:}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.starttls.required: true
+
+# Behind the reverse proxy (decisions.md D-012): trust its X-Forwarded-* headers for client IP and scheme.
+server:
+  forward-headers-strategy: native
+
+iatros:
+  mail:
+    transport: smtp
+    from: ${IATROS_MAIL_FROM}
+    app-base-url: ${IATROS_APP_BASE_URL}
+
+logging:
+  level:
+    root: INFO

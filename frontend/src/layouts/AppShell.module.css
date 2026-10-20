@@ -1,0 +1,237 @@
+.shell {
+  display: grid;
+  grid-template-columns: var(--rail-width) minmax(0, 1fr);
+  min-height: 100svh;
+}
+
+.skipLink {
+  position: absolute;
+  z-index: var(--z-toast);
+  inset-block-start: var(--space-2);
+  inset-inline-start: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  transform: translateY(-200%);
+}
+
+.skipLink:focus-visible {
+  transform: none;
+}
+
+/* Rail ------------------------------------------------------------------ */
+
+.rail {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: var(--z-nav);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  height: 100svh;
+  padding: var(--space-4) var(--space-3);
+  border-inline-end: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+  padding-inline: var(--space-1);
+}
+
+.brandText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.product {
+  font-size: var(--text-label);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+}
+
+.clinic {
+  overflow: hidden;
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nav {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.navList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--target-min);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.navLink:hover {
+  background: var(--color-surface-sunken);
+  color: var(--color-text);
+}
+
+.active,
+.active:hover {
+  background: var(--color-accent-soft);
+  color: var(--color-text);
+}
+
+.navIcon {
+  flex: none;
+  width: var(--icon-md);
+  height: var(--icon-md);
+}
+
+.active .navIcon {
+  color: var(--color-accent);
+}
+
+.navLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.userSlot {
+  padding-block-start: var(--space-3);
+  border-block-start: 1px solid var(--color-border);
+}
+
+/* Workspace ------------------------------------------------------------- */
+
+.main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 0 var(--space-8) var(--space-12);
+}
+
+.main:focus {
+  outline: none;
+}
+
+/* md: icon rail --------------------------------------------------------- */
+
+@media (max-width: 1023px) {
+  .shell {
+    grid-template-columns: var(--rail-width-collapsed) minmax(0, 1fr);
+  }
+
+  .rail {
+    align-items: center;
+    padding-inline: var(--space-2);
+  }
+
+  .brandText,
+  .navLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .navLink {
+    justify-content: center;
+    padding: var(--space-2);
+  }
+
+  .main {
+    padding-inline: var(--space-6);
+  }
+}
+
+/* sm: bottom navigation ------------------------------------------------- */
+
+@media (max-width: 767px) {
+  .shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .rail {
+    position: fixed;
+    inset-block: auto 0;
+    inset-inline: 0;
+    flex-direction: row;
+    gap: var(--space-1);
+    height: var(--bottom-nav-height);
+    padding: var(--space-1) var(--space-2);
+    border-inline-end: 0;
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .brand {
+    display: none;
+  }
+
+  .nav {
+    overflow: visible;
+  }
+
+  .navList {
+    flex-direction: row;
+    justify-content: space-around;
+    height: 100%;
+  }
+
+  .navList > li {
+    flex: 1;
+  }
+
+  .navLink {
+    flex-direction: column;
+    gap: 2px;
+    height: 100%;
+    padding: var(--space-1);
+    font-size: var(--text-label);
+  }
+
+  .navLabel {
+    position: static;
+    width: auto;
+    height: auto;
+    clip-path: none;
+    max-width: 100%;
+  }
+
+  .userSlot {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    border: 0;
+  }
+
+  .main {
+    padding: 0 var(--space-4) calc(var(--bottom-nav-height) + var(--space-8));
+  }
+}

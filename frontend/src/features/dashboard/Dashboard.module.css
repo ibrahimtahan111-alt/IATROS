@@ -1,0 +1,117 @@
+/* Role dashboards (ui-ux.md §7–8). */
+
+.greeting {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-block-end: var(--space-6);
+}
+
+.greetingTitle {
+  font-size: var(--text-title-1);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.muted {
+  color: var(--color-text-muted);
+}
+
+.tiles {
+  margin-block-end: var(--space-6);
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: 0 var(--space-8);
+}
+
+.schedule,
+.list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.scheduleItem {
+  display: grid;
+  grid-template-columns: minmax(4rem, max-content) minmax(0, 1fr) auto;
+  align-items: start;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-block-end: 1px solid var(--color-border);
+}
+
+.scheduleItem:last-child,
+.listItem:last-child {
+  border-block-end: none;
+}
+
+.scheduleTime {
+  color: var(--color-text-muted);
+  font-weight: var(--weight-medium);
+}
+
+.scheduleBody {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.scheduleLink {
+  color: var(--color-text);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+}
+
+.scheduleLink:hover {
+  text-decoration: underline;
+}
+
+.alerts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-block-start: var(--space-1);
+}
+
+.listItem {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-4);
+  padding: var(--space-3) 0;
+  border-block-end: 1px solid var(--color-border);
+}
+
+.figures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  color: var(--color-text-muted);
+  font-size: var(--text-small);
+}
+
+.sectionFooter {
+  display: flex;
+  justify-content: flex-start;
+  margin-block-start: var(--space-2);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+@media (max-width: 1023px) {
+  .columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

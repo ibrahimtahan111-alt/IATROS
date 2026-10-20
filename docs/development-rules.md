@@ -21,6 +21,8 @@ The purpose is to ensure that implementation remains consistent with:
 * `database.md`
 * `modules.md`
 * `ui-ux.md`
+* `design-system.md`
+* `decisions.md`
 * `api.md`
 * `security.md`
 * `internationalization.md`
@@ -1025,7 +1027,7 @@ Do not place all application data into a single global store simply because a st
 
 Server state should be treated differently from local UI state.
 
-The exact state/data-fetching library must follow the architectural decision made for the project.
+Server state uses TanStack Query; local UI state uses React state. A global client store is not introduced unless a concrete need arises (`decisions.md` D-040).
 
 ---
 
@@ -1058,6 +1060,19 @@ Particularly:
 * validation
 
 A feature is not complete merely because the UI works manually.
+
+**Test layers (Phase 14):**
+
+| Layer | Tool | Location | Covers |
+| --- | --- | --- | --- |
+| Backend API and rules | JUnit, MockMvc, PostgreSQL `iatros_test` | `backend/src/test` | Business rules, validation, authorization, clinic isolation, the abuse matrix (`security.md` §15) |
+| Frontend components and pages | Vitest, Testing Library, `fakeApi` | `frontend/src/**/*.test.tsx` | Forms, validation, role-based UI, states, both languages, theme |
+| End-to-end | Playwright (Chromium) | `frontend/e2e/*.e2e.ts` | A few real cross-role workflows against the running backend and demo clinic |
+
+* Backend coverage is measured with JaCoCo (`./mvnw verify`). The Phase 14 baseline was 91% of lines and 80% of branches. Treat a coverage drop in a business-rule package (`access`, `appointment`, `medicalrecord`, `patient`, `schedule`, `document`, `security`) as a review question, not a number to game. The dev seeder and the SMTP adapter are intentionally untested.
+* End-to-end tests stay few and focused on workflows that only work when the pieces are joined (sign-in, a secretary booking for a doctor, role restrictions in the real UI, preferences surviving a reload). Detailed cases belong in the faster layers.
+* End-to-end tests must leave the demo clinic as they found it: they use unique names, clean up through the API (for example, archive the patient they created), and restore account preferences they change.
+* When running a single backend test class that has `@Nested` classes, use a pattern (`-Dtest=MedicalRecordApiTests*`); without it, Surefire runs none of the nested tests.
 
 ---
 

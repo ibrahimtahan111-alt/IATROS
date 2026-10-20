@@ -20,9 +20,12 @@ The following technologies are the approved V1 stack.
 * **TypeScript**
 * **Vite**
 * **React Router**
-* **A dedicated UI/component system**
-* **A dedicated internationalization solution**
-* **A dedicated data-fetching/state-management approach where required**
+* **TanStack Query** for server state
+* **i18next + react-i18next** for internationalization
+* **CSS Modules + design tokens**, with **Radix UI primitives** for accessible behavior (see `design-system.md`)
+* **React Hook Form + Zod** for forms
+
+The full list and rationale are recorded in `decisions.md` (D-040).
 
 The frontend must be written in TypeScript.
 
@@ -210,6 +213,42 @@ Database
 
 Additional layers may be introduced where justified.
 
+### Package structure
+
+Code is organized **by module**, not by layer. Each module package holds its entities, repositories, services, controllers, and DTOs:
+
+```text
+com.iatros.backend
+├── clinic/          # Clinic, ClinicSettings, clinic API
+├── provisioning/    # operator command that creates a clinic and its owner (D-020)
+├── user/            # AppUser, Role, UserStatus
+├── staff/           # staff API: team members, invitations, activation status (D-034)
+├── auth/            # sessions, login, invitations, password reset, UserToken
+├── doctor/          # Doctor, Specialty, specialty API
+├── schedule/        # DoctorSchedulePeriod, ScheduleException
+├── patient/         # Patient, PatientDoctor (access relationships)
+├── medicalrecord/   # MedicalRecord and clinical entries
+├── consultation/    # Consultation
+├── appointment/     # Appointment, status lifecycle
+├── document/        # MedicalDocument metadata and storage
+├── audit/           # AuditEvent (append-only)
+├── activity/        # activity feed read from the audit trail (D-039)
+├── kpi/             # KPI aggregates computed in SQL (D-031, D-039)
+├── dashboard/       # one aggregated response per role dashboard (D-039)
+├── access/          # AccessPolicy, DataScope: data-scope authorization (D-018)
+├── security/        # Spring Security configuration, sessions, principal
+└── shared/
+    ├── error/       # ApiException hierarchy, GlobalExceptionHandler (ProblemDetail)
+    ├── id/          # UUID v7 generator
+    ├── i18n/        # Language
+    ├── persistence/ # BaseEntity, AuditedEntity, TimestampedEntity, Versions (optimistic locking)
+    ├── text/        # input trimming helpers
+    ├── time/        # Clock bean
+    └── web/         # PageResponse, PageRequests, SortWhitelist, SearchTerms, RequestIdFilter
+```
+
+Persistence rules (references by ID, explicit clinic-scoped repositories) are defined in `decisions.md` D-009. Services and code must obtain the current time from the injected `Clock`, never `Instant.now()` directly, so time-dependent rules are testable.
+
 ---
 
 ## 5.1 Controllers
@@ -280,28 +319,31 @@ A conceptual structure is:
 
 ```text
 src/
-├── app/
-├── components/
+├── app/            # providers, router, query client
+├── i18n/           # i18next setup + locales/{en,fr}
+├── styles/         # design tokens, themes, global styles
+├── shared/
+│   ├── api/        # HTTP client, error mapping
+│   ├── ui/         # design-system components
+│   ├── forms/      # shared schema building blocks
+│   ├── hooks/
+│   └── lib/
 ├── layouts/
-├── pages/
-├── features/
-│   ├── auth/
-│   ├── patients/
-│   ├── doctors/
-│   ├── appointments/
-│   ├── medical-records/
-│   ├── staff/
-│   ├── dashboard/
-│   └── settings/
-├── services/
-├── hooks/
-├── types/
-├── i18n/
-├── utils/
-└── ...
+└── features/
+    ├── auth/
+    ├── dashboard/
+    ├── calendar/
+    ├── patients/
+    ├── medical-records/
+    ├── team/
+    ├── doctors/
+    ├── schedules/
+    ├── activity/
+    ├── clinic/
+    └── account/
 ```
 
-The exact folder structure may evolve, but code should remain logically organized by responsibility.
+Each feature owns its pages, components, API hooks, and types (`decisions.md` D-042).
 
 ---
 
@@ -312,19 +354,18 @@ The API should be RESTful and resource-oriented.
 Example resources include:
 
 ```text
-/api/auth
-/api/clinics
-/api/users
-/api/doctors
-/api/staff
-/api/patients
-/api/medical-records
-/api/consultations
-/api/appointments
-/api/schedules
-/api/dashboard
-/api/kpis
-/api/settings
+/api/v1/auth
+/api/v1/clinic
+/api/v1/staff
+/api/v1/doctors
+/api/v1/patients
+/api/v1/consultations
+/api/v1/appointments
+/api/v1/calendar
+/api/v1/documents
+/api/v1/dashboard
+/api/v1/kpis
+/api/v1/activity
 ```
 
 The exact endpoint structure must be defined in `api.md`.
@@ -344,7 +385,7 @@ The authenticated context must provide enough information for the backend to det
 * Clinic
 * Authorized data scope
 
-The exact token/session implementation must be documented in the security documentation.
+IATROS uses server-side sessions stored in PostgreSQL (Spring Session JDBC), delivered to the browser as an `HttpOnly` cookie, with CSRF protection enabled. See `decisions.md` D-010 to D-012 and `security.md` §6.
 
 ---
 
@@ -378,6 +419,8 @@ This is particularly important for:
 * KPIs
 
 A valid login alone does not grant access to all clinic data.
+
+Implementation: role checks use `@PreAuthorize`; resource and data-scope checks go through `access.AccessPolicy` (`decisions.md` D-018).
 
 ---
 
@@ -430,6 +473,8 @@ This model must be reflected consistently across:
 * Dashboards
 * KPIs
 
+Implementation (`decisions.md` D-036): the `patient` package owns patients and their doctor links. `PatientService` handles identity, contact, and status; `PatientDoctorService` handles the owner-only access changes. Every entry point resolves the patient through `AccessPolicy.requirePatient`, and the list query applies the same scope in SQL (`AccessPolicy.dataScope`), so a doctor's search never sees unlinked patients. Linked doctors for a page of patients are loaded in a fixed number of batched queries (`PatientDoctorDirectory`), not one query per patient.
+
 ---
 
 # 12. Medical Record Architecture
@@ -455,6 +500,8 @@ Patient
 ```
 
 Specialty-specific logic must not be embedded into the core medical-record model unless it is genuinely required by the core product.
+
+Implementation (`decisions.md` D-037): every clinical entry point resolves the record through `MedicalRecordAccess`, which applies `AccessPolicy.requireClinicalAccess` (owners, linked doctors, never secretaries) and, for writes, refuses archived patients. Consultations reached by their own ID go through the same check on their record's patient. The four structured sections share `ClinicalEntryWriter` (save, version check, soft delete, identifier-only audit); `MedicalNoteService` adds author-only changes, and the `consultation` package owns consultations. Clinic-local "today" comes from `ClinicTime`.
 
 ---
 
@@ -486,6 +533,8 @@ The calendar UI is only a representation of appointment data.
 
 The calendar must not contain the authoritative appointment logic.
 
+Implementation (`decisions.md` D-038): the `appointment` package owns appointments. `AppointmentService` handles booking, edits, rescheduling, status changes, and cancellation; `CalendarService` serves the calendar range and availability from `WorkingHoursService`. Access goes through `AccessPolicy` (`requireCanBook`, `requireAppointment`, `requireDoctorCalendar`, and the list's data scope in SQL). The entity enforces D-024 transitions and time validity, and the `appointment_no_overlap` exclusion constraint remains the final guard against double booking (D-005). Responses state what the caller may do (`editable`, `cancellable`, `nextStatuses`), and names for a page of appointments are loaded in batched queries (`AppointmentDirectory`). Every change is audited with identifiers only.
+
 ---
 
 # 14. Doctor Schedule Architecture
@@ -495,6 +544,8 @@ Doctor schedules define availability.
 The appointment service must consult schedule information when validating appointments.
 
 The system must prevent appointments from being created outside permitted availability unless an explicitly authorized workflow allows it.
+
+Implementation (`decisions.md` D-035): the `schedule` package owns weekly periods and exceptions. `WorkingHoursService` is the single availability calculation (weekly periods + extra availability − unavailability, in the clinic's time zone); the working-hours API and appointment validation both call it. Schedule rows carry no `clinic_id`, so every entry point first resolves the doctor within the caller's clinic through `AccessPolicy` (D-009).
 
 Future external calendar integrations must interact with this domain through defined integration services rather than directly modifying database records.
 
@@ -632,7 +683,7 @@ Developers must not rely on manually modifying production database schemas.
 
 Each schema change must have a corresponding migration.
 
-The migration strategy will be specified further in `database.md`.
+IATROS uses Flyway with plain SQL migrations. Hibernate only validates the schema (`decisions.md` D-002).
 
 ---
 
@@ -660,7 +711,7 @@ Medical documents must not be stored directly inside relational database fields 
 
 The application should use an appropriate file-storage abstraction.
 
-The exact V1 storage implementation will be defined during the infrastructure/database design.
+V1 uses a `DocumentStorage` abstraction: local filesystem in development, S3-compatible object storage in production (`decisions.md` D-032). Implemented so far: `LocalDocumentStorage` (directory from `IATROS_DOCUMENTS_DIR`; atomic writes under generated keys). The object-storage adapter is added with the production deployment; `DocumentService` only depends on the interface (D-044).
 
 Access to medical documents must always pass through authorization checks.
 
@@ -775,14 +826,18 @@ Developers and AI coding tools must not introduce major architectural changes wi
 
 | Layer           | Technology                  |
 | --------------- | --------------------------- |
-| Frontend        | React + TypeScript          |
+| Frontend        | React + TypeScript (strict) |
 | Frontend Build  | Vite                        |
 | Routing         | React Router                |
-| Backend         | Java + Spring Boot          |
-| API             | REST                        |
-| Security        | Spring Security             |
+| Server State    | TanStack Query              |
+| i18n            | i18next + react-i18next     |
+| Styling         | CSS Modules + design tokens |
+| Backend         | Java 21 + Spring Boot 4     |
+| API             | REST (`/api/v1`)            |
+| Security        | Spring Security + Spring Session JDBC |
 | ORM             | Spring Data JPA + Hibernate |
 | Validation      | Bean Validation             |
+| Migrations      | Flyway                      |
 | Database        | PostgreSQL                  |
 | Backend Build   | Maven                       |
 | Version Control | Git                         |

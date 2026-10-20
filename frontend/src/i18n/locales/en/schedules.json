@@ -1,0 +1,64 @@
+{
+  "picker": {
+    "label": "Doctor",
+    "deactivated": "{{name}} (deactivated)"
+  },
+  "deactivated": "{{name}} is deactivated and has no working hours. The schedule is kept in case they return.",
+  "empty": {
+    "title": "No doctors yet",
+    "description": "Schedules belong to doctors. Add a doctor to your team to set up their working hours.",
+    "notADoctor": "Your account has no doctor profile, so there is no schedule to manage.",
+    "addDoctor": "Add a doctor"
+  },
+  "weekly": {
+    "title": "Weekly hours",
+    "description": "Repeats every week. Times are in the clinic's time zone ({{timeZone}}). The gaps between periods are breaks.",
+    "notWorking": "Not working",
+    "add": "Add period",
+    "addTo": "Add period to {{day}}",
+    "start": "{{day}}, period {{number}}, start",
+    "end": "{{day}}, period {{number}}, end",
+    "remove": "Remove {{day}}, period {{number}}",
+    "save": "Save weekly hours",
+    "saved": "Weekly hours saved. Existing appointments are not changed.",
+    "loadLatest": "Load latest hours"
+  },
+  "exceptions": {
+    "title": "Exceptions",
+    "description": "Days off, partial absences, and extra hours that override the weekly hours on a specific date.",
+    "caption": "Upcoming exceptions",
+    "empty": "No upcoming exceptions.",
+    "add": "Add exception",
+    "addTitle": "Add an exception",
+    "added": "Exception added.",
+    "allDay": "All day",
+    "actions": "Actions",
+    "remove": "Remove exception on {{date}}",
+    "removeTitle": "Remove this exception?",
+    "removeConsequence": "The weekly hours apply again on {{date}}.",
+    "removeConfirm": "Remove",
+    "removed": "Exception removed.",
+    "type": {
+      "UNAVAILABLE": "Unavailable",
+      "EXTRA_AVAILABILITY": "Extra hours"
+    },
+    "fields": {
+      "date": "Date",
+      "type": "Type",
+      "startTime": "From",
+      "endTime": "To",
+      "hours": "Hours",
+      "reason": "Reason"
+    },
+    "help": {
+      "UNAVAILABLE": "Leave both times empty to block the whole day.",
+      "EXTRA_AVAILABILITY": "These hours are added to the weekly hours for that date.",
+      "reason": "Visible to the clinic team. Do not include medical information."
+    }
+  },
+  "preview": {
+    "title": "Next two weeks",
+    "description": "The working hours used for booking, with exceptions applied.",
+    "off": "Not working"
+  }
+}

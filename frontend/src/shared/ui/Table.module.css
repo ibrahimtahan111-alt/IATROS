@@ -1,0 +1,94 @@
+.scroll {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-body);
+}
+
+.th {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: var(--z-sticky);
+  height: var(--space-10);
+  padding: 0 var(--space-4);
+  border-block-end: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.01em;
+  text-align: start;
+  white-space: nowrap;
+}
+
+.td {
+  height: var(--space-12);
+  padding: var(--space-2) var(--space-4);
+  border-block-end: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+tr:last-child > .td {
+  border-block-end: 0;
+}
+
+tbody tr {
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+
+tbody tr:hover {
+  background: var(--color-surface-sunken);
+}
+
+.primary {
+  font-weight: var(--weight-medium);
+}
+
+.primary a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.primary a:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.sortButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-inline: calc(var(--space-1) * -1);
+  padding: var(--space-1);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+
+.sortButton:hover,
+.sorted {
+  color: var(--color-text);
+}
+
+.sortIcon {
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.sortButton:hover .sortIcon,
+.sortButton:focus-visible .sortIcon,
+.sorted .sortIcon {
+  opacity: 1;
+}

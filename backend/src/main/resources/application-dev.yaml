@@ -1,0 +1,19 @@
+logging:
+  level:
+    com.iatros: DEBUG
+
+iatros:
+  security:
+    # Local development runs over plain HTTP on localhost.
+    secure-cookies: false
+  mail:
+    # Emails (invitations, password resets) are written as text files instead of being sent.
+    transport: outbox
+    outbox-dir: target/mail-outbox
+    app-base-url: http://localhost:5173
+  documents:
+    # Outside the repository, so uploaded test files survive "mvn clean" and are never committed.
+    local-dir: ${IATROS_DOCUMENTS_DIR:${user.home}/.iatros/documents}
+  dev-seed:
+    # Fictional demo clinic. Accounts are created only if this is set (see README).
+    password: ${IATROS_DEMO_PASSWORD:}

@@ -1,0 +1,48 @@
+.picker {
+  min-width: 16rem;
+}
+
+.banner {
+  margin-block-end: var(--space-4);
+}
+
+.note,
+.muted {
+  color: var(--color-text-muted);
+}
+
+.note {
+  font-size: var(--text-small);
+}
+
+.dialogForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.actionsCell {
+  width: 1%;
+  text-align: end;
+}
+
+.preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: var(--space-2) var(--space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.previewDay {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-block: var(--space-2);
+  border-block-end: 1px solid var(--color-border);
+}
+
+.previewDate {
+  font-weight: var(--weight-medium);
+}

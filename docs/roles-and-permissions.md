@@ -171,8 +171,10 @@ The owner can:
 * Search patients
 * Filter patients
 * Sort patient records
-* View authorized medical records
-* Manage patient-doctor associations
+* View and maintain every patient's medical record; record consultations only with a doctor profile (D-033, D-037)
+* View, upload, and archive any patient's documents (D-044)
+* Manage patient-doctor associations (primary doctor, authorized doctors)
+* Archive and restore patients
 
 ### Appointments
 
@@ -217,22 +219,27 @@ A doctor can:
 * Filter authorized patients
 * Sort authorized patients
 * View relevant patient profiles
-* View relevant medical records
-* Add/update clinical information where permitted
+* View and maintain the medical records of authorized patients (allergies, conditions, medications, history, notes)
+* Record consultations as themselves, and edit their own consultations and notes only (`decisions.md` D-037)
+* View and upload documents of authorized patients, and archive the documents they uploaded (D-044)
+* Create patients, with themselves as primary doctor
+* Edit the identity and contact details of authorized patients
 
-A doctor must not be able to search for or access patients outside their authorization scope.
+A doctor must not be able to search for or access patients outside their authorization scope. Doctors cannot grant or remove other doctors' access, change a patient's primary doctor, or archive patients; these are owner actions (`decisions.md` D-036).
 
 ### Appointments
 
 A doctor can:
 
 * View their appointments
-* Create appointments where permitted
-* Edit their appointments where permitted
-* Reschedule their appointments where permitted
-* Cancel their appointments where permitted
-* Update appointment status
+* Create appointments for themselves, only with patients they are authorized for
+* Edit, reschedule, and cancel their own appointments
+* Update the status of their own appointments
 * View relevant appointment history
+
+A doctor cannot create or modify appointments for another doctor (`decisions.md` D-027). Another doctor's appointments, calendar, and availability are not visible to them (`404`), and a patient's next and last appointment are computed from their own appointments only (D-038).
+
+Appointment status changes follow the transition rules in `decisions.md` D-024. A doctor can start the consultation of their own appointment from the calendar; it is linked to that appointment (D-038).
 
 ### Dashboard
 
@@ -244,6 +251,8 @@ A doctor can view:
 * Their own relevant KPIs
 
 A doctor cannot view clinic-wide administrative KPIs or another doctor's private dashboard information.
+
+In practice (`decisions.md` D-039): the doctor dashboard and doctor KPIs are always the caller's own; requesting another doctor's KPIs or activity returns `404`. The activity feed shows only events the doctor performed or that concern their appointments, patients, schedule, or profile, and names patients only when the doctor is linked to them. Clinical alerts on the dashboard schedule are shown only for linked patients. An owner who is also a doctor (D-033) has both dashboards.
 
 ---
 
@@ -268,18 +277,22 @@ The secretary can:
 
 The secretary can access the patient information necessary to perform booking operations.
 
-This may include:
+This includes:
 
 * Searching for existing patients
 * Creating a patient when required for booking
 * Viewing basic patient information
 * Updating permitted administrative/contact information
 
+The exact patient fields available to secretaries are defined in `decisions.md` D-029. Secretaries see a patient's primary doctor but not the list of other authorized doctors, and cannot archive patients or change doctor access (D-036).
+
+Secretaries can book appointments for any doctor in the clinic, but cannot set `IN_CONSULTATION` or `COMPLETED` statuses (`decisions.md` D-024). Appointment notes are administrative and visible to them; whether a consultation was recorded for an appointment is not (D-038).
+
 The secretary does not receive unrestricted access to clinical medical records.
 
 ### Medical Records
 
-The secretary does not have access to medical records in V1.
+The secretary does not have access to medical records in V1, including medical documents.
 
 ### Staff
 
@@ -291,7 +304,7 @@ The secretary cannot manage clinic settings.
 
 ### KPIs
 
-The secretary does not have access to clinic or doctor performance KPIs.
+The secretary does not have access to clinic or doctor performance KPIs, dashboards, or the activity feed (`403 FORBIDDEN`, D-039). Their home page is the calendar.
 
 ---
 

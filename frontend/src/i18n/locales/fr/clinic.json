@@ -1,0 +1,30 @@
+{
+  "title": "Paramètres",
+  "profile": {
+    "title": "Informations du cabinet",
+    "description": "Affichées dans l’espace de travail et dans les e-mails envoyés à votre équipe.",
+    "name": "Nom du cabinet",
+    "email": "E-mail de contact",
+    "phone": "Téléphone",
+    "address": "Adresse",
+    "saved": "Informations du cabinet enregistrées."
+  },
+  "settings": {
+    "title": "Agenda et région",
+    "description": "Valeurs par défaut utilisées par les agendas, les plannings et les nouveaux membres.",
+    "timeZone": "Fuseau horaire",
+    "timeZoneHelp": "Les rendez-vous et horaires de travail sont affichés dans ce fuseau horaire.",
+    "defaultAppointmentMinutes": "Durée par défaut d’un rendez-vous",
+    "minutes_one": "{{count}} minute",
+    "minutes_other": "{{count}} minutes",
+    "defaultLanguage": "Langue par défaut",
+    "defaultLanguageHelp": "Utilisée pour les membres qui n’ont pas choisi de langue, y compris pour leurs e-mails.",
+    "weekStartDay": "Premier jour de la semaine",
+    "saved": "Paramètres enregistrés."
+  },
+  "account": {
+    "title": "Votre compte",
+    "description": "Votre langue, votre thème et votre mot de passe se trouvent sur la page de votre compte.",
+    "link": "Ouvrir mon compte"
+  }
+}

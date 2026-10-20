@@ -1,0 +1,152 @@
+/* Design tokens — see docs/design-system.md. Components must use these, never raw values. */
+
+:root {
+  /* Typography */
+  --font-sans: 'Geist Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Code', Consolas, monospace;
+
+  --text-display: 2.25rem;
+  --text-title-1: 1.5rem;
+  --text-title-2: 1.125rem;
+  --text-body: 0.9375rem;
+  --text-small: 0.8125rem;
+  --text-label: 0.75rem;
+
+  --leading-tight: 1.15;
+  --leading-snug: 1.3;
+  --leading-normal: 1.5;
+
+  --weight-regular: 400;
+  --weight-medium: 550;
+  --weight-semibold: 600;
+
+  /* Spacing (4px base) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* Shape */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-full: 999px;
+
+  /* Motion */
+  --duration-fast: 120ms;
+  --duration-base: 180ms;
+  --duration-slow: 240ms;
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+
+  /* Layout */
+  --content-max-readable: 55rem;
+  --target-min: 2.5rem;
+  --rail-width: 15rem;
+  --rail-width-collapsed: 4.5rem;
+  --bottom-nav-height: 4rem;
+  --context-panel-width: 26rem;
+  --dialog-width: 32rem;
+  --icon-sm: 1rem;
+  --icon-md: 1.25rem;
+
+  /* Layers */
+  --z-sticky: 10;
+  --z-nav: 20;
+  --z-overlay: 40;
+  --z-toast: 50;
+}
+
+:root,
+[data-theme='light'] {
+  color-scheme: light;
+
+  --color-canvas: #f7f6f2;
+  --color-surface: #ffffff;
+  --color-surface-raised: #ffffff;
+  --color-surface-sunken: #f1efea;
+  --color-border: #e6e3dc;
+  --color-border-strong: #cfcbc2;
+  /* Outlines that identify a form control: at least 3:1 against surfaces (WCAG 1.4.11). */
+  --color-border-control: #8a8781;
+
+  --color-text: #1a1d21;
+  --color-text-muted: #5c6169;
+  --color-text-subtle: #6a6d73;
+
+  --color-accent: #0e7877;
+  --color-accent-hover: #0a6665;
+  --color-accent-contrast: #ffffff;
+  --color-accent-soft: #e3f2f1;
+  --color-focus-ring: #0e7877;
+
+  --color-success: #1f7a4d;
+  --color-success-soft: #e4f3ea;
+  --color-warning: #9a5b00;
+  --color-warning-soft: #fbf0dc;
+  --color-danger: #b42318;
+  --color-danger-soft: #fbe7e5;
+  --color-danger-contrast: #ffffff;
+  --color-info: #2457a6;
+  --color-info-soft: #e5edf9;
+
+  --color-status-scheduled: #64748b;
+  --color-status-confirmed: #0e7877;
+  --color-status-waiting: #b7791f;
+  --color-status-in-consultation: #6d4bc4;
+  --color-status-completed: #1f7a4d;
+  --color-status-cancelled: #858a90;
+  --color-status-no-show: #b42318;
+
+  --shadow-overlay: 0 12px 32px -8px rgb(26 29 33 / 0.18), 0 2px 6px rgb(26 29 33 / 0.06);
+  --color-scrim: rgb(26 29 33 / 0.32);
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-canvas: #0e1116;
+  --color-surface: #151a21;
+  --color-surface-raised: #1b212a;
+  --color-surface-sunken: #0b0e12;
+  --color-border: #262d37;
+  --color-border-strong: #38414d;
+  --color-border-control: #646b74;
+
+  --color-text: #e8eaed;
+  --color-text-muted: #9aa3ae;
+  --color-text-subtle: #808892;
+
+  --color-accent: #3fb8af;
+  --color-accent-hover: #5ccac1;
+  --color-accent-contrast: #071615;
+  --color-accent-soft: #12302f;
+  --color-focus-ring: #5ccac1;
+
+  --color-success: #4cc38a;
+  --color-success-soft: #10291d;
+  --color-warning: #e3a33b;
+  --color-warning-soft: #2e2210;
+  --color-danger: #f0776c;
+  --color-danger-soft: #331715;
+  --color-danger-contrast: #1f0a08;
+  --color-info: #7aa7ec;
+  --color-info-soft: #142238;
+
+  --color-status-scheduled: #94a3b8;
+  --color-status-confirmed: #3fb8af;
+  --color-status-waiting: #e3a33b;
+  --color-status-in-consultation: #a78bfa;
+  --color-status-completed: #4cc38a;
+  --color-status-cancelled: #6b7480;
+  --color-status-no-show: #f0776c;
+
+  --shadow-overlay: 0 12px 32px -8px rgb(0 0 0 / 0.6);
+  --color-scrim: rgb(0 0 0 / 0.6);
+}

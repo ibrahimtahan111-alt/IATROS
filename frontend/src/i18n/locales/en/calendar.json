@@ -1,0 +1,110 @@
+{
+  "today": "Today",
+  "previous": "Previous period",
+  "next": "Next period",
+  "view": {
+    "label": "Calendar view",
+    "day": "Day",
+    "week": "Week",
+    "month": "Month"
+  },
+  "filters": {
+    "doctor": "Doctor",
+    "allDoctors": "All doctors",
+    "showCancelled": "Show cancelled"
+  },
+  "empty": {
+    "period": "No appointments in this period.",
+    "noDoctors": {
+      "title": "No doctors to show",
+      "description": "Appointments appear here once the clinic has active doctors with working hours."
+    }
+  },
+  "month": {
+    "more_one": "+{{count}} more",
+    "more_other": "+{{count}} more"
+  },
+  "minutes_one": "{{count}} min",
+  "minutes_other": "{{count}} min",
+  "type": {
+    "NEW_PATIENT": "New patient",
+    "FOLLOW_UP": "Follow-up",
+    "ROUTINE": "Routine",
+    "PROCEDURE": "Procedure",
+    "URGENT": "Urgent",
+    "OTHER": "Other"
+  },
+  "fields": {
+    "patient": "Patient",
+    "doctor": "Doctor",
+    "date": "Date",
+    "time": "Start time",
+    "duration": "Duration",
+    "type": "Type",
+    "reason": "Reason for visit",
+    "notes": "Notes",
+    "when": "When",
+    "cancellationReason": "Cancellation reason",
+    "bookedBy": "Booked by"
+  },
+  "help": {
+    "notes": "Administrative notes, visible to everyone who can see this appointment. Clinical notes belong in the consultation."
+  },
+  "book": {
+    "action": "Book appointment",
+    "title": "Book an appointment",
+    "submit": "Book",
+    "done": "Appointment booked.",
+    "searchPatient": "Search patients by name, phone, or email",
+    "patientResults": "Matching patients",
+    "noPatients": "No active patient matches this search.",
+    "changePatient": "Change",
+    "chooseDoctor": "Choose a doctor",
+    "freeTimes": "Free start times",
+    "noFreeTimes": "No free time for this duration on this day."
+  },
+  "panel": {
+    "title": "Appointment",
+    "startConsultation": "Start consultation",
+    "viewConsultation": "View consultation",
+    "openPatient": "Open patient",
+    "medicalRecord": "Medical record"
+  },
+  "status": {
+    "label": "Change status",
+    "done": "Status changed to {{status}}.",
+    "action": {
+      "SCHEDULED": "Mark as scheduled",
+      "CONFIRMED": "Confirm",
+      "WAITING": "Check in",
+      "IN_CONSULTATION": "Start visit",
+      "COMPLETED": "Complete",
+      "CANCELLED": "Cancel",
+      "NO_SHOW": "Mark no-show"
+    }
+  },
+  "reschedule": {
+    "action": "Reschedule",
+    "title": "Reschedule appointment",
+    "submit": "Reschedule",
+    "done": "Appointment rescheduled."
+  },
+  "edit": {
+    "action": "Edit details",
+    "title": "Edit appointment details",
+    "done": "Appointment updated."
+  },
+  "cancel": {
+    "action": "Cancel appointment",
+    "title": "Cancel this appointment?",
+    "consequence": "The appointment with {{name}} is cancelled and frees the time. It stays in the patient's history.",
+    "keep": "Keep appointment",
+    "done": "Appointment cancelled."
+  },
+  "patientSection": {
+    "title": "Appointments",
+    "description": "Upcoming and past appointments, latest first.",
+    "empty": "No appointments yet.",
+    "book": "Book appointment"
+  }
+}

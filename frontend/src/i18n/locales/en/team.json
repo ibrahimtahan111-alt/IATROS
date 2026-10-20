@@ -1,0 +1,101 @@
+{
+  "title": "Team",
+  "add": "Add team member",
+  "search": "Search by name or email",
+  "count_one": "{{count}} member",
+  "count_other": "{{count}} members",
+  "caption": "Team members",
+  "filters": {
+    "role": "Role",
+    "status": "Status",
+    "allRoles": "All roles",
+    "allStatuses": "All statuses"
+  },
+  "columns": {
+    "name": "Name",
+    "role": "Role",
+    "specialty": "Specialty",
+    "status": "Status",
+    "contact": "Contact",
+    "actions": "Actions"
+  },
+  "status": {
+    "INVITED": "Invitation sent",
+    "ACTIVE": "Active",
+    "DEACTIVATED": "Deactivated"
+  },
+  "empty": {
+    "title": "No team members yet",
+    "description": "Add the doctors and secretaries who work in your clinic. Each one receives an invitation by email."
+  },
+  "noResults": {
+    "title": "No team members match",
+    "description": "Try another search or clear the filters.",
+    "clear": "Clear search and filters"
+  },
+  "actions": {
+    "menu": "Actions for {{name}}",
+    "view": "View",
+    "edit": "Edit",
+    "deactivate": "Deactivate",
+    "reactivate": "Reactivate",
+    "resendInvitation": "Resend invitation"
+  },
+  "deactivate": {
+    "title": "Deactivate {{name}}?",
+    "consequence": "{{name}} is signed out immediately and can no longer sign in. Their history in the clinic is kept.",
+    "confirm": "Deactivate",
+    "done": "{{name}} has been deactivated."
+  },
+  "reactivate": {
+    "title": "Reactivate {{name}}?",
+    "consequence": "{{name}} can sign in again with their existing password. If they never activated their account, it returns to “Invitation sent” and you can resend the invitation.",
+    "confirm": "Reactivate",
+    "done": "{{name}} has been reactivated."
+  },
+  "invitation": {
+    "sent": "A new invitation has been sent to {{email}}."
+  },
+  "fields": {
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "phone": "Phone",
+    "role": "Role",
+    "primarySpecialty": "Primary specialty",
+    "additionalSpecialty": "Additional specialty",
+    "registrationNumber": "Registration number"
+  },
+  "help": {
+    "email": "The invitation is sent here. It becomes their sign-in email.",
+    "emailLocked": "The sign-in email cannot be changed once the account is activated.",
+    "additionalSpecialty": "Sub-specialty or area of interest, in your own words.",
+    "registrationNumber": "Professional registration number, if applicable."
+  },
+  "roleOptions": {
+    "DOCTOR": "Sees patients, records consultations, and has their own schedule.",
+    "SECRETARY": "Books appointments and manages the calendar. No access to medical records."
+  },
+  "new": {
+    "title": "Add team member",
+    "basics": "Basic information",
+    "role": "Role",
+    "doctor": "Doctor information",
+    "submit": "Add and send invitation",
+    "created": "{{name}} has been added and invited by email.",
+    "scheduleLater": "Working hours are set up in Schedules once the member has been added."
+  },
+  "edit": {
+    "title": "Edit {{name}}",
+    "saved": "Changes saved."
+  },
+  "member": {
+    "account": "Account",
+    "lastLogin": "Last sign-in",
+    "never": "Never",
+    "addedOn": "Added on",
+    "invitedBanner": "{{name}} has not activated their account yet. Invitation links are valid for 72 hours.",
+    "deactivatedBanner": "This account is deactivated. {{name}} cannot sign in.",
+    "notSet": "Not provided"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "profile": {
+    "title": "Professional information",
+    "editTitle": "Edit professional information for {{name}}",
+    "saved": "Professional information saved.",
+    "notSet": "Not provided",
+    "manageSchedule": "Working hours"
+  },
+  "fields": {
+    "primarySpecialty": "Primary specialty",
+    "additionalSpecialty": "Additional specialty",
+    "registrationNumber": "Registration number"
+  },
+  "help": {
+    "additionalSpecialty": "Sub-specialty or area of interest, in your own words.",
+    "registrationNumber": "Professional registration number, if applicable."
+  }
+}

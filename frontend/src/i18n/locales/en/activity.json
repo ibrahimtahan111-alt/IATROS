@@ -1,0 +1,116 @@
+{
+  "period": {
+    "label": "Period",
+    "week": "7 days",
+    "month": "30 days",
+    "quarter": "90 days",
+    "year": "12 months"
+  },
+  "filters": {
+    "doctor": "Doctor",
+    "allDoctors": "All doctors",
+    "type": "Activity type",
+    "allTypes": "All activity",
+    "clear": "Show all activity"
+  },
+  "kpis": {
+    "label": "Key figures",
+    "title": "Key figures",
+    "titleFor": "Key figures for {{name}}",
+    "description": "{{range}}, compared with {{previous}}",
+    "appointments": "Appointments",
+    "completed": "Completed",
+    "completionRate": "Completion rate",
+    "noShowRate": "No-show rate",
+    "cancellationRate": "Cancellation rate",
+    "newPatients": "New patients",
+    "activePatients": "Active patients",
+    "consultations": "Consultations"
+  },
+  "comparison": {
+    "change": "{{value}} vs previous period",
+    "points": "{{value}} pts vs previous period"
+  },
+  "trend": {
+    "title": "Appointments over time",
+    "caption": "Appointments per period, by outcome",
+    "empty": "No appointments in this period.",
+    "day": "Day",
+    "month": "Month",
+    "completed": "Completed",
+    "other": "Upcoming or in progress",
+    "noShows": "No-show",
+    "cancelled": "Cancelled"
+  },
+  "doctors": {
+    "title": "Doctors",
+    "description": "Each doctor's appointments and consultations in the period. Select a doctor to see their figures.",
+    "caption": "Figures per doctor",
+    "doctor": "Doctor",
+    "noShows": "No-shows",
+    "cancelled": "Cancelled"
+  },
+  "feed": {
+    "title": "Activity",
+    "description": "Changes to appointments, patients, records, schedules, and the team in the period.",
+    "empty": "No activity",
+    "emptyDescription": "Nothing matching these filters happened in this period."
+  },
+  "category": {
+    "APPOINTMENTS": "Appointments",
+    "PATIENTS": "Patients",
+    "CLINICAL": "Medical records",
+    "SCHEDULES": "Schedules",
+    "TEAM": "Team",
+    "CLINIC": "Clinic"
+  },
+  "fallback": {
+    "system": "IATROS",
+    "patient": "a patient",
+    "doctor": "a doctor",
+    "staff": "a team member"
+  },
+  "entry": {
+    "ALLERGY": "an allergy",
+    "MEDICAL_CONDITION": "a condition",
+    "MEDICATION": "a medication",
+    "MEDICAL_HISTORY_ENTRY": "a history entry",
+    "MEDICAL_NOTE": "a note",
+    "OTHER": "an entry"
+  },
+  "event": {
+    "APPOINTMENT_CREATED": "{{actor}} booked an appointment for {{patient}} with {{doctor}}",
+    "APPOINTMENT_UPDATED": "{{actor}} updated an appointment of {{patient}}",
+    "APPOINTMENT_RESCHEDULED": "{{actor}} rescheduled an appointment of {{patient}} with {{doctor}}",
+    "APPOINTMENT_STATUS_CHANGED": "{{actor}} set an appointment of {{patient}} to {{status}}",
+    "APPOINTMENT_CANCELLED": "{{actor}} cancelled an appointment of {{patient}}",
+    "PATIENT_CREATED": "{{actor}} added the patient {{patient}}",
+    "PATIENT_UPDATED": "{{actor}} updated the details of {{patient}}",
+    "PATIENT_ARCHIVED": "{{actor}} archived {{patient}}",
+    "PATIENT_RESTORED": "{{actor}} restored {{patient}}",
+    "PATIENT_PRIMARY_DOCTOR_CHANGED": "{{actor}} made {{doctor}} the primary doctor of {{patient}}",
+    "PATIENT_DOCTOR_AUTHORIZED": "{{actor}} gave {{doctor}} access to {{patient}}",
+    "PATIENT_DOCTOR_REMOVED": "{{actor}} removed the access of {{doctor}} to {{patient}}",
+    "MEDICAL_ENTRY_CREATED": "{{actor}} added {{entry}} to the record of {{patient}}",
+    "MEDICAL_ENTRY_UPDATED": "{{actor}} updated {{entry}} in the record of {{patient}}",
+    "MEDICAL_ENTRY_DELETED": "{{actor}} removed {{entry}} from the record of {{patient}}",
+    "CONSULTATION_CREATED": "{{actor}} recorded a consultation for {{patient}}",
+    "CONSULTATION_UPDATED": "{{actor}} updated a consultation of {{patient}}",
+    "DOCUMENT_UPLOADED": "{{actor}} added a document to the record of {{patient}}",
+    "DOCUMENT_ARCHIVED": "{{actor}} archived a document of {{patient}}",
+    "SCHEDULE_UPDATED": "{{actor}} updated the weekly schedule of {{doctor}}",
+    "SCHEDULE_EXCEPTION_CREATED": "{{actor}} added a schedule exception for {{doctor}}",
+    "SCHEDULE_EXCEPTION_DELETED": "{{actor}} removed a schedule exception for {{doctor}}",
+    "STAFF_CREATED": "{{actor}} added {{staff}} to the team",
+    "STAFF_UPDATED": "{{actor}} updated the account of {{staff}}",
+    "STAFF_DEACTIVATED": "{{actor}} deactivated the account of {{staff}}",
+    "STAFF_REACTIVATED": "{{actor}} reactivated the account of {{staff}}",
+    "INVITATION_SENT": "{{actor}} sent an invitation to {{staff}}",
+    "INVITATION_ACCEPTED": "{{staff}} joined the clinic",
+    "DOCTOR_PROFILE_UPDATED": "{{actor}} updated the doctor profile of {{doctor}}",
+    "CLINIC_PROVISIONED": "The clinic was set up",
+    "CLINIC_UPDATED": "{{actor}} updated the clinic details",
+    "CLINIC_SETTINGS_UPDATED": "{{actor}} updated the clinic settings",
+    "OTHER": "{{actor}} made a change"
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "title": "Équipe",
+  "add": "Ajouter un membre",
+  "search": "Rechercher par nom ou e-mail",
+  "count_one": "{{count}} membre",
+  "count_other": "{{count}} membres",
+  "caption": "Membres de l’équipe",
+  "filters": {
+    "role": "Rôle",
+    "status": "Statut",
+    "allRoles": "Tous les rôles",
+    "allStatuses": "Tous les statuts"
+  },
+  "columns": {
+    "name": "Nom",
+    "role": "Rôle",
+    "specialty": "Spécialité",
+    "status": "Statut",
+    "contact": "Contact",
+    "actions": "Actions"
+  },
+  "status": {
+    "INVITED": "Invitation envoyée",
+    "ACTIVE": "Actif",
+    "DEACTIVATED": "Désactivé"
+  },
+  "empty": {
+    "title": "Aucun membre pour l’instant",
+    "description": "Ajoutez les médecins et secrétaires de votre cabinet. Chacun reçoit une invitation par e-mail."
+  },
+  "noResults": {
+    "title": "Aucun membre ne correspond",
+    "description": "Essayez une autre recherche ou effacez les filtres.",
+    "clear": "Effacer la recherche et les filtres"
+  },
+  "actions": {
+    "menu": "Actions pour {{name}}",
+    "view": "Voir",
+    "edit": "Modifier",
+    "deactivate": "Désactiver",
+    "reactivate": "Réactiver",
+    "resendInvitation": "Renvoyer l’invitation"
+  },
+  "deactivate": {
+    "title": "Désactiver {{name}} ?",
+    "consequence": "{{name}} est déconnecté immédiatement et ne peut plus se connecter. Son historique dans le cabinet est conservé.",
+    "confirm": "Désactiver",
+    "done": "{{name}} a été désactivé."
+  },
+  "reactivate": {
+    "title": "Réactiver {{name}} ?",
+    "consequence": "{{name}} pourra de nouveau se connecter avec son mot de passe actuel. S’il n’avait jamais activé son compte, celui-ci repasse à « Invitation envoyée » et vous pourrez renvoyer l’invitation.",
+    "confirm": "Réactiver",
+    "done": "{{name}} a été réactivé."
+  },
+  "invitation": {
+    "sent": "Une nouvelle invitation a été envoyée à {{email}}."
+  },
+  "fields": {
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "email": "E-mail",
+    "phone": "Téléphone",
+    "role": "Rôle",
+    "primarySpecialty": "Spécialité principale",
+    "additionalSpecialty": "Spécialité complémentaire",
+    "registrationNumber": "Numéro d’inscription"
+  },
+  "help": {
+    "email": "L’invitation est envoyée à cette adresse, qui devient son e-mail de connexion.",
+    "emailLocked": "L’e-mail de connexion ne peut plus être modifié une fois le compte activé.",
+    "additionalSpecialty": "Sous-spécialité ou domaine d’intérêt, en texte libre.",
+    "registrationNumber": "Numéro d’inscription professionnelle (RPPS, ADELI…), le cas échéant."
+  },
+  "roleOptions": {
+    "DOCTOR": "Reçoit les patients, saisit les consultations et dispose de son propre planning.",
+    "SECRETARY": "Prend les rendez-vous et gère l’agenda. Aucun accès aux dossiers médicaux."
+  },
+  "new": {
+    "title": "Ajouter un membre",
+    "basics": "Informations générales",
+    "role": "Rôle",
+    "doctor": "Informations du médecin",
+    "submit": "Ajouter et envoyer l’invitation",
+    "created": "{{name}} a été ajouté et invité par e-mail.",
+    "scheduleLater": "Les horaires de travail se configurent dans Plannings une fois le membre ajouté."
+  },
+  "edit": {
+    "title": "Modifier {{name}}",
+    "saved": "Modifications enregistrées."
+  },
+  "member": {
+    "account": "Compte",
+    "lastLogin": "Dernière connexion",
+    "never": "Jamais",
+    "addedOn": "Ajouté le",
+    "invitedBanner": "{{name}} n’a pas encore activé son compte. Les liens d’invitation sont valables 72 heures.",
+    "deactivatedBanner": "Ce compte est désactivé. {{name}} ne peut pas se connecter.",
+    "notSet": "Non renseigné"
+  }
+}

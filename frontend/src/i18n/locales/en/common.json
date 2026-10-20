@@ -1,0 +1,93 @@
+{
+  "app": {
+    "name": "IATROS",
+    "tagline": "Clinic management for doctors and small clinics"
+  },
+  "nav": {
+    "label": "Main navigation",
+    "skipToContent": "Skip to content",
+    "overview": "Overview",
+    "myDay": "My day",
+    "calendar": "Calendar",
+    "patients": "Patients",
+    "team": "Team",
+    "schedules": "Schedules",
+    "mySchedule": "My schedule",
+    "activity": "Activity",
+    "myActivity": "My activity",
+    "settings": "Settings"
+  },
+  "userMenu": {
+    "open": "Account menu for {{name}}",
+    "account": "Account",
+    "signOut": "Sign out"
+  },
+  "preferences": {
+    "language": "Language",
+    "theme": "Theme",
+    "themeSystem": "Match system",
+    "themeLight": "Light",
+    "themeDark": "Dark"
+  },
+  "roles": {
+    "OWNER": "Owner",
+    "DOCTOR": "Doctor",
+    "SECRETARY": "Secretary"
+  },
+  "appointmentStatus": {
+    "SCHEDULED": "Scheduled",
+    "CONFIRMED": "Confirmed",
+    "WAITING": "Waiting",
+    "IN_CONSULTATION": "In consultation",
+    "COMPLETED": "Completed",
+    "CANCELLED": "Cancelled",
+    "NO_SHOW": "No-show"
+  },
+  "actions": {
+    "save": "Save changes",
+    "cancel": "Cancel",
+    "close": "Close",
+    "confirm": "Confirm",
+    "retry": "Try again",
+    "previous": "Previous",
+    "next": "Next",
+    "clearSearch": "Clear search",
+    "edit": "Edit",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password"
+  },
+  "states": {
+    "loading": "Loading…",
+    "loadFailed": "This content could not be loaded",
+    "optional": "(optional)"
+  },
+  "pagination": {
+    "label": "Pagination",
+    "range": "{{from}}–{{to}} of {{total}}",
+    "pageSize": "Rows per page"
+  },
+  "filters": {
+    "active": "Active filters",
+    "remove": "Remove filter {{filter}}",
+    "clearAll": "Clear all"
+  },
+  "notifications": "Notifications",
+  "unsavedChanges": {
+    "title": "Leave without saving?",
+    "consequence": "The changes you made on this page will be lost.",
+    "discard": "Discard changes"
+  },
+  "noAccess": {
+    "title": "This page is not available",
+    "description": "Your role does not include access to this part of the clinic workspace."
+  },
+  "modulePending": {
+    "title": "This module is being built",
+    "description": "It will appear here in an upcoming release."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you are looking for does not exist or has moved.",
+    "action": "Go to home"
+  }
+}

@@ -32,6 +32,8 @@ docs/architecture.md
 docs/database.md
 docs/modules.md
 docs/ui-ux.md
+docs/design-system.md
+docs/decisions.md
 docs/api.md
 docs/security.md
 docs/internationalization.md
@@ -399,6 +401,8 @@ Every UI feature must support:
 
 Do not create components that only work visually in one theme.
 
+All UI must follow `docs/design-system.md`: semantic design tokens only (no hard-coded colors, sizes, or spacing), shared components, and the IATROS workspace layout. Do not fall back to a generic admin-template look.
+
 ---
 
 # 17. Security
@@ -536,6 +540,8 @@ Database                → database.md
 API                     → api.md
 Security                → security.md
 UI behavior             → ui-ux.md
+Visual design           → design-system.md
+Resolved decisions      → decisions.md
 Localization            → internationalization.md
 Development process     → development-rules.md / roadmap.md
 ```

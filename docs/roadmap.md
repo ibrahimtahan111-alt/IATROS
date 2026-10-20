@@ -98,6 +98,8 @@ docs/
 ├── database.md
 ├── modules.md
 ├── ui-ux.md
+├── design-system.md
+├── decisions.md
 ├── api.md
 ├── security.md
 ├── internationalization.md
@@ -129,7 +131,7 @@ Initialize:
 
 ## Database
 
-Prepare PostgreSQL development configuration.
+Prepare PostgreSQL development configuration and Flyway (`decisions.md` D-002).
 
 ## Environment
 
@@ -331,6 +333,13 @@ Build the reusable frontend foundation before building individual screens.
 * Theme selector
 * Main content area
 
+### Foundations (required before any feature screen)
+
+* Design tokens and light/dark themes (`design-system.md`)
+* i18n setup with English and French resources
+* API client, error-code mapping, and TanStack Query setup
+* Route protection based on the current user's role
+
 ### Components
 
 Create reusable components for:
@@ -362,20 +371,7 @@ Create route structure and route protection.
 
 Example:
 
-```text
-/login
-/forgot-password
-/reset-password
-
-/dashboard
-/calendar
-/patients
-/patients/:id
-/doctors
-/doctors/:id
-/activity
-/settings
-```
+The canonical route list is in `ui-ux.md` §45.
 
 ## Definition of Done
 
@@ -748,7 +744,9 @@ Sensitive operations have an appropriate audit trail.
 
 ## Objective
 
-Complete the V1 presentation layer.
+Complete and review the V1 presentation layer.
+
+The i18n and theme foundations already exist from Phase 4, and every feature ships in English and French with light/dark support. This phase is a completeness and quality pass: French terminology review, missing-key checks, contrast audit, and long-text layout checks.
 
 ## Language
 

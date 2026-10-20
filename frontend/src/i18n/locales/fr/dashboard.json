@@ -1,0 +1,63 @@
+{
+  "greeting": {
+    "morning": "Bonjour, {{name}}",
+    "afternoon": "Bon après-midi, {{name}}",
+    "evening": "Bonsoir, {{name}}",
+    "doctorName": "Dr {{lastName}}"
+  },
+  "today": {
+    "label": "Aujourd’hui",
+    "appointments": "Rendez-vous du jour",
+    "completed": "Terminés aujourd’hui",
+    "waiting": "En salle d’attente",
+    "noShows": "Absences"
+  },
+  "owner": {
+    "totalPatients": "Patients au total",
+    "activeDoctors": "Médecins actifs",
+    "doctorsTitle": "Médecins aujourd’hui",
+    "noDoctors": "Aucun médecin actif pour le moment.",
+    "doctorAppointments_one": "{{count}} rendez-vous",
+    "doctorAppointments_other": "{{count}} rendez-vous",
+    "doctorCompleted_one": "{{count}} terminé",
+    "doctorCompleted_other": "{{count}} terminés",
+    "doctorInProgress_one": "{{count}} en cours",
+    "doctorInProgress_other": "{{count}} en cours",
+    "doctorRemaining_one": "{{count}} à venir",
+    "doctorRemaining_other": "{{count}} à venir"
+  },
+  "doctor": {
+    "todayPatients": "Patients du jour",
+    "upcoming": "À venir (7 jours)",
+    "completedToday": "Consultations terminées",
+    "patientsTitle": "Mes patients",
+    "patientsSummary_one": "{{count}} patient, dont {{primary}} en tant que médecin traitant",
+    "patientsSummary_other": "{{count}} patients, dont {{primary}} en tant que médecin traitant",
+    "recentPatients": "Patients vus récemment",
+    "noRecentPatients": "Les patients que vous recevez apparaîtront ici.",
+    "lastVisit": "Dernière visite le {{date}}",
+    "allPatients": "Tous mes patients"
+  },
+  "schedule": {
+    "title": "Programme du jour",
+    "clinicDescription": "Les rendez-vous de tous les médecins aujourd’hui, hors annulations.",
+    "doctorDescription": "Vos rendez-vous du jour, avec les allergies sévères et les pathologies actives.",
+    "empty": "Aucun rendez-vous aujourd’hui.",
+    "truncated": "Seuls les premiers rendez-vous sont affichés. Ouvrez le calendrier pour voir toute la journée.",
+    "openCalendar": "Ouvrir le calendrier"
+  },
+  "alerts": {
+    "allergy": "Allergie : {{name}}"
+  },
+  "performance": {
+    "clinicTitle": "Performance du cabinet",
+    "doctorTitle": "Ma performance",
+    "more": "Voir l’activité et les indicateurs"
+  },
+  "activity": {
+    "clinicTitle": "Activité récente du cabinet",
+    "doctorTitle": "Mon activité récente",
+    "empty": "Aucune activité pour le moment.",
+    "more": "Voir toute l’activité"
+  }
+}

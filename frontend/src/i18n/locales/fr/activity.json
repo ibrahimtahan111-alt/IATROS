@@ -1,0 +1,116 @@
+{
+  "period": {
+    "label": "Période",
+    "week": "7 jours",
+    "month": "30 jours",
+    "quarter": "90 jours",
+    "year": "12 mois"
+  },
+  "filters": {
+    "doctor": "Médecin",
+    "allDoctors": "Tous les médecins",
+    "type": "Type d’activité",
+    "allTypes": "Toute l’activité",
+    "clear": "Afficher toute l’activité"
+  },
+  "kpis": {
+    "label": "Indicateurs clés",
+    "title": "Indicateurs clés",
+    "titleFor": "Indicateurs clés de {{name}}",
+    "description": "{{range}}, comparé à {{previous}}",
+    "appointments": "Rendez-vous",
+    "completed": "Terminés",
+    "completionRate": "Taux de réalisation",
+    "noShowRate": "Taux d’absence",
+    "cancellationRate": "Taux d’annulation",
+    "newPatients": "Nouveaux patients",
+    "activePatients": "Patients actifs",
+    "consultations": "Consultations"
+  },
+  "comparison": {
+    "change": "{{value}} par rapport à la période précédente",
+    "points": "{{value}} pts par rapport à la période précédente"
+  },
+  "trend": {
+    "title": "Évolution des rendez-vous",
+    "caption": "Rendez-vous par période, selon leur issue",
+    "empty": "Aucun rendez-vous sur cette période.",
+    "day": "Jour",
+    "month": "Mois",
+    "completed": "Terminés",
+    "other": "À venir ou en cours",
+    "noShows": "Absents",
+    "cancelled": "Annulés"
+  },
+  "doctors": {
+    "title": "Médecins",
+    "description": "Rendez-vous et consultations de chaque médecin sur la période. Sélectionnez un médecin pour voir ses indicateurs.",
+    "caption": "Indicateurs par médecin",
+    "doctor": "Médecin",
+    "noShows": "Absences",
+    "cancelled": "Annulés"
+  },
+  "feed": {
+    "title": "Activité",
+    "description": "Modifications des rendez-vous, patients, dossiers, horaires et de l’équipe sur la période.",
+    "empty": "Aucune activité",
+    "emptyDescription": "Rien ne correspond à ces filtres sur cette période."
+  },
+  "category": {
+    "APPOINTMENTS": "Rendez-vous",
+    "PATIENTS": "Patients",
+    "CLINICAL": "Dossiers médicaux",
+    "SCHEDULES": "Horaires",
+    "TEAM": "Équipe",
+    "CLINIC": "Cabinet"
+  },
+  "fallback": {
+    "system": "IATROS",
+    "patient": "un patient",
+    "doctor": "un médecin",
+    "staff": "un membre de l’équipe"
+  },
+  "entry": {
+    "ALLERGY": "une allergie",
+    "MEDICAL_CONDITION": "une pathologie",
+    "MEDICATION": "un traitement",
+    "MEDICAL_HISTORY_ENTRY": "un antécédent",
+    "MEDICAL_NOTE": "une note",
+    "OTHER": "une entrée"
+  },
+  "event": {
+    "APPOINTMENT_CREATED": "{{actor}} a réservé un rendez-vous pour {{patient}} avec {{doctor}}",
+    "APPOINTMENT_UPDATED": "{{actor}} a modifié un rendez-vous de {{patient}}",
+    "APPOINTMENT_RESCHEDULED": "{{actor}} a déplacé un rendez-vous de {{patient}} avec {{doctor}}",
+    "APPOINTMENT_STATUS_CHANGED": "{{actor}} a passé un rendez-vous de {{patient}} au statut {{status}}",
+    "APPOINTMENT_CANCELLED": "{{actor}} a annulé un rendez-vous de {{patient}}",
+    "PATIENT_CREATED": "{{actor}} a ajouté le patient {{patient}}",
+    "PATIENT_UPDATED": "{{actor}} a modifié les informations de {{patient}}",
+    "PATIENT_ARCHIVED": "{{actor}} a archivé {{patient}}",
+    "PATIENT_RESTORED": "{{actor}} a restauré {{patient}}",
+    "PATIENT_PRIMARY_DOCTOR_CHANGED": "{{actor}} a désigné {{doctor}} comme médecin traitant de {{patient}}",
+    "PATIENT_DOCTOR_AUTHORIZED": "{{actor}} a donné à {{doctor}} l’accès à {{patient}}",
+    "PATIENT_DOCTOR_REMOVED": "{{actor}} a retiré à {{doctor}} l’accès à {{patient}}",
+    "MEDICAL_ENTRY_CREATED": "{{actor}} a ajouté {{entry}} au dossier de {{patient}}",
+    "MEDICAL_ENTRY_UPDATED": "{{actor}} a modifié {{entry}} dans le dossier de {{patient}}",
+    "MEDICAL_ENTRY_DELETED": "{{actor}} a supprimé {{entry}} du dossier de {{patient}}",
+    "CONSULTATION_CREATED": "{{actor}} a enregistré une consultation pour {{patient}}",
+    "CONSULTATION_UPDATED": "{{actor}} a modifié une consultation de {{patient}}",
+    "DOCUMENT_UPLOADED": "{{actor}} a ajouté un document au dossier de {{patient}}",
+    "DOCUMENT_ARCHIVED": "{{actor}} a archivé un document de {{patient}}",
+    "SCHEDULE_UPDATED": "{{actor}} a modifié l’horaire hebdomadaire de {{doctor}}",
+    "SCHEDULE_EXCEPTION_CREATED": "{{actor}} a ajouté une exception d’horaire pour {{doctor}}",
+    "SCHEDULE_EXCEPTION_DELETED": "{{actor}} a supprimé une exception d’horaire pour {{doctor}}",
+    "STAFF_CREATED": "{{actor}} a ajouté {{staff}} à l’équipe",
+    "STAFF_UPDATED": "{{actor}} a modifié le compte de {{staff}}",
+    "STAFF_DEACTIVATED": "{{actor}} a désactivé le compte de {{staff}}",
+    "STAFF_REACTIVATED": "{{actor}} a réactivé le compte de {{staff}}",
+    "INVITATION_SENT": "{{actor}} a envoyé une invitation à {{staff}}",
+    "INVITATION_ACCEPTED": "{{staff}} a rejoint le cabinet",
+    "DOCTOR_PROFILE_UPDATED": "{{actor}} a modifié le profil médecin de {{doctor}}",
+    "CLINIC_PROVISIONED": "Le cabinet a été créé",
+    "CLINIC_UPDATED": "{{actor}} a modifié les informations du cabinet",
+    "CLINIC_SETTINGS_UPDATED": "{{actor}} a modifié les paramètres du cabinet",
+    "OTHER": "{{actor}} a effectué une modification"
+  }
+}

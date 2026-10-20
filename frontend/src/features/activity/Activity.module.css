@@ -1,0 +1,161 @@
+/* Activity feed, trend chart, and the activity/KPI workspace (ui-ux.md §22, design-system.md §11.8). */
+
+.feed {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.entry {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-block-end: 1px solid var(--color-border);
+}
+
+.entry:last-child {
+  border-block-end: none;
+}
+
+.entryIcon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-8);
+  height: var(--space-8);
+  border-radius: var(--radius-full);
+  background: var(--color-surface-sunken);
+  color: var(--color-text-muted);
+}
+
+.entryIcon svg {
+  width: var(--space-4);
+  height: var(--space-4);
+}
+
+.entryBody {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.entryTime {
+  color: var(--color-text-subtle);
+  font-size: var(--text-label);
+}
+
+.muted {
+  color: var(--color-text-muted);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+}
+
+.filter {
+  min-width: 12rem;
+}
+
+.linkButton {
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-accent);
+  font: inherit;
+  font-weight: var(--weight-medium);
+  text-align: start;
+  cursor: pointer;
+}
+
+.linkButton:hover {
+  text-decoration: underline;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Trend chart: one stacked bar per bucket, heights relative to the busiest bucket. */
+
+.chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: calc(var(--space-16) * 2.5);
+  padding: var(--space-2) var(--space-2) 0;
+  border-block-end: 1px solid var(--color-border-strong);
+}
+
+.bar {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column-reverse;
+  min-width: 2px;
+  max-width: var(--space-10);
+  height: calc(var(--share) * 100%);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  overflow: hidden;
+}
+
+.segment {
+  flex: var(--count) 0 0;
+}
+
+.segmentCompleted {
+  background: var(--color-status-completed);
+}
+
+.segmentOther {
+  background: var(--color-status-scheduled);
+}
+
+.segmentNoShows {
+  background: var(--color-status-no-show);
+}
+
+.segmentCancelled {
+  background: var(--color-status-cancelled);
+}
+
+.axis {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-block-start: var(--space-1);
+  color: var(--color-text-subtle);
+  font-size: var(--text-label);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-small);
+  list-style: none;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.swatch {
+  width: var(--space-3);
+  height: var(--space-3);
+  border-radius: 2px;
+}

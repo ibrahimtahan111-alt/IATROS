@@ -1,0 +1,30 @@
+{
+  "title": "Settings",
+  "profile": {
+    "title": "Clinic information",
+    "description": "Shown in the workspace and in emails sent to your team.",
+    "name": "Clinic name",
+    "email": "Contact email",
+    "phone": "Phone",
+    "address": "Address",
+    "saved": "Clinic information saved."
+  },
+  "settings": {
+    "title": "Scheduling and region",
+    "description": "Defaults used by calendars, schedules, and new team members.",
+    "timeZone": "Time zone",
+    "timeZoneHelp": "Appointments and working hours are shown in this time zone.",
+    "defaultAppointmentMinutes": "Default appointment length",
+    "minutes_one": "{{count}} minute",
+    "minutes_other": "{{count}} minutes",
+    "defaultLanguage": "Default language",
+    "defaultLanguageHelp": "Used for team members who have not chosen a language, including their emails.",
+    "weekStartDay": "First day of the week",
+    "saved": "Settings saved."
+  },
+  "account": {
+    "title": "Your account",
+    "description": "Your language, theme, and password are on your account page.",
+    "link": "Open my account"
+  }
+}

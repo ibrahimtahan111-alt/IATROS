@@ -94,6 +94,26 @@ Clinic
 
 The exact physical schema may contain additional supporting tables.
 
+## 3.1 Physical schema (implemented)
+
+The V1 schema is implemented by the Flyway migrations in `backend/src/main/resources/db/migration` (V1–V11). The migrations are authoritative for exact column types and constraints. Conventions are defined in `decisions.md` D-003, D-004, D-007, and D-008.
+
+Refinements made while implementing the conceptual model below:
+
+| Area | Implementation |
+| ---- | -------------- |
+| User | Table `app_user`; adds `phone`, `preferred_language`, `deactivated_at` |
+| Doctor | Adds `registration_number`; the user may be `DOCTOR` or `OWNER` (D-033) |
+| Specialty | Identified by a stable `code` (translated in the UI) instead of a stored `name`; seeded by migration |
+| Patient | `date_of_birth` required; emergency contact split into name and phone; generated `search_text` with trigram index; primary doctor stored only in `patient_doctor` |
+| Clinical entries | Allergies, conditions, medications, history, and notes carry `created_by`, `updated_by`, and soft-delete columns |
+| Consultation | Carries `clinic_id` (for composite FKs) instead of `patient_id`; time stored as `consulted_at`; adds `follow_up_on`; at most one consultation per appointment |
+| Doctor schedule | Table `doctor_schedule_period` (no `active` flag: the week is replaced as a whole, D-035); overlapping periods on the same weekday are rejected by an exclusion constraint; `doctor.schedule_version` (V11) is the optimistic-locking version of the week, separate from the doctor row's `version` |
+| Document | Adds `checksum_sha256`, `archived_at`, `archived_by` |
+| Audit | Table `audit_event`; rows are immutable (trigger) |
+| Tokens | Table `user_token` for invitations and password resets |
+| Sessions | `spring_session`, `spring_session_attributes` |
+
 ---
 
 # 4. Clinic
@@ -156,9 +176,15 @@ V1 supports:
 
 A future `PATIENT` role may be introduced.
 
+### Status values
+
+* `INVITED` — created by the owner, password not yet set
+* `ACTIVE`
+* `DEACTIVATED`
+
 ### Constraints
 
-* Email must be unique within the appropriate account scope.
+* Email is globally unique (case-insensitive, `citext`), because login is by email without selecting a clinic.
 * Passwords must never be stored in plaintext.
 * Deactivated users must not be able to authenticate.
 
@@ -238,10 +264,11 @@ A patient belongs to one clinic.
 * `email`
 * `address` where required
 * `emergency_contact` where required
-* `primary_doctor_id` where applicable
 * `created_at`
 * `updated_at`
-* `status`
+* `status` (`ACTIVE`, `ARCHIVED`)
+
+The primary doctor is stored once, in the patient-doctor association (`relationship_type = PRIMARY`), not duplicated on the patient row. A partial unique index guarantees at most one primary doctor per patient.
 
 The application should only collect patient information necessary for the intended functionality.
 
@@ -283,11 +310,13 @@ Possible relationship types include:
 
 The exact implementation should prevent duplicate associations.
 
+Changing the primary doctor updates relationship types in place (the old primary becomes `AUTHORIZED`, decisions.md D-036); the old row is demoted and flushed before the new primary is written, so the one-primary index is never violated. Removing an authorized doctor deletes only the association row.
+
 ---
 
 # 10. Medical Record
 
-Each patient has one core medical record.
+Each patient has one core medical record. It is created in the same transaction as the patient (D-036), so the application never has to handle a patient without one.
 
 Conceptually:
 
@@ -445,11 +474,12 @@ An appointment represents a scheduled interaction between a patient and a doctor
 * `clinic_id`
 * `patient_id`
 * `doctor_id`
-* `appointment_date`
-* `start_time`
-* `end_time`
-* `appointment_type`
+* `start_at` (`timestamptz`)
+* `end_at` (`timestamptz`)
+* `appointment_type` (`NEW_PATIENT`, `FOLLOW_UP`, `ROUTINE`, `PROCEDURE`, `URGENT`, `OTHER`)
 * `status`
+* `cancellation_reason` where applicable
+* `status_changed_at`, `status_changed_by`
 * `reason`
 * `notes`
 * `created_by`
@@ -486,9 +516,23 @@ Conflict detection must account for:
 * Doctor
 * Appointment status
 
-Cancelled appointments should not block future availability.
+Cancelled and no-show appointments do not block availability.
 
-The final conflict-prevention implementation must be defined in the backend architecture and database implementation.
+Implementation (`decisions.md` D-005):
+
+```sql
+CREATE EXTENSION IF NOT EXISTS btree_gist;
+
+ALTER TABLE appointment
+  ADD CONSTRAINT appointment_no_overlap
+  EXCLUDE USING gist (
+    doctor_id WITH =,
+    tstzrange(start_at, end_at, '[)') WITH &&
+  )
+  WHERE (status NOT IN ('CANCELLED', 'NO_SHOW'));
+```
+
+This guarantees no overlap even under concurrent requests. A check constraint also enforces `end_at > start_at`.
 
 ---
 
@@ -530,21 +574,21 @@ Examples include:
 * One-time absence
 * Special working day
 
-The V1 model should support schedule exceptions if required by the appointment workflow.
+Schedule exceptions are part of V1 (`decisions.md` D-026).
 
-A schedule exception may contain:
+A schedule exception contains:
 
 * `id`
 * `doctor_id`
 * `date`
-* `start_time`
-* `end_time`
-* `type`
+* `start_time` (null for a full day)
+* `end_time` (null for a full day)
+* `type` (`UNAVAILABLE`, `EXTRA_AVAILABILITY`)
 * `reason`
 * `created_at`
 * `updated_at`
 
-The exact implementation may be finalized during appointment/schedule implementation.
+Schedule times are local times interpreted in the clinic's time zone.
 
 ---
 
@@ -554,10 +598,10 @@ Clinic-level configuration should be separated from the primary clinic identity 
 
 Potential settings include:
 
-* Default appointment duration
-* Clinic preferences
-* Localization preferences
-* Time zone
+* Default appointment duration (default 30 minutes)
+* Time zone (IANA identifier, required)
+* Default language
+* Week start day
 * Other operational configuration
 
 The settings model should not become a generic unstructured key-value table unless a concrete requirement justifies that approach.
@@ -568,18 +612,17 @@ The settings model should not become a generic unstructured key-value table unle
 
 Medical documents may be associated with a patient's medical record.
 
-A document record should contain metadata such as:
+The `document` table holds metadata only:
 
-* `id`
-* `medical_record_id`
-* `file_name`
-* `file_type`
-* `file_size`
-* `storage_reference`
-* `uploaded_by`
-* `created_at`
+* `id`, `clinic_id`, `medical_record_id`
+* `consultation_id` (optional; a consultation of the same record)
+* `file_name` (the cleaned display name; never used as a path)
+* `content_type` (detected from the file signature), `size_bytes`, `checksum_sha256`
+* `storage_key` (generated UUIDv7 key in `DocumentStorage`)
+* `uploaded_by`, `created_at`
+* `archived_at`, `archived_by` (archive is a soft delete; the file is kept)
 
-The actual file storage mechanism is separate from the relational metadata.
+The file bytes live in `DocumentStorage`, never in the database (D-044).
 
 Access to a document must follow the same authorization rules as the associated medical record.
 
@@ -618,9 +661,15 @@ Such records should contain appropriate information such as:
 * Usage status
 * Creation timestamp
 
-Reset tokens must not be stored or logged in plaintext where avoidable.
+Reset tokens are stored only as SHA-256 hashes and are never logged.
 
 Expired or consumed reset mechanisms must not remain usable.
+
+Staff invitation tokens (`decisions.md` D-021) follow the same model, with a `purpose` distinguishing `PASSWORD_RESET` from `INVITATION`.
+
+# 24.1 Sessions
+
+Authentication sessions are stored in PostgreSQL by Spring Session JDBC (`SPRING_SESSION`, `SPRING_SESSION_ATTRIBUTES`). These tables are created by a Flyway migration, not by automatic schema initialization.
 
 ---
 
@@ -673,7 +722,7 @@ The chosen ID type must be compatible with:
 * API serialization
 * Future scaling
 
-The final ID-generation strategy must be consistently applied throughout the database.
+**Decision:** all primary keys are `uuid`, generated by the application as UUID version 7 (time-ordered) (`decisions.md` D-003).
 
 ---
 
@@ -697,6 +746,8 @@ All timestamps must use a consistent timezone strategy.
 
 The application should store timestamps in a canonical format and convert them appropriately for display.
 
+**Decision:** all instants are `timestamptz` handled in UTC; recurring schedules use local `time` interpreted in the clinic's IANA time zone (`decisions.md` D-004).
+
 ---
 
 # 28. Soft Deletion
@@ -711,7 +762,7 @@ Where deletion is required by the product, the implementation should distinguish
 
 Medical and historical records should generally favor preservation over destructive deletion.
 
-The final deletion policy must be defined for each entity before destructive functionality is implemented.
+The per-entity deletion policy is defined in `decisions.md` D-030.
 
 ---
 
@@ -743,6 +794,8 @@ Potential indexed fields include:
 * Schedule doctor/date
 
 Indexes should be introduced based on actual query patterns rather than indiscriminately indexing every field.
+
+Dashboards and KPIs (decisions.md D-039, migration `V12`) add `consultation (clinic_id, consulted_at)` for consultation counts per period, and an expression index on `audit_event ((metadata ->> 'doctorId'), occurred_at DESC)` for a doctor's activity feed. Clinic activity uses the existing `audit_event (clinic_id, occurred_at)` index; appointment KPIs use the existing appointment clinic/doctor/time indexes.
 
 ---
 
@@ -810,7 +863,9 @@ Each migration must be:
 * Ordered
 * Reviewable
 
-The exact migration framework will be selected as part of the implementation tooling.
+IATROS uses **Flyway** with plain SQL migrations in `backend/src/main/resources/db/migration`. Hibernate runs with `ddl-auto=validate` and never changes the schema (`decisions.md` D-002).
+
+Development-only seed data (fictional demo clinic) lives in a separate location that is only enabled in the `dev` profile and is never applied in production.
 
 ---
 

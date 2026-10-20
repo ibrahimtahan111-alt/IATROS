@@ -1,0 +1,25 @@
+{
+  "title": "Account",
+  "profile": {
+    "title": "Profile",
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "clinic": "Clinic"
+  },
+  "preferences": {
+    "title": "Preferences",
+    "languageHelp": "Saved to your account and used on every device.",
+    "themeHelp": "Saved on this device."
+  },
+  "password": {
+    "title": "Password",
+    "current": "Current password",
+    "new": "New password",
+    "confirm": "Confirm new password",
+    "hint": "At least {{min}} characters.",
+    "otherSessions": "Changing your password signs you out on your other devices.",
+    "submit": "Change password",
+    "changed": "Your password has been changed."
+  }
+}

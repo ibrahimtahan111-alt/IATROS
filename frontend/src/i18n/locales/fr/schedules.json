@@ -1,0 +1,64 @@
+{
+  "picker": {
+    "label": "Médecin",
+    "deactivated": "{{name}} (désactivé)"
+  },
+  "deactivated": "{{name}} est désactivé et n’a aucun horaire de travail. Son planning est conservé en cas de retour.",
+  "empty": {
+    "title": "Aucun médecin pour l’instant",
+    "description": "Les plannings appartiennent aux médecins. Ajoutez un médecin à votre équipe pour définir ses horaires.",
+    "notADoctor": "Votre compte n’a pas de profil médecin : il n’y a pas de planning à gérer.",
+    "addDoctor": "Ajouter un médecin"
+  },
+  "weekly": {
+    "title": "Horaires hebdomadaires",
+    "description": "Se répètent chaque semaine. Les heures sont dans le fuseau horaire du cabinet ({{timeZone}}). Les intervalles entre les plages sont des pauses.",
+    "notWorking": "Ne travaille pas",
+    "add": "Ajouter une plage",
+    "addTo": "Ajouter une plage le {{day}}",
+    "start": "{{day}}, plage {{number}}, début",
+    "end": "{{day}}, plage {{number}}, fin",
+    "remove": "Supprimer {{day}}, plage {{number}}",
+    "save": "Enregistrer les horaires",
+    "saved": "Horaires hebdomadaires enregistrés. Les rendez-vous existants ne sont pas modifiés.",
+    "loadLatest": "Charger les derniers horaires"
+  },
+  "exceptions": {
+    "title": "Exceptions",
+    "description": "Jours d’absence, absences partielles et heures supplémentaires qui remplacent les horaires hebdomadaires à une date précise.",
+    "caption": "Exceptions à venir",
+    "empty": "Aucune exception à venir.",
+    "add": "Ajouter une exception",
+    "addTitle": "Ajouter une exception",
+    "added": "Exception ajoutée.",
+    "allDay": "Toute la journée",
+    "actions": "Actions",
+    "remove": "Supprimer l’exception du {{date}}",
+    "removeTitle": "Supprimer cette exception ?",
+    "removeConsequence": "Les horaires hebdomadaires s’appliquent de nouveau le {{date}}.",
+    "removeConfirm": "Supprimer",
+    "removed": "Exception supprimée.",
+    "type": {
+      "UNAVAILABLE": "Indisponible",
+      "EXTRA_AVAILABILITY": "Heures supplémentaires"
+    },
+    "fields": {
+      "date": "Date",
+      "type": "Type",
+      "startTime": "De",
+      "endTime": "À",
+      "hours": "Heures",
+      "reason": "Motif"
+    },
+    "help": {
+      "UNAVAILABLE": "Laissez les deux heures vides pour bloquer toute la journée.",
+      "EXTRA_AVAILABILITY": "Ces heures s’ajoutent aux horaires hebdomadaires de cette date.",
+      "reason": "Visible par l’équipe du cabinet. N’indiquez aucune information médicale."
+    }
+  },
+  "preview": {
+    "title": "Deux prochaines semaines",
+    "description": "Les horaires utilisés pour la prise de rendez-vous, exceptions comprises.",
+    "off": "Ne travaille pas"
+  }
+}

@@ -175,6 +175,8 @@ locales/
 
 The exact file split may evolve, but translation keys must remain predictable and domain-oriented.
 
+**Implementation (`decisions.md` D-040):** i18next + react-i18next, with resources in `frontend/src/i18n/locales/{en,fr}/{namespace}.json`. `common` (shell, navigation, shared actions and states, statuses), `auth`, and `errors` (API error codes and `field.*` validation codes) are the core namespaces: the English ones ship with the app, and the French ones are fetched when French is first used, before anything renders in French. Feature namespaces (`account`, `team`, `clinic`, `specialties`, `doctors`, `schedules`, `patients`, `medicalRecords`, `calendar`, `dashboard`, `activity`) are loaded in both languages by the route that needs them, so switching language on a feature page never waits on the network. Consultation date-times are entered and shown in the clinic's time zone. Specialty names are translated from their stable codes (`specialties:CARDIOLOGY`). Weekday names, schedule dates, and times are formatted with `Intl` in the interface language (`useDateTimeFormat`); schedule dates and `HH:mm` times are already clinic-local, so they are formatted without any time-zone conversion. A test checks that every namespace has the same keys and interpolation values in English and French. TypeScript type-checks translation keys against the English resources so missing or misspelled keys fail the build.
+
 ---
 
 # 6. Translation Key Convention
@@ -470,6 +472,8 @@ Examples include:
 
 The application should use standard internationalization APIs rather than manually formatting numbers.
 
+**Implementation:** `useNumberFormat` wraps `Intl.NumberFormat` in the interface language for counts, percentages, and signed comparisons (`+12 %`, `−3 pts`); KPI tiles and the activity page use it exclusively.
+
 ---
 
 # 16. Currency
@@ -586,6 +590,8 @@ rather than making frontend logic depend on:
 ```
 
 The frontend can translate the error code according to the selected language.
+
+Codes without a dedicated message fall back by status: `404` → "not available to you", `409` → "someone else changed this item", `5xx` → "something went wrong on our side", anything else → a generic retry message. Feature-specific codes (e.g. document upload errors) may be translated in the feature's namespace instead of `errors`, which keeps the sign-in bundle small.
 
 For security-sensitive errors, the backend must avoid exposing unnecessary internal information.
 
@@ -721,24 +727,28 @@ Example:
 English:
 
 ```text
-Dashboard
+Overview / My day
 Calendar
 Patients
-Doctors & Team
-Activity
+Team
+Schedules / My schedule
+Activity / My activity
 Settings
 ```
 
 French:
 
 ```text
-Tableau de bord
+Vue d'ensemble / Ma journée
 Calendrier
 Patients
-Médecins & équipe
-Activité
+Équipe
+Plannings / Mon planning
+Activité / Mon activité
 Paramètres
 ```
+
+The canonical navigation per role is defined in `ui-ux.md` §38.
 
 Navigation permissions remain role-based and independent of language.
 
@@ -827,6 +837,12 @@ French translations should be reviewed for:
 
 Literal machine translation should not automatically be considered final.
 
+French typography (enforced by `src/i18n/resources.test.ts`):
+
+* the typographic apostrophe `’`, never `'`;
+* a narrow no-break space (U+202F) before `?`, `!`, and `;`, and a no-break space (U+00A0) before `:` and inside `« »`, so punctuation never wraps onto its own line;
+* "cabinet" for the practice (not "clinique"), "responsable" for the owner role, "médecin traitant" for the primary doctor.
+
 ---
 
 # 33. Language Persistence
@@ -838,6 +854,8 @@ The preference should be associated with the authenticated user when appropriate
 Before authentication, the application may persist the language locally.
 
 After authentication, the user's saved preference should become the authoritative preference.
+
+**Implementation (`decisions.md` D-043):** the browser stores the language only when the user explicitly chooses one (sign-in screen, user menu, account page). A signed-in choice is also saved with `PUT /api/v1/auth/me/preferences`. On sign-in the account preference is applied; if the account has none and the device has no explicit choice, the clinic default language is used. Otherwise the browser language or English applies (§3).
 
 ---
 

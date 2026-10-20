@@ -1,0 +1,25 @@
+{
+  "title": "Mon compte",
+  "profile": {
+    "title": "Profil",
+    "name": "Nom",
+    "email": "Adresse e-mail",
+    "role": "Rôle",
+    "clinic": "Cabinet"
+  },
+  "preferences": {
+    "title": "Préférences",
+    "languageHelp": "Enregistrée dans votre compte et utilisée sur tous vos appareils.",
+    "themeHelp": "Enregistré sur cet appareil."
+  },
+  "password": {
+    "title": "Mot de passe",
+    "current": "Mot de passe actuel",
+    "new": "Nouveau mot de passe",
+    "confirm": "Confirmez le nouveau mot de passe",
+    "hint": "Au moins {{min}} caractères.",
+    "otherSessions": "La modification du mot de passe vous déconnecte de vos autres appareils.",
+    "submit": "Modifier le mot de passe",
+    "changed": "Votre mot de passe a été modifié."
+  }
+}

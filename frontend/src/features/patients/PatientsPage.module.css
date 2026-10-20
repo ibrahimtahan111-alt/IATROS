@@ -1,0 +1,42 @@
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-block-end: var(--space-3);
+}
+
+.search {
+  flex: 1 1 18rem;
+  max-width: 24rem;
+}
+
+.filter {
+  flex: 0 1 14rem;
+}
+
+.count {
+  margin-inline-start: auto;
+  color: var(--color-text-muted);
+  font-size: var(--text-small);
+}
+
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  font-size: var(--text-small);
+}
+
+.muted {
+  color: var(--color-text-muted);
+}
+
+.alert {
+  margin-block-end: var(--space-4);
+}

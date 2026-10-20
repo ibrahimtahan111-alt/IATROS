@@ -1,0 +1,93 @@
+{
+  "app": {
+    "name": "IATROS",
+    "tagline": "Gestion de cabinet pour les médecins et les petites cliniques"
+  },
+  "nav": {
+    "label": "Navigation principale",
+    "skipToContent": "Aller au contenu",
+    "overview": "Vue d’ensemble",
+    "myDay": "Ma journée",
+    "calendar": "Agenda",
+    "patients": "Patients",
+    "team": "Équipe",
+    "schedules": "Plannings",
+    "mySchedule": "Mon planning",
+    "activity": "Activité",
+    "myActivity": "Mon activité",
+    "settings": "Paramètres"
+  },
+  "userMenu": {
+    "open": "Menu du compte de {{name}}",
+    "account": "Mon compte",
+    "signOut": "Se déconnecter"
+  },
+  "preferences": {
+    "language": "Langue",
+    "theme": "Thème",
+    "themeSystem": "Selon le système",
+    "themeLight": "Clair",
+    "themeDark": "Sombre"
+  },
+  "roles": {
+    "OWNER": "Responsable",
+    "DOCTOR": "Médecin",
+    "SECRETARY": "Secrétaire"
+  },
+  "appointmentStatus": {
+    "SCHEDULED": "Planifié",
+    "CONFIRMED": "Confirmé",
+    "WAITING": "En salle d’attente",
+    "IN_CONSULTATION": "En consultation",
+    "COMPLETED": "Terminé",
+    "CANCELLED": "Annulé",
+    "NO_SHOW": "Absent"
+  },
+  "actions": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "confirm": "Confirmer",
+    "retry": "Réessayer",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "clearSearch": "Effacer la recherche",
+    "edit": "Modifier",
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe"
+  },
+  "states": {
+    "loading": "Chargement…",
+    "loadFailed": "Ce contenu n’a pas pu être chargé",
+    "optional": "(facultatif)"
+  },
+  "pagination": {
+    "label": "Pagination",
+    "range": "{{from}}–{{to}} sur {{total}}",
+    "pageSize": "Lignes par page"
+  },
+  "filters": {
+    "active": "Filtres actifs",
+    "remove": "Retirer le filtre {{filter}}",
+    "clearAll": "Tout effacer"
+  },
+  "notifications": "Notifications",
+  "unsavedChanges": {
+    "title": "Quitter sans enregistrer ?",
+    "consequence": "Les modifications apportées sur cette page seront perdues.",
+    "discard": "Abandonner les modifications"
+  },
+  "noAccess": {
+    "title": "Cette page n’est pas disponible",
+    "description": "Votre rôle ne donne pas accès à cette partie de l’espace de travail."
+  },
+  "modulePending": {
+    "title": "Ce module est en préparation",
+    "description": "Il sera disponible ici dans une prochaine version."
+  },
+  "notFound": {
+    "title": "Page introuvable",
+    "description": "La page que vous recherchez n’existe pas ou a été déplacée.",
+    "action": "Retour à l’accueil"
+  }
+}

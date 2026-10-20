@@ -920,9 +920,11 @@ The hierarchy of product definition is:
 5. `database.md` — How data is represented
 6. `modules.md` — How business responsibilities are separated
 7. `ui-ux.md` — How users interact with the system
-8. `api.md` — How modules communicate
-9. `security.md` — How sensitive operations are protected
-10. `development-rules.md` — How the code is implemented
+8. `design-system.md` — How the interface looks and behaves visually
+9. `api.md` — How modules communicate
+10. `security.md` — How sensitive operations are protected
+11. `decisions.md` — Resolved technical and product decisions
+12. `development-rules.md` — How the code is implemented
 
 If a future implementation conflicts with these documents, the documents must be updated deliberately before changing the implementation.
 

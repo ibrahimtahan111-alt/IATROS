@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: ${IATROS_TEST_DB_URL:jdbc:postgresql://localhost:5432/iatros_test}
+    username: ${IATROS_TEST_DB_USERNAME:iatros}
+    password: ${IATROS_TEST_DB_PASSWORD:${IATROS_DB_PASSWORD:}}
+
+iatros:
+  mail:
+    transport: outbox
+  documents:
+    local-dir: ${java.io.tmpdir}/iatros-test-documents

@@ -1,0 +1,18 @@
+{
+  "profile": {
+    "title": "Informations professionnelles",
+    "editTitle": "Modifier les informations professionnelles de {{name}}",
+    "saved": "Informations professionnelles enregistrées.",
+    "notSet": "Non renseigné",
+    "manageSchedule": "Horaires de travail"
+  },
+  "fields": {
+    "primarySpecialty": "Spécialité principale",
+    "additionalSpecialty": "Spécialité complémentaire",
+    "registrationNumber": "Numéro d’inscription"
+  },
+  "help": {
+    "additionalSpecialty": "Sous-spécialité ou domaine d’intérêt, avec vos propres mots.",
+    "registrationNumber": "Numéro d’inscription professionnelle, le cas échéant."
+  }
+}

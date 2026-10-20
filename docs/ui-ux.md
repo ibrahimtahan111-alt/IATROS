@@ -61,58 +61,44 @@ The user should generally understand:
 
 # 3. Application Layout
 
-The authenticated application uses a standard dashboard layout.
+The authenticated application uses the IATROS **workspace layout** defined in `design-system.md` §4: a navigation rail, a context bar, the main workspace, and an optional context panel. It deliberately avoids the generic "sidebar + header + cards" admin template.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│ Sidebar │ Clinic Name                         User / Actions │
-│         ├─────────────────────────────────────────────────────┤
-│         │                                                     │
-│         │                    Page Content                     │
-│         │                                                     │
-│         │                                                     │
-│         │                                                     │
-│         └─────────────────────────────────────────────────────┘
-└───────────────────────────────────────────────────────────────┘
+┌────┬──────────────────────────────────────────────┬──────────────┐
+│    │  Context bar: page title · scope · actions    │              │
+│ R  ├──────────────────────────────────────────────┤   Context    │
+│ a  │                                              │    panel     │
+│ i  │              Main workspace                  │  (optional)  │
+│ l  │                                              │              │
+└────┴──────────────────────────────────────────────┴──────────────┘
 ```
 
-## 3.1 Sidebar
+## 3.1 Navigation rail
 
-The sidebar contains the primary navigation.
+The rail contains the clinic name, the primary navigation, and the user menu.
 
-Expected items:
+Items depend on the role (§38). Items that the current user cannot access must not be displayed.
 
-* Dashboard
-* Calendar
-* Patients
-* Doctors / Team
-* Schedules
-* Activity / KPIs
-* Settings
-
-Items that the current user cannot access must not be displayed.
-
-The sidebar may collapse on smaller screens.
+The rail collapses to icons on tablets and becomes a bottom bar on small screens.
 
 ---
 
 # 4. Top Navigation
 
-The top navigation contains:
+There is no generic top header. Each page has a **context bar** (`design-system.md` §4.2) containing:
 
-* Clinic name
-* Current page context where useful
-* Language selector
-* Theme toggle
-* User profile menu
+* Page title
+* Page scope controls (date navigation, doctor selector, view switch)
+* The page's single primary action
 
 ## User menu
 
-The menu contains:
+The user menu sits at the bottom of the navigation rail and contains:
 
-* My Profile
-* Change Password
-* Logout
+* My account (profile and password)
+* Language (English / Français)
+* Theme (Light / Dark / System)
+* Log out
 
 Additional account options may be added later.
 
@@ -268,6 +254,8 @@ Examples:
 
 The exact KPI calculations belong to the KPI requirements/API definition.
 
+**Implementation (`decisions.md` D-039):** the header shows the greeting and today's date in the clinic's time zone. Tiles: today's appointments, completed, waiting, no-shows, total (active) patients, and active doctors; the appointment tiles open the calendar's day view. Below: today's schedule (each row opens the appointment in the calendar), each doctor's day, a performance section with its own period selector (week, month, quarter, year) linking to the activity page, and the latest clinic activity. The dashboard refreshes every minute.
+
 ---
 
 # 8. Dashboard — Doctor
@@ -315,6 +303,8 @@ Only patients the doctor is authorized to access may appear.
 Displays the doctor's own relevant activity/KPIs.
 
 The doctor must not see unrestricted clinic-wide information.
+
+**Implementation (`decisions.md` D-039):** tiles for today's patients, today's appointments, upcoming appointments (next 7 days), and completed today. The schedule marks severe allergies and active chronic conditions of linked patients. The patient section shows the doctor's patient counts and the five most recently seen patients. Performance shows the doctor's own KPIs, and the activity list shows only their own activity. An owner with a doctor profile uses the owner dashboard; their own figures are on the activity page filtered to themselves.
 
 ---
 
@@ -390,6 +380,16 @@ The UI should provide immediate feedback when a booking conflicts with:
 * invalid schedule.
 
 The backend remains authoritative.
+
+## Implementation (D-038)
+
+* View, date, doctor filter, the open appointment, and "Show cancelled" live in the URL (`/calendar?view=day&date=2026-10-12&doctor=…&appointment=…&cancelled=1`), so a refresh or a shared link reopens the same place. Week is the default view and weeks start on the clinic's week start day.
+* Day view shows one column per doctor; week view shows one column per date, with each event naming its doctor when several are shown. Time outside working hours is shaded and a Now line marks the current time. Overlapping appointments sit side by side.
+* Month view shows up to three appointments per day plus "+N more"; a day opens its day view.
+* The doctor filter is offered to owners and secretaries; doctors only ever see their own calendar.
+* Appointment details open in a right-side panel with the actions the server allows. Start consultation appears for the appointment's doctor once the patient is waiting, in consultation, or completed, and links the consultation to the appointment.
+* Booking offers the doctor's free start times from the availability API; a refused booking keeps everything entered and explains why.
+* The patient profile lists the patient's appointments (latest first) with booking, and the patients list shows each patient's next appointment.
 
 ---
 
@@ -644,7 +644,7 @@ Displays clinical encounters chronologically.
 
 ### Documents
 
-Displays associated medical documents.
+Displays associated medical documents, newest first, with search by file name and pagination. Each row shows the name (opens the file in a new tab), size, who added it, and when, with a download action and, for the uploader or the owner, an archive action behind a confirmation. "Upload document" opens the file picker; unsupported or oversized files are explained before any upload, and the server's validation is shown in the section. The consultation page shows the same section limited to that consultation's attachments, and uploads from there are attached to it. On archived patients the section is read-only (D-044).
 
 ---
 
@@ -884,6 +884,8 @@ Avoid unnecessary charts.
 ## Doctor view
 
 Doctors see only their own permitted activity and KPIs.
+
+**Implementation (`decisions.md` D-039):** filters are the period (week, month, quarter, year, ending today) and, for the owner, the doctor; status and type breakdowns are shown as figures rather than filters, since they are outcomes of the period. Sections: KPI tiles with comparison to the previous period, the appointment trend, a per-doctor table (owner, whole clinic; selecting a doctor applies the doctor filter), and the paginated activity feed filtered by activity type. Filters live in the URL so the view can be shared and survives a reload. Secretaries do not see this page.
 
 ---
 
@@ -1287,33 +1289,37 @@ The secretary does not receive unrestricted access to clinical information.
 ## Owner
 
 ```text
-Dashboard
-Calendar
-Patients
-Team
-Schedules
-Activity / KPIs
-Settings
+Overview        /dashboard
+Calendar        /calendar
+Patients        /patients
+Team            /team
+Schedules       /schedules
+Activity        /activity
+Settings        /settings
 ```
 
 ## Doctor
 
 ```text
-Dashboard
-Calendar
-Patients
-My Schedule
-My Activity
+My day          /dashboard
+Calendar        /calendar
+Patients        /patients
+My schedule     /schedules
+My activity     /activity
 ```
 
 ## Secretary
 
 ```text
-Calendar
-Patients
+Calendar        /calendar
+Patients        /patients
 ```
 
-The final navigation can be adjusted if implementation reveals a simpler workflow, but inaccessible modules must never appear as usable navigation options.
+Every role reaches `/account` (profile, password, language, theme) through the user menu.
+
+Landing page after login: owner and doctor → `/dashboard`; secretary → `/calendar` (`design-system.md` §5).
+
+Inaccessible modules must never appear as usable navigation options.
 
 ---
 
@@ -1497,20 +1503,29 @@ The backend must independently enforce authorization for every protected operati
 Example:
 
 ```text
-/frontend
-   /dashboard
-   /calendar
-   /patients
-   /patients/:id
-   /patients/:id/medical-record
-   /team
-   /doctors/:id
-   /schedules
-   /activity
-   /settings
+/login
+/forgot-password
+/reset-password
+/accept-invitation
+
+/dashboard
+/calendar
+/patients
+/patients/:patientId
+/patients/:patientId/medical-record
+/patients/:patientId/consultations/new
+/patients/:patientId/consultations/:consultationId
+/patients/:patientId/consultations/:consultationId/edit
+/team
+/team/new
+/team/:memberId
+/schedules
+/activity
+/settings
+/account
 ```
 
-The exact route structure may be refined during API and implementation design.
+This is the canonical route structure. Doctor profiles are team member pages (`/team/:memberId`).
 
 ---
 
@@ -1556,7 +1571,7 @@ Before implementing individual pages, IATROS should establish reusable design to
 * Loading states
 * Empty states
 
-The exact component library can be selected during the implementation/design-system stage.
+The visual language, tokens, and component specifications are defined in `design-system.md`. Components are built in-house with CSS Modules and design tokens on top of Radix UI accessible primitives (`decisions.md` D-040).
 
 The application should avoid having every page implement its own version of the same UI component.
 

@@ -1,0 +1,171 @@
+{
+  "title": "Dossier médical",
+  "pageTitle": "Dossier médical · {{name}}",
+  "backToPatient": "Retour à {{name}}",
+  "archivedBanner": "Ce patient est archivé. Son dossier médical peut être consulté mais pas modifié.",
+  "actions": {
+    "add": "Ajouter",
+    "edit": "Modifier {{name}}",
+    "remove": "Retirer {{name}}",
+    "removeConfirm": "Retirer",
+    "saveEntry": "Enregistrer"
+  },
+  "remove": {
+    "title": "Retirer {{name}} ?",
+    "consequence": "L’élément n’apparaît plus dans le dossier médical. Le retrait est consigné dans le journal d’activité du cabinet.",
+    "done": "{{name}} a été retiré."
+  },
+  "saved": "Enregistré.",
+  "allergies": {
+    "title": "Allergies",
+    "empty": "Aucune allergie connue enregistrée.",
+    "addTitle": "Ajouter une allergie",
+    "editTitle": "Modifier l’allergie",
+    "fields": {
+      "allergen": "Allergène",
+      "reaction": "Réaction",
+      "severity": "Gravité",
+      "notes": "Notes"
+    },
+    "severityPlaceholder": "Non précisée",
+    "severity": {
+      "MILD": "Légère",
+      "MODERATE": "Modérée",
+      "SEVERE": "Sévère",
+      "UNKNOWN": "Inconnue"
+    }
+  },
+  "conditions": {
+    "title": "Maladies chroniques",
+    "empty": "Aucune pathologie enregistrée.",
+    "addTitle": "Ajouter une pathologie",
+    "editTitle": "Modifier la pathologie",
+    "fields": {
+      "name": "Pathologie",
+      "description": "Description",
+      "status": "Statut",
+      "diagnosedOn": "Diagnostiquée le"
+    },
+    "status": {
+      "ACTIVE": "Active",
+      "RESOLVED": "Résolue"
+    },
+    "diagnosed": "Diagnostiquée le {{date}}"
+  },
+  "medications": {
+    "title": "Traitements",
+    "empty": "Aucun traitement enregistré.",
+    "addTitle": "Ajouter un traitement",
+    "editTitle": "Modifier le traitement",
+    "fields": {
+      "name": "Médicament",
+      "dosage": "Posologie",
+      "frequency": "Fréquence",
+      "startDate": "Date de début",
+      "endDate": "Date de fin",
+      "active": "Pris actuellement",
+      "notes": "Notes"
+    },
+    "active": "En cours",
+    "stopped": "Arrêté",
+    "period": "{{from}} – {{to}}",
+    "since": "Depuis le {{date}}",
+    "until": "Jusqu’au {{date}}"
+  },
+  "history": {
+    "title": "Antécédents médicaux",
+    "empty": "Aucun antécédent enregistré.",
+    "addTitle": "Ajouter un antécédent",
+    "editTitle": "Modifier l’antécédent",
+    "fields": {
+      "description": "Description",
+      "occurredOn": "Date",
+      "notes": "Notes"
+    },
+    "undated": "Date inconnue"
+  },
+  "notes": {
+    "title": "Notes générales",
+    "description": "Seul l’auteur d’une note peut la modifier ou la retirer.",
+    "empty": "Aucune note pour le moment.",
+    "list": "Notes générales",
+    "new": "Nouvelle note",
+    "add": "Ajouter la note",
+    "added": "Note ajoutée.",
+    "editTitle": "Modifier la note",
+    "byOn": "{{author}} · {{date}}",
+    "unknownAuthor": "Ancien membre de l’équipe",
+    "edited": "Modifiée",
+    "editAction": "Modifier la note du {{date}}",
+    "removeAction": "Retirer la note du {{date}}",
+    "removeTitle": "Retirer cette note ?",
+    "removed": "Note retirée."
+  },
+  "consultations": {
+    "title": "Consultations",
+    "empty": "Aucune consultation enregistrée pour le moment.",
+    "caption": "Consultations de {{name}}",
+    "new": "Nouvelle consultation",
+    "columns": {
+      "date": "Date",
+      "doctor": "Médecin",
+      "reason": "Motif",
+      "diagnosis": "Diagnostic"
+    },
+    "fields": {
+      "consultedAt": "Date et heure",
+      "doctor": "Médecin",
+      "reason": "Motif de consultation",
+      "diagnosis": "Diagnostic",
+      "clinicalNotes": "Notes cliniques",
+      "treatmentNotes": "Traitement et conduite à tenir",
+      "followUpNotes": "Consignes de suivi",
+      "followUpOn": "Date de suivi"
+    },
+    "help": {
+      "consultedAt": "Dans le fuseau horaire du cabinet.",
+      "followUpOn": "Date à laquelle le patient doit être revu."
+    },
+    "newTitle": "Nouvelle consultation · {{name}}",
+    "editTitle": "Modifier la consultation · {{name}}",
+    "detailTitle": "Consultation · {{date}}",
+    "create": "Enregistrer la consultation",
+    "created": "Consultation enregistrée.",
+    "saved": "Modifications enregistrées.",
+    "readOnly": "Seul(e) {{doctor}} peut modifier cette consultation.",
+    "notRecorded": "Non renseigné",
+    "lastChanged": "Dernière modification le {{date}}"
+  },
+  "documents": {
+    "title": "Documents",
+    "description": "Fichiers PDF et images (JPEG, PNG, WebP), jusqu’à 20 Mo chacun.",
+    "consultationDescription": "Documents joints à cette consultation. Fichiers PDF et images, jusqu’à 20 Mo chacun.",
+    "empty": "Aucun document.",
+    "emptyEditable": "Aucun document pour l’instant. Ajoutez ici les lettres d’adressage, résultats ou examens.",
+    "noMatch": "Aucun document ne correspond à cette recherche.",
+    "search": "Rechercher des documents",
+    "caption": "Documents",
+    "columns": {
+      "name": "Nom",
+      "size": "Taille",
+      "uploadedBy": "Ajouté par",
+      "uploadedAt": "Ajouté le",
+      "actions": "Actions"
+    },
+    "upload": "Ajouter un document",
+    "uploaded": "{{name}} a été ajouté.",
+    "download": "Télécharger {{name}}",
+    "archive": "Archiver {{name}}",
+    "archiveTitle": "Archiver {{name}} ?",
+    "archiveConsequence": "Il n’apparaît plus dans le dossier médical. Le fichier est conservé et l’action est enregistrée dans le journal d’activité du cabinet.",
+    "archiveConfirm": "Archiver",
+    "archived": "{{name}} a été archivé.",
+    "errors": {
+      "UNSUPPORTED_FILE_TYPE": "Ce type de fichier n’est pas accepté. Ajoutez un fichier PDF, JPEG, PNG ou WebP.",
+      "FILE_TYPE_MISMATCH": "Le contenu de ce fichier ne correspond pas à son extension. Vérifiez le fichier et réessayez.",
+      "FILE_EMPTY": "Ce fichier est vide.",
+      "FILE_TOO_LARGE": "Ce fichier dépasse 20 Mo.",
+      "DOCUMENT_NOT_FOUND": "Ce document n’existe plus ou ne vous est pas accessible."
+    }
+  }
+}

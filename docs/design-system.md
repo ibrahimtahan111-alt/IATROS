@@ -38,6 +38,17 @@ These elements make IATROS recognizable and must be used consistently:
 4. **Status as a quiet dot.** Status is shown as a small colored dot plus a text label, never as large saturated badges.
 5. **Tabular time.** All times, durations, and numbers use tabular figures so columns of times align perfectly.
 
+## 3.3 Logo
+
+The mark is a medical cross cut by a two-blade leaf. It is the only gradient in the product (`--logo-from`, `--logo-mid`, `--logo-to`). Interface chrome stays flat.
+
+Use the variant that matches the surface:
+
+* **Color mark** on light paper and surfaces (navigation rail, sign-in form, not-found).
+* **White mark** on dark surfaces and on the sign-in photograph, with the wordmark in `--color-text-on-media`.
+* **Horizontal lockup** — mark, the word "IATROS" in the UI typeface with wide tracking, and the translated brand tagline — on the sign-in photograph. The rail shows the mark and wordmark only; the clinic name sits under the wordmark.
+* **App icon** — the color mark on a light rounded tile (`--logo-tile`) — for the favicon and the initial loading screen. In a dark browser chrome the favicon switches to the white mark.
+
 ---
 
 # 4. Layout Model
@@ -58,7 +69,7 @@ IATROS uses a **workspace layout**, not the classic "sidebar + cards dashboard".
 ## 4.1 Rail (primary navigation)
 
 * A slim navigation rail with icon **and** text label for each item (labels are never icon-only).
-* Clinic name and IATROS mark at the top; user menu at the bottom.
+* Clinic name and the IATROS mark at the top (color on light, white on dark); user menu at the bottom.
 * Shows only the items allowed for the user's role (`ui-ux.md` §38).
 * Below 1024px it collapses to icons with accessible labels and tooltips; below 768px it becomes a bottom navigation bar.
 
@@ -101,6 +112,14 @@ Rules:
 | Long form, clinical entry, multi-section editing   | Full page                 |
 | Quick choice (status, filter)                      | Popover / menu            |
 
+## 4.6 Authentication
+
+Sign-in and password screens are not the workspace. They use a two-column layout: a photographic brand panel, and a form column on `--color-surface`.
+
+* The photograph is decorative. The white lockup (mark, wordmark, and brand tagline) and a short line sit at the bottom, on a scrim of `--color-media`, in `--color-text-on-media`.
+* The form column holds the color mark, the screen title, the fields, and one primary action. Language can be switched before signing in. The mark is white when that column is dark.
+* Below 768px the photograph becomes a short banner and the form uses the rest of the screen.
+
 ---
 
 # 5. Role Home Screens
@@ -119,6 +138,7 @@ Each role lands on the screen that matches its real workflow:
 
 * Neutrals carry the interface (≈90% of pixels).
 * One brand accent: **Aegean teal**, used for primary actions, focus, selection, and the Now line.
+* The logo gradient is not an interface color. Do not reuse `--logo-from`, `--logo-mid`, or `--logo-to` on controls, surfaces, or text.
 * Semantic colors exist only for meaning (success, warning, danger, info, appointment status).
 
 ## 6.2 Tokens
@@ -147,6 +167,8 @@ Components must use **semantic tokens only**, never raw color values.
 --color-danger-contrast text/icons on danger buttons
 --color-info    / -soft
 --color-scrim           backdrop behind dialogs and overlays
+--color-media           photographic sign-in panel and its scrim (same in both themes)
+--color-text-on-media   text on that panel (same in both themes)
 --color-status-{scheduled|confirmed|waiting|in-consultation|completed|cancelled|no-show}
 ```
 
@@ -178,6 +200,8 @@ Layout and stacking tokens (also in `tokens.css`):
 | accent-hover          | `#0A6665` | `#5CCAC1` |
 | accent-contrast       | `#FFFFFF` | `#071615` |
 | accent-soft           | `#E3F2F1` | `#12302F` |
+| media                 | `#0E1116` | `#0E1116` |
+| text-on-media         | `#F7F6F2` | `#F7F6F2` |
 
 Exact values may be tuned during implementation, but every text/background pair must meet **WCAG 2.2 AA** (4.5:1 for body text, 3:1 for large text and UI boundaries) in both themes. `src/styles/tokens.test.ts` enforces this: every text and semantic color on every surface (4.5:1), text on filled and tinted backgrounds (4.5:1), and control outlines, the focus ring, and status colors (3:1). Placeholder (`text-subtle`) text is held to 4.5:1 too.
 

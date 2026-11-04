@@ -1,11 +1,64 @@
 .mark {
+  display: block;
   flex: none;
+  color: inherit;
 }
 
-.tile {
-  fill: var(--color-accent);
+.mono {
+  display: none;
 }
 
-.pulse {
-  stroke: var(--color-accent-contrast);
+/* Dark surfaces use the white mark. A forced tone wins over the theme. */
+:global([data-theme='dark']) .mark:not(.toneColor) .color {
+  display: none;
+}
+
+:global([data-theme='dark']) .mark:not(.toneColor) .mono {
+  display: block;
+}
+
+.toneMono .color {
+  display: none;
+}
+
+.toneMono .mono {
+  display: block;
+}
+
+.appIcon {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  border-radius: 22%;
+  background: var(--logo-tile);
+}
+
+.lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7em;
+  max-width: 100%;
+  color: inherit;
+  font-size: var(--text-body);
+}
+
+.words {
+  display: flex;
+  flex-direction: column;
+  gap: 0.28em;
+  min-width: 0;
+}
+
+.wordmark {
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.16em;
+  line-height: 1;
+}
+
+.tagline {
+  font-size: 0.62em;
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.16em;
+  line-height: 1.35;
+  text-transform: uppercase;
 }

@@ -1,7 +1,8 @@
 {
   "app": {
     "name": "IATROS",
-    "tagline": "Clinic management for doctors and small clinics"
+    "tagline": "Clinic management for doctors and small clinics",
+    "brandTagline": "Smarter care. Together."
   },
   "nav": {
     "label": "Main navigation",

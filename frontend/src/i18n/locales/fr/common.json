@@ -1,7 +1,8 @@
 {
   "app": {
     "name": "IATROS",
-    "tagline": "Gestion de cabinet pour les médecins et les petites cliniques"
+    "tagline": "Gestion de cabinet pour les médecins et les petites cliniques",
+    "brandTagline": "Mieux soigner. Ensemble."
   },
   "nav": {
     "label": "Navigation principale",

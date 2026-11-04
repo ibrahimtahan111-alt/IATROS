@@ -1,29 +1,69 @@
 .page {
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   min-height: 100svh;
-  padding: var(--space-5) var(--space-6);
+  background: var(--color-surface);
 }
 
-.header {
+.hero {
+  position: relative;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-4);
+  align-items: flex-end;
+  min-height: 100svh;
+  color: var(--color-text-on-media);
+  background-color: var(--color-media);
+  background-image: url('../assets/auth-hero.jpg');
+  background-position: center 18%;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
-.brand {
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    var(--color-media) 0%,
+    var(--color-media) 16%,
+    color-mix(in srgb, var(--color-media) 48%, transparent) 34%,
+    color-mix(in srgb, var(--color-media) 14%, transparent) 54%,
+    transparent 72%
+  );
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
   display: flex;
-  align-items: center;
-  gap: var(--space-3);
+  flex-direction: column;
+  gap: var(--space-5);
+  width: min(34rem, 100%);
+  padding: var(--space-10);
 }
 
-.product {
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.08em;
+.heroBrand {
+  font-size: var(--text-title-2);
+}
+
+.heroLine {
+  max-width: 28rem;
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+}
+
+.stage {
+  position: relative;
+  display: grid;
+  align-items: center;
+  min-height: 100svh;
+  padding: var(--space-16) var(--space-8) var(--space-10);
+  background: var(--color-surface);
 }
 
 .languages {
+  position: absolute;
+  inset-block-start: var(--space-5);
+  inset-inline-end: var(--space-6);
   display: flex;
   gap: var(--space-1);
 }
@@ -32,7 +72,7 @@
   min-height: var(--space-8);
   padding: var(--space-1) var(--space-3);
   border: 0;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-full);
   background: transparent;
   color: var(--color-text-muted);
   font-size: var(--text-small);
@@ -51,30 +91,53 @@
 
 .main {
   display: grid;
-  place-items: center;
-  padding-block: var(--space-10);
+  justify-items: center;
 }
 
 .panel {
-  width: min(26rem, 100%);
-  padding: var(--space-8);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  background: var(--color-surface);
+  width: min(22.5rem, 100%);
 }
 
-.footer {
-  color: var(--color-text-subtle);
-  font-size: var(--text-small);
-  text-align: center;
+.mark {
+  display: flex;
+  justify-content: center;
+  margin-block-end: var(--space-8);
 }
 
 @media (max-width: 767px) {
   .page {
-    padding: var(--space-4);
+    grid-template-columns: 1fr;
   }
 
-  .panel {
-    padding: var(--space-6) var(--space-5);
+  .hero {
+    min-height: 16rem;
+    background-position: center 12%;
+  }
+
+  .scrim {
+    background: linear-gradient(
+      to top,
+      var(--color-media) 0%,
+      var(--color-media) 42%,
+      transparent 100%
+    );
+  }
+
+  .heroContent {
+    gap: var(--space-3);
+    padding: var(--space-5);
+  }
+
+  .heroLine {
+    font-size: var(--text-small);
+  }
+
+  .stage {
+    min-height: 0;
+    padding: var(--space-12) var(--space-5) var(--space-8);
+  }
+
+  .languages {
+    inset-inline-end: var(--space-4);
   }
 }

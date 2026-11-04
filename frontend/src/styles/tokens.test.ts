@@ -31,6 +31,7 @@ const ON_FILL = [
   ['warning', 'warning-soft'],
   ['danger', 'danger-soft'],
   ['info', 'info-soft'],
+  ['text-on-media', 'media'],
 ]
 const GRAPHICS = ['border-control', 'focus-ring', ...[
   'scheduled', 'confirmed', 'waiting', 'in-consultation', 'completed', 'cancelled', 'no-show',

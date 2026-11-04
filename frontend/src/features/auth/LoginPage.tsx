@@ -32,20 +32,34 @@ export function LoginPage() {
       <form className={styles.form} onSubmit={onSubmit} onChange={handleChange} noValidate>
         {login.error && <Alert tone="danger">{errorMessage(login.error)}</Alert>}
         <Field label={t('fields.email')} error={fieldError(errors.email)}>
-          {(control) => <TextInput {...control} name="email" type="email" autoComplete="username" autoFocus />}
+          {(control) => (
+            <TextInput
+              {...control}
+              name="email"
+              type="email"
+              autoComplete="username"
+              autoFocus
+              placeholder={t('fields.emailPlaceholder')}
+            />
+          )}
         </Field>
         <Field label={t('fields.password')} error={fieldError(errors.password)}>
-          {(control) => <PasswordInput {...control} name="password" autoComplete="current-password" />}
+          {(control) => (
+            <PasswordInput
+              {...control}
+              name="password"
+              autoComplete="current-password"
+              placeholder={t('fields.passwordPlaceholder')}
+            />
+          )}
         </Field>
+        <Link className={styles.forgot} to="/forgot-password">
+          {t('login.forgotPassword')}
+        </Link>
         <Button type="submit" variant="primary" fullWidth loading={login.isPending}>
           {t('login.submit')}
         </Button>
       </form>
-      <div className={styles.links}>
-        <Link className={styles.link} to="/forgot-password">
-          {t('login.forgotPassword')}
-        </Link>
-      </div>
     </>
   )
 }

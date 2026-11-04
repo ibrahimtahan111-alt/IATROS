@@ -21,6 +21,30 @@
   gap: var(--space-4);
 }
 
+.form input {
+  min-height: var(--space-12);
+  padding-inline: var(--space-4);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+}
+
+.form button[type='submit'] {
+  min-height: var(--space-12);
+  border-radius: var(--radius-full);
+}
+
+.forgot {
+  align-self: flex-end;
+  margin-block-start: calc(var(--space-1) * -1);
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+}
+
+.forgot:hover {
+  text-decoration: underline;
+}
+
 .labelRow {
   display: flex;
   align-items: baseline;

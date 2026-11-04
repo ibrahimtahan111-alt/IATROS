@@ -921,6 +921,8 @@ The exact settings hierarchy can be refined during implementation.
 
 # 24. Authentication Screens
 
+Sign-in, forgot-password, reset, and invitation screens share the split layout in `design-system.md` §4.6: a photographic brand panel, then the form. There is no public sign-up and no third-party sign-in. Accounts are created by invitation.
+
 ## Login
 
 Fields:

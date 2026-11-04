@@ -61,6 +61,12 @@
   --z-nav: 20;
   --z-overlay: 40;
   --z-toast: 50;
+
+  /* Logo mark only. Not a UI color; the gradient is not reused elsewhere. */
+  --logo-from: #0e3352;
+  --logo-mid: #1c6e8c;
+  --logo-to: #79d4ce;
+  --logo-tile: #f4f5f7;
 }
 
 :root,
@@ -106,6 +112,10 @@
 
   --shadow-overlay: 0 12px 32px -8px rgb(26 29 33 / 0.18), 0 2px 6px rgb(26 29 33 / 0.06);
   --color-scrim: rgb(26 29 33 / 0.32);
+
+  /* Photographic sign-in panel. Same ink and paper in both themes, so the brand line stays readable. */
+  --color-media: #0e1116;
+  --color-text-on-media: #f7f6f2;
 }
 
 [data-theme='dark'] {
@@ -149,4 +159,7 @@
 
   --shadow-overlay: 0 12px 32px -8px rgb(0 0 0 / 0.6);
   --color-scrim: rgb(0 0 0 / 0.6);
+
+  --color-media: #0e1116;
+  --color-text-on-media: #f7f6f2;
 }

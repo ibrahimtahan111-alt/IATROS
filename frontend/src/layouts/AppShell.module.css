@@ -50,10 +50,10 @@
 }
 
 .product {
-  font-size: var(--text-label);
+  font-size: var(--text-body);
   font-weight: var(--weight-semibold);
-  letter-spacing: 0.08em;
-  color: var(--color-accent);
+  letter-spacing: 0.14em;
+  line-height: 1;
 }
 
 .clinic {

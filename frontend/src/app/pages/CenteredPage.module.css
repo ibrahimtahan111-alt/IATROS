@@ -14,11 +14,10 @@
 }
 
 .brand {
-  font-size: var(--text-display);
-  line-height: var(--leading-tight);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.08em;
-  color: var(--color-accent);
+  align-self: center;
+  margin-block-end: var(--space-2);
+  font-size: var(--text-title-2);
+  color: var(--color-text);
 }
 
 .title {

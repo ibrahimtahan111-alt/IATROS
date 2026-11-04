@@ -20,6 +20,17 @@ The goal: IATROS must feel like a premium, calm, trustworthy medical product wit
 6. **Quiet until it matters.** Color and emphasis are reserved for status, risk, and primary actions. Warnings (allergies, conflicts) stand out because everything else is restrained.
 7. **Same pattern, same place.** A user who learns one screen has learned them all.
 
+## 2.1 Direction
+
+These rules govern every screen and module. They sit on top of the principles above.
+
+1. **Minimal but not empty.** Leave room to read, and still give every screen a clear structure: a title, the thing the user is working on, and one primary action.
+2. **Premium but not flashy.** Warm white, navy, sage, and indigo. No extra hues, no decorative gradients, no effects that do not help the task.
+3. **Functional before decorative.** Color carries meaning (action, status, risk) or it stays neutral.
+4. **Consistent across all modules.** Calendar, patients, records, team, schedules, activity, and settings use the same tokens, type, spacing, and components.
+5. **Responsive on desktop, tablet, and mobile.** The rail, context bar, and page content reflow at the breakpoints in §4. Nothing is designed for one width only.
+6. **Light and dark modes.** Both themes ship together. A component that only works in one theme is unfinished.
+
 ---
 
 # 3. Identity
@@ -32,9 +43,9 @@ The goal: IATROS must feel like a premium, calm, trustworthy medical product wit
 
 These elements make IATROS recognizable and must be used consistently:
 
-1. **The Now line.** A thin accent-colored line marks the current time in every time-based view (calendar, doctor's day timeline, today's queue). It is IATROS's visual signature.
+1. **The Now line.** A thin sage line marks the current time in every time-based view (calendar, doctor's day timeline, today's queue). It is IATROS's visual signature.
 2. **The Patient band.** On every patient and clinical screen, a slim, sticky band at the top shows the patient's identity: full name, age and date of birth, primary doctor, and an allergy indicator. It never scrolls away.
-3. **Ink-on-paper surfaces.** Light mode uses a warm off-white "paper" canvas with white working surfaces. Dark mode uses deep blue-black "ink" surfaces, never pure black. Surfaces are separated by tone and hairlines, not shadows.
+3. **Ink-on-paper surfaces.** Light mode uses warm white paper. Dark mode uses navy ink, never pure black. Surfaces are separated by tone and hairlines, not shadows.
 4. **Status as a quiet dot.** Status is shown as a small colored dot plus a text label, never as large saturated badges.
 5. **Tabular time.** All times, durations, and numbers use tabular figures so columns of times align perfectly.
 
@@ -134,12 +145,16 @@ Each role lands on the screen that matches its real workflow:
 
 # 6. Color
 
-## 6.1 Palette philosophy
+## 6.1 Palette
 
-* Neutrals carry the interface (≈90% of pixels).
-* One brand accent: **Aegean teal**, used for primary actions, focus, selection, and the Now line.
-* The logo gradient is not an interface color. Do not reuse `--logo-from`, `--logo-mid`, or `--logo-to` on controls, surfaces, or text.
-* Semantic colors exist only for meaning (success, warning, danger, info, appointment status).
+The interface uses four colors, in every module:
+
+* **Warm white** — paper. The canvas, working surfaces, and the app-icon tile.
+* **Navy** — ink. Primary text, the wordmark, and every dark-mode surface. Dark mode is navy, never pure black.
+* **Sage** — the only functional accent. Primary actions, focus, selection, the Now line, and confirmed appointments.
+* **Indigo** — information, and the in-consultation state. It is not a second button color.
+
+Neutrals still carry about 90% of the screen. Warning, danger, and success stay outside this set so risk and completion are not mistaken for the brand. The logo gradient (`--logo-from`, `--logo-mid`, `--logo-to`) belongs to the mark only. Do not reuse it on controls, surfaces, or text.
 
 ## 6.2 Tokens
 
@@ -186,22 +201,23 @@ Layout and stacking tokens (also in `tokens.css`):
 
 | Token                 | Light     | Dark      |
 | --------------------- | --------- | --------- |
-| canvas                | `#F7F6F2` | `#0E1116` |
-| surface               | `#FFFFFF` | `#151A21` |
-| surface-raised        | `#FFFFFF` | `#1B212A` |
-| surface-sunken        | `#F1EFEA` | `#0B0E12` |
-| border                | `#E6E3DC` | `#262D37` |
-| border-strong         | `#CFCBC2` | `#38414D` |
-| border-control        | `#8A8781` | `#646B74` |
-| text                  | `#1A1D21` | `#E8EAED` |
-| text-muted            | `#5C6169` | `#9AA3AE` |
-| text-subtle           | `#6A6D73` | `#808892` |
-| accent                | `#0E7877` | `#3FB8AF` |
-| accent-hover          | `#0A6665` | `#5CCAC1` |
-| accent-contrast       | `#FFFFFF` | `#071615` |
-| accent-soft           | `#E3F2F1` | `#12302F` |
-| media                 | `#0E1116` | `#0E1116` |
-| text-on-media         | `#F7F6F2` | `#F7F6F2` |
+| canvas                | `#F4F0E6` warm white | `#0E1824` navy |
+| surface               | `#FBF8F2` | `#152232` |
+| surface-raised        | `#FFFCF7` | `#1C2B3D` |
+| surface-sunken        | `#E9E4D8` | `#0A121C` |
+| border                | `#E3DCD0` | `#2C3C50` |
+| border-strong         | `#CDC4B4` | `#3D5168` |
+| border-control        | `#7A7268` | `#7E94AA` |
+| text                  | `#13283C` navy | `#F6F3EC` warm white |
+| text-muted            | `#3E5164` | `#C9D3DC` |
+| text-subtle           | `#4A5D70` | `#A8B6C2` |
+| accent                | `#1F5646` sage | `#A9CDB8` sage |
+| accent-hover          | `#184838` | `#C5DDD2` |
+| accent-contrast       | `#FFFFFF` | `#0E1824` navy |
+| accent-soft           | `#E3EFE8` | `#16352C` |
+| info                  | `#2A3A86` indigo | `#C4CBF2` indigo |
+| media                 | `#0E1824` navy | `#0E1824` navy |
+| text-on-media         | `#F6F3EC` | `#F6F3EC` |
 
 Exact values may be tuned during implementation, but every text/background pair must meet **WCAG 2.2 AA** (4.5:1 for body text, 3:1 for large text and UI boundaries) in both themes. `src/styles/tokens.test.ts` enforces this: every text and semantic color on every surface (4.5:1), text on filled and tinted backgrounds (4.5:1), and control outlines, the focus ring, and status colors (3:1). Placeholder (`text-subtle`) text is held to 4.5:1 too.
 
@@ -209,12 +225,12 @@ Exact values may be tuned during implementation, but every text/background pair 
 
 | Status          | Hue        | Meaning                     |
 | --------------- | ---------- | --------------------------- |
-| SCHEDULED       | Slate      | Planned, not yet confirmed  |
-| CONFIRMED       | Teal       | Confirmed by patient        |
+| SCHEDULED       | Navy slate | Planned, not yet confirmed  |
+| CONFIRMED       | Sage       | Confirmed by patient        |
 | WAITING         | Amber      | Patient has arrived         |
-| IN_CONSULTATION | Violet     | With the doctor now         |
-| COMPLETED       | Green      | Done                        |
-| CANCELLED       | Gray (struck/faded) | No longer happening |
+| IN_CONSULTATION | Indigo     | With the doctor now         |
+| COMPLETED       | Green      | Done. Distinct from sage, so it is not read as confirmed. |
+| CANCELLED       | Warm gray (struck/faded) | No longer happening |
 | NO_SHOW         | Red        | Patient did not come        |
 
 Status is **always** communicated by text label (and dot) in addition to color.

@@ -49,6 +49,17 @@ The interface should prioritize:
 8. **Responsive behavior**
 9. **Predictable interactions**
 
+The visual direction in `design-system.md` §2.1 applies to every screen and module:
+
+* Minimal but not empty.
+* Premium but not flashy.
+* Functional before decorative.
+* Consistent across all modules.
+* Responsive on desktop, tablet, and mobile.
+* Light and dark modes.
+
+Color is limited to warm white, navy, sage, and indigo (`design-system.md` §6). Warning, danger, and success are the only extra hues, and they exist for meaning.
+
 The user should generally understand:
 
 * where they are;
@@ -1220,16 +1231,9 @@ The application should be designed so additional languages can be added later.
 
 # 36. Theme Support
 
-IATROS supports:
+IATROS supports light mode and dark mode on every screen. Light mode is warm white paper with navy text. Dark mode is navy ink with warm white text. Sage is the action color in both. Indigo is the information color in both.
 
-* Light mode
-* Dark mode
-
-Components must work correctly in both themes.
-
-Theme-specific styling should not be scattered randomly throughout components.
-
-The application should use a consistent design-token approach.
+Components must work correctly in both themes. Theme-specific styling lives in the design tokens (`design-system.md` §6), not in individual modules.
 
 ---
 

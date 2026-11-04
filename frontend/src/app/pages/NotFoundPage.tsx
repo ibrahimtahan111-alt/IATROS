@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
+import { LogoLockup } from '../../shared/ui/Logo'
 import styles from './CenteredPage.module.css'
 
 export function NotFoundPage() {
@@ -8,6 +9,9 @@ export function NotFoundPage() {
   return (
     <main className={styles.page}>
       <div className={styles.content}>
+        <div className={styles.brand}>
+          <LogoLockup size={40} />
+        </div>
         <h1 className={styles.title}>{t('notFound.title')}</h1>
         <p className={styles.lead}>{t('notFound.description')}</p>
         <Link className={styles.link} to="/">

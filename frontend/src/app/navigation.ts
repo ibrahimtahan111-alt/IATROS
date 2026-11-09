@@ -6,6 +6,7 @@ export interface NavItem {
   icon: LucideIcon
   /** Translation key; doctors see personal wording for their own modules (ui-ux.md §38). */
   labelKey: string
+  /** Roles allowed to open the route. The backend still authorizes every request. */
   roles: readonly Role[]
   doctorLabelKey?: string
 }

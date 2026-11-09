@@ -12,10 +12,15 @@ export interface KpiComparison {
   tone: 'positive' | 'negative' | 'neutral'
 }
 
+/** Same status tones as the overview pulse, so a period reads as the same board. */
+export type KpiTone = 'scheduled' | 'waiting' | 'consultation' | 'completed' | 'cancelled' | 'missed' | 'accent'
+
 interface KpiTileProps {
   label: string
   value: string
   comparison?: KpiComparison
+  /** Soft status fill and a leading edge. Omitted tiles stay on the plain surface. */
+  tone?: KpiTone
   /** Detailed view, when one exists. */
   to?: string
 }
@@ -23,7 +28,7 @@ interface KpiTileProps {
 const ICONS = { up: ArrowUpRight, down: ArrowDownRight, flat: Minus }
 
 /** Large tabular number, short label, and optional comparison (design-system.md §11.8). */
-export function KpiTile({ label, value, comparison, to }: KpiTileProps) {
+export function KpiTile({ label, value, comparison, tone, to }: KpiTileProps) {
   const Icon = comparison ? ICONS[comparison.direction] : null
   const body = (
     <>
@@ -37,12 +42,13 @@ export function KpiTile({ label, value, comparison, to }: KpiTileProps) {
       )}
     </>
   )
+  const className = cx(styles.tile, tone && styles[tone], to && styles.link)
   return to ? (
-    <Link to={to} className={cx(styles.tile, styles.link)}>
+    <Link to={to} className={className}>
       {body}
     </Link>
   ) : (
-    <div className={styles.tile}>{body}</div>
+    <div className={className}>{body}</div>
   )
 }
 

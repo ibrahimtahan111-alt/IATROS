@@ -98,29 +98,30 @@ describe('dashboards', () => {
     expect(await screen.findByRole('heading', { name: 'Overview' })).toBeInTheDocument()
     expect(await screen.findByText(/Good (morning|afternoon|evening), Elena/)).toBeInTheDocument()
     const today = screen.getByRole('group', { name: 'Today' })
-    expect(within(today).getByRole('link', { name: /Today's appointments\s*5/ })).toHaveAttribute(
+    expect(within(today).getByRole('link', { name: /In consultation\s*1/ })).toHaveAttribute(
       'href',
       '/calendar?view=day&date=2026-10-10',
     )
-    expect(within(today).getByRole('link', { name: /Total patients\s*214/ })).toHaveAttribute('href', '/patients')
+    expect(within(today).getByRole('link', { name: /Still to come\s*2/ })).toBeInTheDocument()
+    expect(within(today).queryByRole('link', { name: /No-show/ })).not.toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: /Total patients/ })).not.toBeInTheDocument()
 
-    expect(screen.getByRole('link', { name: 'Alice Martin' })).toHaveAttribute(
+    const waitingRoom = screen.getByRole('region', { name: 'Waiting room' })
+    expect(within(waitingRoom).getByRole('link', { name: 'Alice Martin' })).toHaveAttribute(
       'href',
       '/calendar?view=day&date=2026-10-10&appointment=0190a000-0000-7000-8000-0000000000a1',
     )
-    expect(screen.getByText('Daniel Brown · Follow-up')).toBeInTheDocument()
+    expect(within(waitingRoom).getByText('Daniel Brown · Follow-up')).toBeInTheDocument()
+    expect(screen.getByRole('region', { name: 'In consultation' })).toHaveTextContent('No consultation in progress.')
+    expect(screen.getByRole('link', { name: 'Daniel Brown' })).toHaveAttribute(
+      'href',
+      '/calendar?view=day&date=2026-10-10&doctor=0190a000-0000-7000-8000-000000000002',
+    )
     expect(screen.getByText('3 appointments')).toBeInTheDocument()
-
-    const performance = await screen.findByRole('group', {
-      name: 'Key figures',
-    })
-    expect(within(performance).getByText('82%')).toBeInTheDocument()
-    expect(within(performance).getByText('+25% vs previous period')).toBeInTheDocument()
-    expect(within(performance).getByText('+7 pts vs previous period')).toBeInTheDocument()
-
-    expect(screen.getByText('Sara Lopez booked an appointment for Alice Martin with Daniel Brown')).toBeInTheDocument()
-    const kpiRequest = requests.find((request) => request.path === '/kpis/clinic')!
-    expect(kpiRequest.query.get('from')).toMatch(/^\d{4}-\d{2}-\d{2}$/)
+    const switcher = screen.getByRole('group', { name: 'Overview or activity' })
+    expect(within(switcher).getByRole('link', { name: 'Overview' })).toHaveAttribute('aria-current', 'page')
+    expect(within(switcher).getByRole('link', { name: 'Activity' })).toHaveAttribute('href', '/activity')
+    expect(requests.some((request) => request.path === '/kpis/clinic')).toBe(false)
   })
 
   it('gives doctors only their own day, with clinical alerts and their own KPIs', async () => {
@@ -176,9 +177,7 @@ describe('dashboards', () => {
     })
     renderRoute('/dashboard')
 
-    expect(await screen.findByText('Programme du jour')).toBeInTheDocument()
-    expect(
-      screen.getByText('Sara Lopez a réservé un rendez-vous pour Alice Martin avec Daniel Brown'),
-    ).toBeInTheDocument()
+    expect(await screen.findByRole('region', { name: 'Salle d’attente' })).toBeInTheDocument()
+    expect(screen.getByText('Rien d’autre de prévu aujourd’hui.')).toBeInTheDocument()
   })
 })

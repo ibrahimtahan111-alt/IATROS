@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { useNumberFormat } from '../../shared/hooks/useNumberFormat'
-import { KpiGrid, KpiTile, type KpiComparison } from '../../shared/ui/KpiTile'
+import { KpiGrid, KpiTile, type KpiComparison, type KpiTone } from '../../shared/ui/KpiTile'
 import type { KpiData, KpiFigures } from './api'
 
 export type KpiMetric =
@@ -26,6 +26,18 @@ const HIGHER_IS_BETTER: Record<KpiMetric, boolean> = {
 }
 
 const RATES = new Set<KpiMetric>(['completionRate', 'noShowRate', 'cancellationRate'])
+
+/** Matches the overview pulse: the same status fills, not a second palette. */
+const TONE: Record<KpiMetric, KpiTone> = {
+  appointments: 'scheduled',
+  completed: 'completed',
+  completionRate: 'completed',
+  noShowRate: 'missed',
+  cancellationRate: 'cancelled',
+  newPatients: 'accent',
+  activePatients: 'accent',
+  consultations: 'consultation',
+}
 
 function valueOf(figures: KpiFigures, metric: KpiMetric): number | null {
   return metric === 'completed' ? figures.appointmentsByStatus.COMPLETED : figures[metric]
@@ -65,7 +77,15 @@ export function KpiSummary({ data, metrics }: { data: KpiData; metrics: readonly
       {metrics.map((metric) => {
         const value = valueOf(data.current, metric)
         const formatted = value === null ? '—' : RATES.has(metric) ? number.percent(value) : number.integer(value)
-        return <KpiTile key={metric} label={t(`kpis.${metric}`)} value={formatted} comparison={comparisonOf(metric)} />
+        return (
+          <KpiTile
+            key={metric}
+            label={t(`kpis.${metric}`)}
+            value={formatted}
+            comparison={comparisonOf(metric)}
+            tone={TONE[metric]}
+          />
+        )
       })}
     </KpiGrid>
   )

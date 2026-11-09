@@ -1,5 +1,6 @@
 import { Select as RadixSelect } from 'radix-ui'
 import { Check, ChevronDown } from 'lucide-react'
+import { cx } from '../lib/cx'
 import type { FieldControlProps } from './Field'
 import styles from './Select.module.css'
 
@@ -18,12 +19,14 @@ interface SelectProps extends Partial<FieldControlProps> {
   placeholder?: string
   disabled?: boolean
   name?: string
+  /** `filter` matches the module switch: a compact sage control, not a form field. */
+  variant?: 'field' | 'filter'
 }
 
-export function Select({ value, onValueChange, options, placeholder, disabled, name, ...control }: SelectProps) {
+export function Select({ value, onValueChange, options, placeholder, disabled, name, variant = 'field', ...control }: SelectProps) {
   return (
     <RadixSelect.Root value={value} onValueChange={onValueChange} disabled={disabled} name={name}>
-      <RadixSelect.Trigger className={styles.trigger} {...control}>
+      <RadixSelect.Trigger className={cx(styles.trigger, variant === 'filter' && styles.filter)} {...control}>
         <RadixSelect.Value placeholder={placeholder} />
         <RadixSelect.Icon className={styles.icon}>
           <ChevronDown />

@@ -73,6 +73,9 @@ describe('activity and KPIs', () => {
     const user = userEvent.setup()
 
     expect(await screen.findByRole('heading', { name: 'Activity', level: 1 })).toBeInTheDocument()
+    const switcher = screen.getByRole('group', { name: 'Overview or activity' })
+    expect(within(switcher).getByRole('link', { name: 'Overview' })).toHaveAttribute('href', '/dashboard')
+    expect(within(switcher).getByRole('link', { name: 'Activity' })).toHaveAttribute('aria-current', 'page')
     const figures = await screen.findByRole('group', { name: 'Key figures' })
     expect(within(figures).getByText('Cancellation rate')).toBeInTheDocument()
     expect(screen.getByRole('table', { name: 'Figures per doctor' })).toBeInTheDocument()

@@ -46,10 +46,12 @@ interface PerformanceSectionProps {
   /** Null for clinic KPIs (owners). */
   doctorId: string | null
   metrics: readonly KpiMetric[]
+  /** The activity page owns the full trend. The overview only needs the comparison on each figure. */
+  chart?: boolean
 }
 
 /** Period KPIs with comparison and trend; the full breakdown lives on the activity page. */
-export function PerformanceSection({ title, doctorId, metrics }: PerformanceSectionProps) {
+export function PerformanceSection({ title, doctorId, metrics, chart = true }: PerformanceSectionProps) {
   const { t } = useTranslation('dashboard')
   const { t: tCommon } = useTranslation()
   const user = useSessionUser()
@@ -68,7 +70,7 @@ export function PerformanceSection({ title, doctorId, metrics }: PerformanceSect
       ) : (
         <div className={styles.stack} aria-busy={kpis.isFetching || undefined}>
           <KpiSummary data={kpis.data} metrics={metrics} />
-          {kpis.data.current.appointments > 0 && <TrendChart data={kpis.data} />}
+          {chart && kpis.data.current.appointments > 0 && <TrendChart data={kpis.data} />}
           <SectionFooter>
             <ButtonLink size="sm" to={period === DEFAULT_PERIOD ? '/activity' : `/activity?period=${period}`}>
               {t('performance.more')}

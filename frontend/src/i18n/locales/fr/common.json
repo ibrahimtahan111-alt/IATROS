@@ -18,6 +18,9 @@
     "myActivity": "Mon activité",
     "settings": "Paramètres"
   },
+  "moduleSwitch": {
+    "label": "Vue d’ensemble ou activité"
+  },
   "userMenu": {
     "open": "Menu du compte de {{name}}",
     "account": "Mon compte",

@@ -15,7 +15,7 @@
 
 .trigger:hover,
 .trigger[data-state='open'] {
-  background: var(--color-surface-sunken);
+  background: var(--color-rail-hover);
 }
 
 .avatar {

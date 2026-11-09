@@ -265,7 +265,7 @@ Examples:
 
 The exact KPI calculations belong to the KPI requirements/API definition.
 
-**Implementation (`decisions.md` D-039):** the header shows the greeting and today's date in the clinic's time zone. Tiles: today's appointments, completed, waiting, no-shows, total (active) patients, and active doctors; the appointment tiles open the calendar's day view. Below: today's schedule (each row opens the appointment in the calendar), each doctor's day, a performance section with its own period selector (week, month, quarter, year) linking to the activity page, and the latest clinic activity. The dashboard refreshes every minute.
+**Implementation (`decisions.md` D-039):** Overview is today's clinic pulse. The context bar ends with a two-way switch, Overview then Activity. The current page matches the side menu: a light surface with a sage outline. The page shows the greeting and the live pulse: status-colored figures for waiting, in consultation, still to come, and completed (no-shows only when there is at least one), the waiting room, consultations in progress, each doctor's load, and appointments that have not started. Appointment rows and figures open the calendar. The pulse refreshes every minute. Activity is its own page (§22).
 
 ---
 
@@ -315,7 +315,7 @@ Displays the doctor's own relevant activity/KPIs.
 
 The doctor must not see unrestricted clinic-wide information.
 
-**Implementation (`decisions.md` D-039):** tiles for today's patients, today's appointments, upcoming appointments (next 7 days), and completed today. The schedule marks severe allergies and active chronic conditions of linked patients. The patient section shows the doctor's patient counts and the five most recently seen patients. Performance shows the doctor's own KPIs, and the activity list shows only their own activity. An owner with a doctor profile uses the owner dashboard; their own figures are on the activity page filtered to themselves.
+**Implementation (`decisions.md` D-039):** the same switch as the owner sits in the context bar, My day first, then My activity. Tiles show today's patients, today's appointments, upcoming appointments (next 7 days), and completed today. The schedule marks severe allergies and active chronic conditions of linked patients. The patient section shows the doctor's patient counts and the five most recently seen patients. Performance shows the doctor's own KPIs, and the activity list shows only their own activity. An owner with a doctor profile uses the owner dashboard; their own figures are on the activity page filtered to themselves.
 
 ---
 
@@ -896,7 +896,7 @@ Avoid unnecessary charts.
 
 Doctors see only their own permitted activity and KPIs.
 
-**Implementation (`decisions.md` D-039):** filters are the period (week, month, quarter, year, ending today) and, for the owner, the doctor; status and type breakdowns are shown as figures rather than filters, since they are outcomes of the period. Sections: KPI tiles with comparison to the previous period, the appointment trend, a per-doctor table (owner, whole clinic; selecting a doctor applies the doctor filter), and the paginated activity feed filtered by activity type. Filters live in the URL so the view can be shared and survives a reload. Secretaries do not see this page.
+**Implementation (`decisions.md` D-039):** Activity is its own page for the owner and for doctors, with the same header as Overview: the title and the switch. Under that, the period (week, month, quarter, year, ending today) and, for the owner, the doctor, use the same compact sage control as the switch. The page then follows the overview: a short lead line, status-colored figures, then two columns (the appointment trend and the per-doctor table). The feed is the last section, filtered by activity type. Filters live in the URL so the view can be shared and survives a reload. Secretaries do not see this page.
 
 ---
 

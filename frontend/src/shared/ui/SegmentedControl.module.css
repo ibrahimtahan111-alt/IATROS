@@ -29,6 +29,6 @@
 
 .selected {
   border-color: var(--color-border);
-  background: var(--color-surface);
-  color: var(--color-text);
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
 }

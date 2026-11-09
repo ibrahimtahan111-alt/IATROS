@@ -45,7 +45,7 @@ These elements make IATROS recognizable and must be used consistently:
 
 1. **The Now line.** A thin sage line marks the current time in every time-based view (calendar, doctor's day timeline, today's queue). It is IATROS's visual signature.
 2. **The Patient band.** On every patient and clinical screen, a slim, sticky band at the top shows the patient's identity: full name, age and date of birth, primary doctor, and an allergy indicator. It never scrolls away.
-3. **Ink-on-paper surfaces.** Light mode uses warm white paper. Dark mode uses navy ink, never pure black. Surfaces are separated by tone and hairlines, not shadows.
+3. **Ink-on-paper surfaces.** Light mode uses a white page. The navigation rail is light sage. Dark mode uses navy ink, never pure black. Surfaces are separated by tone and hairlines, not shadows.
 4. **Status as a quiet dot.** Status is shown as a small colored dot plus a text label, never as large saturated badges.
 5. **Tabular time.** All times, durations, and numbers use tabular figures so columns of times align perfectly.
 
@@ -139,7 +139,7 @@ Each role lands on the screen that matches its real workflow:
 
 * **Doctor → "My day".** A vertical timeline of today's appointments with the Now line, the current/next patient emphasized, one-click "Start consultation", and a short list of patients needing follow-up.
 * **Secretary → Calendar.** Opens on today's calendar for all doctors, with a fast "Book" flow: find patient → choose slot → confirm.
-* **Owner → Overview.** Today's clinic pulse (appointments by status, waiting room, doctors' load), followed by period KPIs. Charts only when a trend matters.
+* **Owner → Overview.** Today's clinic pulse (appointments by status, waiting room, doctors' load). A switch at the end of the context bar, Overview first, opens Activity. The current page and the current side-menu item are a light surface with a sage outline. Charts only when a trend matters.
 
 ---
 
@@ -149,7 +149,7 @@ Each role lands on the screen that matches its real workflow:
 
 The interface uses four colors, in every module:
 
-* **Warm white** — paper. The canvas, working surfaces, and the app-icon tile.
+* **White** — paper. The canvas and working surfaces. The navigation rail is light sage (`--color-rail`). The app-icon tile stays warm white.
 * **Navy** — ink. Primary text, the wordmark, and every dark-mode surface. Dark mode is navy, never pure black.
 * **Sage** — the only functional accent. Primary actions, focus, selection, the Now line, and confirmed appointments.
 * **Indigo** — information, and the in-consultation state. It is not a second button color.
@@ -162,6 +162,8 @@ Components must use **semantic tokens only**, never raw color values.
 
 ```text
 --color-canvas          page background ("paper" / "ink")
+--color-rail            navigation rail
+--color-rail-hover      rail item under the pointer
 --color-surface         working surfaces (tables, panels, forms)
 --color-surface-raised  overlays (dialogs, popovers, panels)
 --color-surface-sunken  inset areas (inputs, code, wells)
@@ -201,9 +203,10 @@ Layout and stacking tokens (also in `tokens.css`):
 
 | Token                 | Light     | Dark      |
 | --------------------- | --------- | --------- |
-| canvas                | `#F4F0E6` warm white | `#0E1824` navy |
-| surface               | `#FBF8F2` | `#152232` |
-| surface-raised        | `#FFFCF7` | `#1C2B3D` |
+| canvas                | `#FFFFFF` | `#0E1824` navy |
+| rail                  | `#E3EFE8` light sage | `#152232` |
+| surface               | `#FFFFFF` | `#152232` |
+| surface-raised        | `#FFFFFF` | `#1C2B3D` |
 | surface-sunken        | `#E9E4D8` | `#0A121C` |
 | border                | `#E3DCD0` | `#2C3C50` |
 | border-strong         | `#CDC4B4` | `#3D5168` |
@@ -366,7 +369,7 @@ Sticky band: avatar initials, full name, age · date of birth, primary doctor, a
 
 Large tabular number, short label, and comparison to the previous period (e.g. "+12% vs last week"), with direction shown by both sign and icon. Tiles are links when a detailed view exists.
 
-**Implementation:** `shared/ui/KpiTile` (with `KpiGrid`). The comparison's colour comes from its tone (positive, negative, neutral) rather than its direction, because a rising no-show rate is bad news; rates compare in percentage points, counts in percent, and no comparison is shown when the previous value is 0. Trends are CSS bars backed by a visually hidden data table, so no chart library is needed.
+**Implementation:** `shared/ui/KpiTile` (with `KpiGrid`). Activity uses the same status fills and leading edge as the overview pulse, so the two pages read as one board. The comparison's colour comes from its tone (positive, negative, neutral) rather than its direction, because a rising no-show rate is bad news; rates compare in percentage points, counts in percent, and no comparison is shown when the previous value is 0. Trends are CSS bars backed by a visually hidden data table, so no chart library is needed. Filter dropdowns use the same compact sage control as the module switch; the open menu marks the current choice with the sage soft fill.
 
 ## 11.9 Feedback
 

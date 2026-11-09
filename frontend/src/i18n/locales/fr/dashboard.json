@@ -8,13 +8,16 @@
   "today": {
     "label": "Aujourd’hui",
     "appointments": "Rendez-vous du jour",
-    "completed": "Terminés aujourd’hui",
-    "waiting": "En salle d’attente",
-    "noShows": "Absences"
+    "remaining": "À venir"
   },
   "owner": {
-    "totalPatients": "Patients au total",
-    "activeDoctors": "Médecins actifs",
+    "waitingRoom": "Salle d’attente",
+    "waitingEmpty": "Personne n’attend.",
+    "consultingTitle": "En consultation",
+    "consultingEmpty": "Aucune consultation en cours.",
+    "comingTitle": "À venir",
+    "comingDescription": "Rendez-vous qui n’ont pas encore commencé.",
+    "comingEmpty": "Rien d’autre de prévu aujourd’hui.",
     "doctorsTitle": "Médecins aujourd’hui",
     "noDoctors": "Aucun médecin actif pour le moment.",
     "doctorAppointments_one": "{{count}} rendez-vous",
@@ -24,7 +27,9 @@
     "doctorInProgress_one": "{{count}} en cours",
     "doctorInProgress_other": "{{count}} en cours",
     "doctorRemaining_one": "{{count}} à venir",
-    "doctorRemaining_other": "{{count}} à venir"
+    "doctorRemaining_other": "{{count}} à venir",
+    "doctorNoShows_one": "{{count}} absence",
+    "doctorNoShows_other": "{{count}} absences"
   },
   "doctor": {
     "todayPatients": "Patients du jour",

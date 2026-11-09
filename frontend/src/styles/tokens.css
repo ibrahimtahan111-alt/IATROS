@@ -73,10 +73,12 @@
 [data-theme='light'] {
   color-scheme: light;
 
-  --color-canvas: #f4f0e6;
-  --color-surface: #fbf8f2;
-  --color-surface-raised: #fffcf7;
+  --color-canvas: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-raised: #ffffff;
   --color-surface-sunken: #e9e4d8;
+  --color-rail: #e3efe8;
+  --color-rail-hover: #d3e6dc;
   --color-border: #e3dcd0;
   --color-border-strong: #cdc4b4;
   /* Outlines that identify a form control: at least 3:1 against surfaces (WCAG 1.4.11). */
@@ -125,6 +127,8 @@
   --color-surface: #152232;
   --color-surface-raised: #1c2b3d;
   --color-surface-sunken: #0a121c;
+  --color-rail: #152232;
+  --color-rail-hover: #0a121c;
   --color-border: #2c3c50;
   --color-border-strong: #3d5168;
   --color-border-control: #7e94aa;

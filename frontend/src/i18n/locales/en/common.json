@@ -18,6 +18,9 @@
     "myActivity": "My activity",
     "settings": "Settings"
   },
+  "moduleSwitch": {
+    "label": "Overview or activity"
+  },
   "userMenu": {
     "open": "Account menu for {{name}}",
     "account": "Account",

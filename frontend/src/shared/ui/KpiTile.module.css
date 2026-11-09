@@ -1,6 +1,6 @@
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
   gap: var(--space-3);
 }
 
@@ -11,9 +11,45 @@
   min-width: 0;
   padding: var(--space-4) var(--space-5);
   border: 1px solid var(--color-border);
+  border-inline-start: 4px solid var(--tone, var(--color-border));
   border-radius: var(--radius-lg);
-  background: var(--color-surface);
+  background: var(--tone-soft, var(--color-surface));
   color: var(--color-text);
+}
+
+.scheduled {
+  --tone: var(--color-status-scheduled);
+  --tone-soft: var(--color-surface-sunken);
+}
+
+.waiting {
+  --tone: var(--color-status-waiting);
+  --tone-soft: var(--color-warning-soft);
+}
+
+.consultation {
+  --tone: var(--color-status-in-consultation);
+  --tone-soft: var(--color-info-soft);
+}
+
+.completed {
+  --tone: var(--color-status-completed);
+  --tone-soft: var(--color-success-soft);
+}
+
+.cancelled {
+  --tone: var(--color-status-cancelled);
+  --tone-soft: var(--color-surface-sunken);
+}
+
+.missed {
+  --tone: var(--color-status-no-show);
+  --tone-soft: var(--color-danger-soft);
+}
+
+.accent {
+  --tone: var(--color-accent);
+  --tone-soft: var(--color-accent-soft);
 }
 
 .link {
@@ -21,8 +57,7 @@
 }
 
 .link:hover {
-  border-color: var(--color-border-strong);
-  background: var(--color-surface-raised);
+  border-color: var(--tone, var(--color-border-strong));
 }
 
 .label {

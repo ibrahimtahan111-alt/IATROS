@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
+import { ModuleSwitch } from '../../app/ModuleSwitch'
 import { useDateTimeFormat } from '../../shared/hooks/useDateTimeFormat'
 import { useNumberFormat } from '../../shared/hooks/useNumberFormat'
 import { ButtonLink } from '../../shared/ui/ButtonLink'
@@ -21,7 +22,7 @@ export function DoctorDashboardView() {
 
   return (
     <Page width="full">
-      <ContextBar title={t('nav.myDay')} />
+      <ContextBar title={t('nav.myDay')} scope={<ModuleSwitch current="overview" />} />
       {dashboard.isError ? (
         <ErrorState error={dashboard.error} onRetry={() => void dashboard.refetch()} retrying={dashboard.isFetching} />
       ) : !dashboard.data ? (
@@ -49,10 +50,15 @@ function DoctorDashboardContent({ data }: { data: DoctorDashboard }) {
       />
       <div className={styles.tiles}>
         <KpiGrid label={t('today.label')}>
-          <KpiTile label={t('doctor.todayPatients')} value={number.integer(data.summary.patients)} />
-          <KpiTile label={t('today.appointments')} value={number.integer(data.summary.appointments)} to={dayView} />
-          <KpiTile label={t('doctor.upcoming')} value={number.integer(data.upcomingAppointments)} to="/calendar" />
-          <KpiTile label={t('doctor.completedToday')} value={number.integer(data.summary.completed)} />
+          <KpiTile tone="accent" label={t('doctor.todayPatients')} value={number.integer(data.summary.patients)} />
+          <KpiTile
+            tone="scheduled"
+            label={t('today.appointments')}
+            value={number.integer(data.summary.appointments)}
+            to={dayView}
+          />
+          <KpiTile tone="consultation" label={t('doctor.upcoming')} value={number.integer(data.upcomingAppointments)} to="/calendar" />
+          <KpiTile tone="completed" label={t('doctor.completedToday')} value={number.integer(data.summary.completed)} />
         </KpiGrid>
       </div>
 

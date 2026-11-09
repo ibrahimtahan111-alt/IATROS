@@ -8,13 +8,16 @@
   "today": {
     "label": "Today",
     "appointments": "Today's appointments",
-    "completed": "Completed today",
-    "waiting": "Waiting",
-    "noShows": "No-shows"
+    "remaining": "Still to come"
   },
   "owner": {
-    "totalPatients": "Total patients",
-    "activeDoctors": "Active doctors",
+    "waitingRoom": "Waiting room",
+    "waitingEmpty": "No one is waiting.",
+    "consultingTitle": "In consultation",
+    "consultingEmpty": "No consultation in progress.",
+    "comingTitle": "Coming up",
+    "comingDescription": "Appointments that have not started.",
+    "comingEmpty": "Nothing else scheduled today.",
     "doctorsTitle": "Doctors today",
     "noDoctors": "No active doctors yet.",
     "doctorAppointments_one": "{{count}} appointment",
@@ -24,7 +27,9 @@
     "doctorInProgress_one": "{{count}} in progress",
     "doctorInProgress_other": "{{count}} in progress",
     "doctorRemaining_one": "{{count}} to come",
-    "doctorRemaining_other": "{{count}} to come"
+    "doctorRemaining_other": "{{count}} to come",
+    "doctorNoShows_one": "{{count}} no-show",
+    "doctorNoShows_other": "{{count}} no-shows"
   },
   "doctor": {
     "todayPatients": "Today's patients",

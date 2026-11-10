@@ -867,7 +867,7 @@ Each migration must be:
 
 IATROS uses **Flyway** with plain SQL migrations in `backend/src/main/resources/db/migration`. Hibernate runs with `ddl-auto=validate` and never changes the schema (`decisions.md` D-002).
 
-Development-only seed data (fictional demo clinic) lives in a separate location that is only enabled in the `dev` profile and is never applied in production.
+Development-only seed data (fictional demo clinic) lives in a separate location that is only enabled in the `dev` profile and is never applied in production. That profile also fills each empty clinic day from the existing fictional patients and their earlier visits.
 
 ---
 

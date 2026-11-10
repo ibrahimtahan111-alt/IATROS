@@ -202,6 +202,7 @@ The limiter is per instance. It moves to the reverse proxy or a shared store whe
 * Login success/failure, logout, password change/reset, and invitation events are written to `audit_event`, without passwords or tokens.
 * The session principal holds only user ID, clinic ID, and role. Any change to a user's role or status must invalidate that user's sessions (`UserSessionService`), so a stale principal never outlives a permission change.
 * **Development seed:** with the `dev` profile and `IATROS_DEMO_PASSWORD` set, a fictional demo clinic (owner, doctor, secretary, patients, schedules, appointments) is created at start-up unless the demo owner account already exists. The seed never runs in other profiles and is not a migration.
+* **Development day:** the same profile fills the demo clinic's current day on start-up and shortly after midnight in the clinic time zone, but only when that day has no appointments. It books the existing primary patients, preferring someone who missed a recent visit or whose last completed visit was at least a week ago, and writes a short consultation that continues that visit. Saturday and Sunday get a morning extra-availability because the seeded schedules are weekdays. It never creates patients and does not run in other profiles.
 
 ## D-018 — Authorization layers
 
@@ -235,7 +236,7 @@ V1 has **no public self-signup**. Public signup is tied to subscription billing,
 
 A clinic and its owner account are provisioned by the platform operator:
 
-* Development: a fictional demo clinic is created by a development-only seed (never in production migrations).
+* Development: a fictional demo clinic is created by a development-only seed, and each empty day is filled from that clinic's existing patients and visits (never in production migrations).
 * Production: a provisioning command creates the clinic, its settings, and the owner, then sends the owner an account-activation email.
 
 The provisioning command runs the backend without its web server (usage in `README.md`):

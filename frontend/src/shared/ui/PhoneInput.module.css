@@ -1,0 +1,13 @@
+.phone {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.country {
+  flex: 0 0 calc(var(--space-16) * 2);
+}
+
+.number {
+  flex: 1 1 auto;
+  min-width: 0;
+}

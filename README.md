@@ -53,6 +53,10 @@ npm install
 
 ## Running locally
 
+On Windows, double-click `start.bat` (or run `.\start.bat` from the repository root). It loads `.env`, opens the backend and frontend in separate windows, skips any server that is already running, and opens the app in your browser once the backend is healthy. Close a window to stop that server.
+
+To start each server manually instead:
+
 Backend (http://localhost:8080):
 
 ```bash

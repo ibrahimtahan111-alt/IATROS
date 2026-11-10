@@ -62,6 +62,8 @@
   "new": {
     "title": "Ajouter un patient",
     "submit": "Créer le patient",
+    "showAllFields": "Afficher tous les champs",
+    "showFewerFields": "Afficher moins de champs",
     "created": "{{name}} a été ajouté(e).",
     "yourPatient": "Vous serez le médecin traitant : {{name}}.",
     "noDoctors": {

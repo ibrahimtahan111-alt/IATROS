@@ -1,6 +1,6 @@
 import { SearchX, UserPlus, UsersRound } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router'
+import { Link, Outlet, useLocation } from 'react-router'
 import type { SortState } from '../../shared/api/types'
 import { useDateTimeFormat } from '../../shared/hooks/useDateTimeFormat'
 import { useListSearchParams } from '../../shared/hooks/useListSearchParams'
@@ -30,6 +30,7 @@ const ALL = 'ALL'
 /**
  * Patient directory (ui-ux.md §12). The server returns only the patients the caller may see (D-029): doctors their
  * own and authorized patients, so the doctor filter is not offered to them. Archived patients are listed on request.
+ * The add-patient dialog renders in the outlet, over the list, keeping its search and filters.
  */
 export function PatientsPage() {
   const { t } = useTranslation('patients')
@@ -37,6 +38,7 @@ export function PatientsPage() {
   const user = useSessionUser()
   const format = useDateTimeFormat(user.clinic.timeZone)
   const today = todayIn(user.clinic.timeZone)
+  const { search } = useLocation()
   const { params, update, reset } = useListSearchParams(FILTERS, DEFAULT_SORT)
   const list = usePatientList(params)
   const showDoctorFilter = user.role !== 'DOCTOR'
@@ -55,7 +57,7 @@ export function PatientsPage() {
   const narrowed = params.search !== '' || activeFilters.length > 0
   const data = list.data
   const addButton = (
-    <ButtonLink to="new" variant="primary" icon={<UserPlus aria-hidden="true" />}>
+    <ButtonLink to={{ pathname: 'new', search }} variant="primary" icon={<UserPlus aria-hidden="true" />}>
       {t('add')}
     </ButtonLink>
   )
@@ -180,6 +182,7 @@ export function PatientsPage() {
           />
         </>
       )}
+      <Outlet />
     </Page>
   )
 }

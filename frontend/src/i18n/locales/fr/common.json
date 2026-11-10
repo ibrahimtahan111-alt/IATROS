@@ -65,6 +65,10 @@
     "loadFailed": "Ce contenu n’a pas pu être chargé",
     "optional": "(facultatif)"
   },
+  "phoneInput": {
+    "countryCode": "Indicatif pays",
+    "countryPlaceholder": "Indicatif"
+  },
   "pagination": {
     "label": "Pagination",
     "range": "{{from}}–{{to}} sur {{total}}",

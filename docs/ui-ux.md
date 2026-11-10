@@ -539,6 +539,10 @@ Possible filters:
 
 The form should collect the minimum necessary patient information.
 
+Add Patient opens as a centered dialog over the patient list (`/patients/new`); the list keeps its search and filters behind it. The dialog starts compact with the essentials (first name, last name, date of birth, phone, primary doctor). An expand button in the dialog's header corner widens it and shows every field. If validation flags a field that is hidden, the dialog expands so the error is visible. Closing with entered details asks before discarding them.
+
+Phone fields (the patient's phone and the emergency contact's phone, here and on the edit page) have a country-code select next to the number (D-046).
+
 ## Sections
 
 ### Personal Information

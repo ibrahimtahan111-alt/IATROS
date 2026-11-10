@@ -120,6 +120,7 @@ Rules:
 | -------------------------------------------------- | ------------------------- |
 | View details while keeping list/calendar visible   | Context panel             |
 | Short focused form (≤ ~6 fields), confirmation     | Dialog                    |
+| Quick creation whose optional details are rarely needed (Add patient) | Expandable dialog: essentials first; an expand button beside the close button widens it (`--dialog-width-wide`) to show every field |
 | Long form, clinical entry, multi-section editing   | Full page                 |
 | Quick choice (status, filter)                      | Popover / menu            |
 
@@ -194,7 +195,7 @@ Layout and stacking tokens (also in `tokens.css`):
 ```text
 --rail-width / --rail-width-collapsed   navigation rail, full and icon-only
 --bottom-nav-height                     small-screen bottom navigation
---context-panel-width / --dialog-width
+--context-panel-width / --dialog-width / --dialog-width-wide
 --icon-sm / --icon-md                   icon sizes
 --z-sticky < --z-nav < --z-overlay < --z-toast
 ```
@@ -331,6 +332,7 @@ States: default, hover, active, focus-visible, disabled, loading (spinner + labe
 * Validation on blur and on submit; errors never appear while the user is still typing a first value.
 * On submit failure, focus moves to the first invalid field and a summary appears at the top for long forms.
 * Forms with unsaved changes warn before navigation.
+* Phone numbers use `shared/ui/PhoneInput`: a compact country-code select (`GR +30`, the full country names in the list) beside the number. The field label belongs to the number. An empty field starts from the clinic's own country code.
 
 ## 11.3 Data tables
 

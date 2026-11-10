@@ -2,6 +2,7 @@ import { Dialog as RadixDialog } from 'radix-ui'
 import { X } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
+import { cx } from '../lib/cx'
 import { IconButton } from './IconButton'
 import styles from './Dialog.module.css'
 
@@ -13,25 +14,32 @@ interface DialogProps {
   children?: ReactNode
   /** Action buttons, end-aligned. The primary action comes last. */
   footer?: ReactNode
+  /** Icon buttons placed before the close button, such as an expand toggle. */
+  headerActions?: ReactNode
+  /** `wide` fits a two-column form. */
+  size?: 'default' | 'wide'
 }
 
 /**
  * Short focused forms and confirmations (design-system.md §4.5). Focus is trapped while open and returns to the
  * opening element on close.
  */
-export function Dialog({ open, onOpenChange, title, description, children, footer }: DialogProps) {
+export function Dialog({ open, onOpenChange, title, description, children, footer, headerActions, size = 'default' }: DialogProps) {
   const { t } = useTranslation()
 
   return (
     <RadixDialog.Root open={open} onOpenChange={onOpenChange}>
       <RadixDialog.Portal>
         <RadixDialog.Overlay className={styles.overlay} />
-        <RadixDialog.Content className={styles.content}>
+        <RadixDialog.Content className={cx(styles.content, size === 'wide' && styles.wide)}>
           <header className={styles.header}>
             <RadixDialog.Title className={styles.title}>{title}</RadixDialog.Title>
-            <RadixDialog.Close asChild>
-              <IconButton label={t('actions.close')} icon={<X />} />
-            </RadixDialog.Close>
+            <div className={styles.headerActions}>
+              {headerActions}
+              <RadixDialog.Close asChild>
+                <IconButton label={t('actions.close')} icon={<X />} />
+              </RadixDialog.Close>
+            </div>
           </header>
           {description ? (
             <RadixDialog.Description className={styles.description}>{description}</RadixDialog.Description>

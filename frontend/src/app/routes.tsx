@@ -24,10 +24,16 @@ const MODULE_ROUTES: Partial<Record<string, RouteObject[]>> = {
     { index: true, lazy: lazyPage(async () => (await import('../features/activity/ActivityPage')).ActivityPage, ['activity']) },
   ],
   '/patients': [
-    { index: true, lazy: lazyPage(async () => (await import('../features/patients/PatientsPage')).PatientsPage, ['patients']) },
     {
-      path: 'new',
-      lazy: lazyPage(async () => (await import('../features/patients/NewPatientPage')).NewPatientPage, ['patients']),
+      // The list stays visible behind the add dialog.
+      lazy: lazyPage(async () => (await import('../features/patients/PatientsPage')).PatientsPage, ['patients']),
+      children: [
+        { index: true },
+        {
+          path: 'new',
+          lazy: lazyPage(async () => (await import('../features/patients/NewPatientDialog')).NewPatientDialog, ['patients']),
+        },
+      ],
     },
     {
       path: ':patientId',

@@ -24,6 +24,11 @@
   box-shadow: var(--shadow-overlay);
   transform: translate(-50%, -50%);
   animation: rise-in var(--duration-slow) var(--ease-out);
+  transition: width var(--duration-slow) var(--ease-out);
+}
+
+.wide {
+  width: min(var(--dialog-width-wide), calc(100vw - var(--space-8)));
 }
 
 .content:focus-visible {
@@ -37,6 +42,12 @@
   gap: var(--space-4);
   margin-block: calc(var(--space-2) * -1);
   margin-inline-end: calc(var(--space-2) * -1);
+}
+
+.headerActions {
+  display: flex;
+  flex-shrink: 0;
+  gap: var(--space-1);
 }
 
 .title {

@@ -469,6 +469,14 @@ This supports the primary target user: a solo doctor who owns the clinic and als
 * **SPA headers** are the reverse proxy's job (D-012), with the policy given in `security.md` §27. The application ships no inline script or style, so the policy needs no `'unsafe-inline'` or hashes; the pre-paint theme script lives in `public/theme-init.js`.
 * **Abuse matrix.** Cross-clinic and cross-role access is tested by `SecurityAbuseTests`, which enumerates every ID-based route from the application itself rather than from a hand-written list, and fails when a new body-taking route has no attack body (`security.md` §15).
 
+## D-046 — Phone number entry
+
+* **One stored value.** Phone fields keep their existing text columns and API fields (max 40). The interface stores `+<calling code> <number>` (e.g. `+30 690 000 0003`), the format the demo data and patient search already use, so no migration or API change is needed. The server still only checks the length; it does not validate numbers.
+* **Country code select.** The country list and calling codes live in the frontend (`shared/lib/phoneNumbers.ts`), and country names come from `Intl.DisplayNames` in the interface language. A number typed or pasted with a leading `+<code>` moves that code into the select. Calling codes are prefix-free, so the first match while typing is correct.
+* **Default country.** Empty fields start from the clinic phone's calling code, otherwise from the browser language's region. A stored number without a calling code is shown as is, with no country selected, and is not rewritten unless edited.
+* **Shared codes** (`+1`, `+7`, `+44`, …) resolve to their main country (US, RU, GB, …) when a stored number is read. A country the user picks (e.g. Canada) is kept while editing.
+* **Scope.** Patient and emergency-contact phones. Staff and clinic phone fields still use a plain text input.
+
 ---
 
 # 5. Frontend Platform

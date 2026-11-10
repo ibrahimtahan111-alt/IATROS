@@ -67,6 +67,13 @@ const signedInAs = (role: Parameters<typeof testUser>[0]) => ({
 const doctors = (...list: Doctor[]) => ({ 'GET /doctors': () => page(list) })
 const lastList = (requests: RecordedRequest[]) => requests.filter((request) => request.path === '/patients').at(-1)
 
+/** The add-patient dialog once the doctors have loaded and the form is shown. */
+async function addPatientForm() {
+  const dialog = await screen.findByRole('dialog', { name: 'Add patient' })
+  await within(dialog).findByLabelText('First name')
+  return dialog
+}
+
 describe('patients', () => {
   beforeEach(() => {
     document.cookie = 'XSRF-TOKEN=test-token; path=/'
@@ -111,29 +118,38 @@ describe('patients', () => {
     expect(requests.some((request) => request.path === '/doctors')).toBe(false)
   })
 
-  it('adds a patient for the chosen doctor and opens the profile', async () => {
+  it('adds a patient for the chosen doctor from a dialog over the list and opens the profile', async () => {
     const created = patient({ doctors: [danielRef] })
     const { requests } = fakeApi({
       ...signedInAs('SECRETARY'),
       ...doctors(daniel, chloe, doctor('d3', 'Gone', 'Doctor', { status: 'DEACTIVATED' })),
+      'GET /patients': () => page([]),
       'POST /patients': () => json(created, 201),
       [`GET /patients/${PATIENT_ID}`]: () => json({ ...created, doctors: null }),
     })
-    const { router } = renderRoute('/patients/new')
+    const { router } = renderRoute('/patients')
     const user = userEvent.setup()
 
-    await user.click(await screen.findByRole('button', { name: 'Create patient' }))
-    expect(await screen.findAllByText('This field is required.')).toHaveLength(4)
-    expect(screen.getByLabelText('First name')).toHaveFocus()
+    await user.click((await screen.findAllByRole('link', { name: 'Add patient' }))[0]!)
+    const dialog = await addPatientForm()
+    expect(router.state.location.pathname).toBe('/patients/new')
+    expect(within(dialog).getByLabelText('First name')).toHaveFocus()
+    expect(within(dialog).queryByLabelText(/^Email/)).not.toBeInTheDocument()
 
-    await user.type(screen.getByLabelText('First name'), ' Alice ')
-    await user.type(screen.getByLabelText('Last name'), 'Martin')
-    await user.type(screen.getByLabelText('Date of birth'), '1980-05-01')
-    await user.type(screen.getByLabelText(/^Phone/), '+30 210 000 0000')
-    await user.click(screen.getByRole('combobox', { name: 'Primary doctor' }))
+    await user.click(within(dialog).getByRole('button', { name: 'Create patient' }))
+    expect(await within(dialog).findAllByText('This field is required.')).toHaveLength(4)
+    expect(within(dialog).getByLabelText('First name')).toHaveFocus()
+
+    await user.type(within(dialog).getByLabelText('First name'), ' Alice ')
+    await user.type(within(dialog).getByLabelText('Last name'), 'Martin')
+    await user.type(within(dialog).getByLabelText('Date of birth'), '1980-05-01')
+    await user.type(within(dialog).getByLabelText(/^Phone/), '+30 210 000 0000')
+    expect(within(dialog).getByRole('combobox', { name: 'Country code' })).toHaveTextContent('GR +30')
+    expect(within(dialog).getByLabelText(/^Phone/)).toHaveValue('210 000 0000')
+    await user.click(within(dialog).getByRole('combobox', { name: 'Primary doctor' }))
     expect(screen.queryByRole('option', { name: 'Gone Doctor' })).not.toBeInTheDocument()
     await user.click(await screen.findByRole('option', { name: 'Daniel Brown' }))
-    await user.click(screen.getByRole('button', { name: 'Create patient' }))
+    await user.click(within(dialog).getByRole('button', { name: 'Create patient' }))
 
     await waitFor(() => expect(router.state.location.pathname).toBe(`/patients/${PATIENT_ID}`))
     expect(requests.find((request) => request.method === 'POST')?.body).toEqual({
@@ -151,10 +167,89 @@ describe('patients', () => {
     expect(await screen.findByRole('heading', { name: 'Alice Martin' })).toBeInTheDocument()
   })
 
+  it('expands to every field and reveals a server error on a field the compact dialog hides', async () => {
+    const { requests } = fakeApi({
+      ...signedInAs('OWNER'),
+      ...doctors(daniel),
+      'GET /patients': () => page([]),
+      'POST /patients': () => problem(400, 'VALIDATION_ERROR', { fieldErrors: [{ field: 'address', code: 'INVALID_LENGTH' }] }),
+    })
+    renderRoute('/patients/new')
+    const user = userEvent.setup()
+
+    const dialog = await addPatientForm()
+    await user.click(within(dialog).getByRole('button', { name: 'Show all fields' }))
+    expect(within(dialog).getByLabelText(/^Email/)).toBeInTheDocument()
+    expect(within(dialog).getByLabelText(/^Emergency contact phone/)).toBeInTheDocument()
+    await user.click(within(dialog).getByRole('button', { name: 'Show fewer fields' }))
+    expect(within(dialog).queryByLabelText(/^Address/)).not.toBeInTheDocument()
+
+    await user.type(within(dialog).getByLabelText('First name'), 'Alice')
+    await user.type(within(dialog).getByLabelText('Last name'), 'Martin')
+    await user.type(within(dialog).getByLabelText('Date of birth'), '1980-05-01')
+    await user.click(within(dialog).getByRole('button', { name: 'Create patient' }))
+
+    await waitFor(() => expect(within(dialog).getByLabelText(/^Address/)).toHaveAttribute('aria-invalid', 'true'))
+    expect(requests.find((request) => request.method === 'POST')?.body).toMatchObject({ phone: null, primaryDoctorId: OWN_DOCTOR_ID })
+  })
+
+  it('combines the chosen country code with the number, starting from the clinic’s country', async () => {
+    const { requests } = fakeApi({
+      ...signedInAs('OWNER'),
+      'GET /clinic': () =>
+        json({ phone: '+30 210 000 0000', settings: { timeZone: 'Europe/Athens', defaultAppointmentMinutes: 30, weekStartDay: 1 } }),
+      ...doctors(daniel),
+      'GET /patients': () => page([]),
+      'POST /patients': () => json(patient(), 201),
+      [`GET /patients/${PATIENT_ID}`]: () => json(patient()),
+    })
+    renderRoute('/patients/new')
+    const user = userEvent.setup()
+
+    const dialog = await addPatientForm()
+    const country = within(dialog).getByRole('combobox', { name: 'Country code' })
+    await waitFor(() => expect(country).toHaveTextContent('GR +30'))
+    await user.type(within(dialog).getByLabelText(/^Phone/), '690 000 0001')
+    await user.click(country)
+    await user.click(await screen.findByRole('option', { name: 'France (+33)' }))
+    expect(country).toHaveTextContent('FR +33')
+
+    await user.type(within(dialog).getByLabelText('First name'), 'Alice')
+    await user.type(within(dialog).getByLabelText('Last name'), 'Martin')
+    await user.type(within(dialog).getByLabelText('Date of birth'), '1980-05-01')
+    await user.click(within(dialog).getByRole('button', { name: 'Create patient' }))
+
+    await waitFor(() =>
+      expect(requests.find((request) => request.method === 'POST')?.body).toMatchObject({ phone: '+33 690 000 0001' }),
+    )
+  })
+
+  it('asks before discarding entered details and returns to the filtered list', async () => {
+    const { requests } = fakeApi({
+      ...signedInAs('OWNER'),
+      ...doctors(daniel),
+      'GET /patients': () => page([]),
+    })
+    const { router } = renderRoute('/patients/new?status=ARCHIVED')
+    const user = userEvent.setup()
+
+    const dialog = await addPatientForm()
+    await user.type(within(dialog).getByLabelText('First name'), 'Alice')
+    await user.click(within(dialog).getByRole('button', { name: 'Cancel' }))
+    const confirm = await screen.findByRole('dialog', { name: 'Leave without saving?' })
+    await user.click(within(confirm).getByRole('button', { name: 'Discard changes' }))
+
+    await waitFor(() => expect(router.state.location.pathname).toBe('/patients'))
+    expect(router.state.location.search).toBe('?status=ARCHIVED')
+    expect(screen.queryByRole('dialog', { name: 'Add patient' })).not.toBeInTheDocument()
+    expect(requests.some((request) => request.method === 'POST')).toBe(false)
+  })
+
   it('makes a doctor the primary doctor of the patients they add and rejects future birth dates', async () => {
     const { requests } = fakeApi({
       ...signedInAs('DOCTOR'),
       ...doctors(daniel),
+      'GET /patients': () => page([]),
       'POST /patients': () => json(patient(), 201),
       [`GET /patients/${PATIENT_ID}`]: () => json(patient()),
     })
@@ -178,11 +273,13 @@ describe('patients', () => {
   })
 
   it('explains that a doctor must exist before adding patients', async () => {
-    fakeApi({ ...signedInAs('OWNER'), ...doctors() })
+    fakeApi({ ...signedInAs('OWNER'), ...doctors(), 'GET /patients': () => page([]) })
     renderRoute('/patients/new')
 
-    expect(await screen.findByRole('heading', { name: 'No doctor available' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Add a doctor' })).toHaveAttribute('href', '/team/new')
+    const dialog = await screen.findByRole('dialog', { name: 'Add patient' })
+    expect(await within(dialog).findByRole('heading', { name: 'No doctor available' })).toBeInTheDocument()
+    expect(within(dialog).getByRole('link', { name: 'Add a doctor' })).toHaveAttribute('href', '/team/new')
+    expect(within(dialog).queryByRole('button', { name: 'Create patient' })).not.toBeInTheDocument()
   })
 
   it('shows a secretary the primary doctor only, without management actions', async () => {

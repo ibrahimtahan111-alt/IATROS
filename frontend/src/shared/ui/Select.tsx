@@ -21,13 +21,25 @@ interface SelectProps extends Partial<FieldControlProps> {
   name?: string
   /** `filter` matches the module switch: a compact sage control, not a form field. */
   variant?: 'field' | 'filter'
+  /** Shorter text for the closed select than the selected option's label (e.g. `GR +30` for a country). */
+  valueText?: string
 }
 
-export function Select({ value, onValueChange, options, placeholder, disabled, name, variant = 'field', ...control }: SelectProps) {
+export function Select({
+  value,
+  onValueChange,
+  options,
+  placeholder,
+  disabled,
+  name,
+  variant = 'field',
+  valueText,
+  ...control
+}: SelectProps) {
   return (
     <RadixSelect.Root value={value} onValueChange={onValueChange} disabled={disabled} name={name}>
       <RadixSelect.Trigger className={cx(styles.trigger, variant === 'filter' && styles.filter)} {...control}>
-        <RadixSelect.Value placeholder={placeholder} />
+        <RadixSelect.Value placeholder={placeholder}>{value ? valueText : undefined}</RadixSelect.Value>
         <RadixSelect.Icon className={styles.icon}>
           <ChevronDown />
         </RadixSelect.Icon>

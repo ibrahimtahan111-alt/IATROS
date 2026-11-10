@@ -64,6 +64,8 @@
     "submit": "Create patient",
     "created": "{{name}} has been added.",
     "yourPatient": "You will be the primary doctor: {{name}}.",
+    "showAllFields": "Show all fields",
+    "showFewerFields": "Show fewer fields",
     "noDoctors": {
       "title": "No doctor available",
       "owner": "Every patient needs a primary doctor. Add a doctor to your team first.",

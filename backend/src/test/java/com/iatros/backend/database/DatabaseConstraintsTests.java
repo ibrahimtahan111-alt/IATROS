@@ -22,7 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Verifies that the schema itself enforces the integrity rules that must hold even if
- * application code is wrong: clinic isolation, double-booking, and audit immutability.
+ * application code is wrong: clinic isolation, one primary doctor, doctor roles, double-booking,
+ * and audit immutability.
  */
 @SpringBootTest
 @ActiveProfiles("test")
@@ -51,6 +52,7 @@ class DatabaseConstraintsTests {
 		ownerId = fixtures.user(clinicId, "OWNER");
 		doctorId = fixtures.doctor(clinicId);
 		patientId = fixtures.patient(clinicId);
+		fixtures.linkDoctor(clinicId, patientId, doctorId, "PRIMARY");
 	}
 
 	@Nested
@@ -153,7 +155,6 @@ class DatabaseConstraintsTests {
 
 		@Test
 		void patientHasAtMostOnePrimaryDoctor() {
-			fixtures.linkDoctor(clinicId, patientId, doctorId, "PRIMARY");
 			UUID secondDoctor = fixtures.doctor(clinicId);
 
 			assertThatThrownBy(() -> fixtures.linkDoctor(clinicId, patientId, secondDoctor, "PRIMARY"))
@@ -163,8 +164,6 @@ class DatabaseConstraintsTests {
 
 		@Test
 		void patientCanHaveSeveralAuthorizedDoctors() {
-			fixtures.linkDoctor(clinicId, patientId, doctorId, "PRIMARY");
-
 			assertThatCode(() -> {
 				fixtures.linkDoctor(clinicId, patientId, fixtures.doctor(clinicId), "AUTHORIZED");
 				fixtures.linkDoctor(clinicId, patientId, fixtures.doctor(clinicId), "AUTHORIZED");
@@ -173,11 +172,32 @@ class DatabaseConstraintsTests {
 
 		@Test
 		void sameDoctorCannotBeLinkedTwice() {
-			fixtures.linkDoctor(clinicId, patientId, doctorId, "PRIMARY");
-
 			assertThatThrownBy(() -> fixtures.linkDoctor(clinicId, patientId, doctorId, "AUTHORIZED"))
 				.isInstanceOf(DataIntegrityViolationException.class)
 				.hasMessageContaining("patient_doctor_uk");
+		}
+
+		@Test
+		void aPatientWithItsPrimaryDoctorPassesTheDeferredCheck() {
+			assertThatCode(() -> jdbc.execute("SET CONSTRAINTS ALL IMMEDIATE")).doesNotThrowAnyException();
+		}
+
+		@Test
+		void aPatientWithoutAPrimaryDoctorIsRejectedWhenTheTransactionChecks() {
+			fixtures.patient(clinicId);
+
+			assertThatThrownBy(() -> jdbc.execute("SET CONSTRAINTS ALL IMMEDIATE"))
+				.isInstanceOf(DataIntegrityViolationException.class)
+				.hasMessageContaining("patient_requires_primary_doctor");
+		}
+
+		@Test
+		void removingTheOnlyPrimaryDoctorIsRejectedWhenTheTransactionChecks() {
+			jdbc.update("DELETE FROM patient_doctor WHERE patient_id = ?", patientId);
+
+			assertThatThrownBy(() -> jdbc.execute("SET CONSTRAINTS ALL IMMEDIATE"))
+				.isInstanceOf(DataIntegrityViolationException.class)
+				.hasMessageContaining("patient_requires_primary_doctor");
 		}
 
 	}
@@ -233,6 +253,30 @@ class DatabaseConstraintsTests {
 				.hasMessageContaining("app_user_active_requires_password");
 		}
 
+		@Test
+		void secretaryCannotHaveADoctorProfile() {
+			UUID secretaryId = fixtures.user(clinicId, "SECRETARY");
+
+			assertThatThrownBy(() -> fixtures.doctor(clinicId, secretaryId))
+				.isInstanceOf(DataIntegrityViolationException.class)
+				.hasMessageContaining("doctor_user_role");
+		}
+
+		@Test
+		void ownerCanHaveADoctorProfile() {
+			assertThatCode(() -> fixtures.doctor(clinicId, ownerId)).doesNotThrowAnyException();
+		}
+
+		@Test
+		void aPracticingUserCannotBeChangedToSecretary() {
+			UUID userId = fixtures.user(clinicId, "DOCTOR");
+			fixtures.doctor(clinicId, userId);
+
+			assertThatThrownBy(() -> jdbc.update("UPDATE app_user SET role = 'SECRETARY' WHERE id = ?", userId))
+				.isInstanceOf(DataIntegrityViolationException.class)
+				.hasMessageContaining("doctor_user_role");
+		}
+
 	}
 
 	@Nested
@@ -258,6 +302,57 @@ class DatabaseConstraintsTests {
 			assertThatThrownBy(() -> jdbc.update("DELETE FROM audit_event WHERE id = ?", eventId))
 				.isInstanceOf(DataAccessException.class)
 				.hasMessageContaining("audit_event rows are immutable");
+		}
+
+		@Test
+		void auditActorFromAnotherClinicIsRejected() {
+			UUID otherClinicUser = fixtures.user(fixtures.clinic(), "OWNER");
+
+			assertThatThrownBy(() -> jdbc.update("""
+					INSERT INTO audit_event (id, clinic_id, actor_user_id, action, entity_type)
+					VALUES (?, ?, ?, 'TEST', 'TEST')
+					""", UUID.randomUUID(), clinicId, otherClinicUser))
+				.isInstanceOf(DataIntegrityViolationException.class)
+				.hasMessageContaining("audit_event_actor_clinic_fk");
+		}
+
+		@Test
+		void auditActorFromTheSameClinicIsStored() {
+			assertThatCode(() -> jdbc.update("""
+					INSERT INTO audit_event (id, clinic_id, actor_user_id, action, entity_type)
+					VALUES (?, ?, ?, 'TEST', 'TEST')
+					""", UUID.randomUUID(), clinicId, ownerId)).doesNotThrowAnyException();
+		}
+
+	}
+
+	@Nested
+	class ClinicalActors {
+
+		@Test
+		void anAllergyAuthorMustBelongToTheRecordClinic() {
+			UUID recordId = fixtures.medicalRecord(clinicId, patientId);
+			UUID otherClinicUser = fixtures.user(fixtures.clinic(), "DOCTOR");
+
+			assertThatThrownBy(() -> fixtures.allergy(clinicId, recordId, otherClinicUser))
+				.isInstanceOf(DataIntegrityViolationException.class)
+				.hasMessageContaining("allergy_created_by_fk");
+		}
+
+		@Test
+		void anAllergyAuthorFromTheSameClinicIsStored() {
+			UUID recordId = fixtures.medicalRecord(clinicId, patientId);
+
+			assertThatCode(() -> fixtures.allergy(clinicId, recordId, ownerId)).doesNotThrowAnyException();
+		}
+
+		@Test
+		void aScheduleExceptionAuthorMustBelongToTheDoctorClinic() {
+			UUID otherClinicUser = fixtures.user(fixtures.clinic(), "OWNER");
+
+			assertThatThrownBy(() -> fixtures.scheduleException(clinicId, doctorId, otherClinicUser))
+				.isInstanceOf(DataIntegrityViolationException.class)
+				.hasMessageContaining("schedule_exception_created_by_fk");
 		}
 
 	}

@@ -880,10 +880,10 @@ Security also depends on data integrity.
 
 The database should enforce appropriate constraints such as:
 
-* Foreign keys
+* Foreign keys, including composite `(clinic_id, id)` keys that keep child rows and their authors inside one clinic
 * Unique constraints
 * Not-null constraints
-* Valid relationships
+* Valid relationships, including exactly one primary doctor per patient and a doctor profile only for `DOCTOR` or `OWNER`
 * Appropriate indexes
 
 Business rules should be enforced in the service layer, while fundamental structural integrity should also be protected by the database.

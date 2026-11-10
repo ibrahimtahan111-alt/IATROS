@@ -96,21 +96,21 @@ The exact physical schema may contain additional supporting tables.
 
 ## 3.1 Physical schema (implemented)
 
-The V1 schema is implemented by the Flyway migrations in `backend/src/main/resources/db/migration` (V1–V11). The migrations are authoritative for exact column types and constraints. Conventions are defined in `decisions.md` D-003, D-004, D-007, and D-008.
+The V1 schema is implemented by the Flyway migrations in `backend/src/main/resources/db/migration` (V1–V13). The migrations are authoritative for exact column types and constraints. Conventions are defined in `decisions.md` D-003, D-004, D-007, and D-008.
 
 Refinements made while implementing the conceptual model below:
 
 | Area | Implementation |
 | ---- | -------------- |
 | User | Table `app_user`; adds `phone`, `preferred_language`, `deactivated_at` |
-| Doctor | Adds `registration_number`; the user may be `DOCTOR` or `OWNER` (D-033) |
+| Doctor | Adds `registration_number`; the user may be `DOCTOR` or `OWNER` (D-033). A trigger rejects any other role, including a later role change |
 | Specialty | Identified by a stable `code` (translated in the UI) instead of a stored `name`; seeded by migration |
-| Patient | `date_of_birth` required; emergency contact split into name and phone; generated `search_text` with trigram index; primary doctor stored only in `patient_doctor` |
-| Clinical entries | Allergies, conditions, medications, history, and notes carry `created_by`, `updated_by`, and soft-delete columns |
+| Patient | `date_of_birth` required; emergency contact split into name and phone; generated `search_text` with trigram index; primary doctor stored only in `patient_doctor`. A deferred constraint rejects a commit that leaves a patient with no `PRIMARY` row (V13) |
+| Clinical entries | Allergies, conditions, medications, history, and notes carry `clinic_id`, `created_by`, `updated_by`, and soft-delete columns. Actor foreign keys use `(clinic_id, user id)` |
 | Consultation | Carries `clinic_id` (for composite FKs) instead of `patient_id`; time stored as `consulted_at`; adds `follow_up_on`; at most one consultation per appointment |
 | Doctor schedule | Table `doctor_schedule_period` (no `active` flag: the week is replaced as a whole, D-035); overlapping periods on the same weekday are rejected by an exclusion constraint; `doctor.schedule_version` (V11) is the optimistic-locking version of the week, separate from the doctor row's `version` |
 | Document | Adds `checksum_sha256`, `archived_at`, `archived_by` |
-| Audit | Table `audit_event`; rows are immutable (trigger) |
+| Audit | Table `audit_event`; rows are immutable (trigger). When `clinic_id` and `actor_user_id` are both set, the actor must belong to that clinic |
 | Tokens | Table `user_token` for invitations and password resets |
 | Sessions | `spring_session`, `spring_session_attributes` |
 
@@ -268,7 +268,7 @@ A patient belongs to one clinic.
 * `updated_at`
 * `status` (`ACTIVE`, `ARCHIVED`)
 
-The primary doctor is stored once, in the patient-doctor association (`relationship_type = PRIMARY`), not duplicated on the patient row. A partial unique index guarantees at most one primary doctor per patient.
+The primary doctor is stored once, in the patient-doctor association (`relationship_type = PRIMARY`), not duplicated on the patient row. A partial unique index guarantees at most one primary doctor per patient. A deferred constraint trigger (`patient_requires_primary_doctor`, V13) rejects the commit unless that one row exists, so the patient and the link can still be inserted in the same transaction.
 
 The application should only collect patient information necessary for the intended functionality.
 
@@ -579,12 +579,14 @@ Schedule exceptions are part of V1 (`decisions.md` D-026).
 A schedule exception contains:
 
 * `id`
+* `clinic_id`
 * `doctor_id`
 * `date`
 * `start_time` (null for a full day)
 * `end_time` (null for a full day)
 * `type` (`UNAVAILABLE`, `EXTRA_AVAILABILITY`)
 * `reason`
+* `created_by` (a user of the same clinic, when set)
 * `created_at`
 * `updated_at`
 
@@ -795,7 +797,7 @@ Potential indexed fields include:
 
 Indexes should be introduced based on actual query patterns rather than indiscriminately indexing every field.
 
-Dashboards and KPIs (decisions.md D-039, migration `V12`) add `consultation (clinic_id, consulted_at)` for consultation counts per period, and an expression index on `audit_event ((metadata ->> 'doctorId'), occurred_at DESC)` for a doctor's activity feed. Clinic activity uses the existing `audit_event (clinic_id, occurred_at)` index; appointment KPIs use the existing appointment clinic/doctor/time indexes.
+Dashboards and KPIs (decisions.md D-039, migration `V12`) add `consultation (clinic_id, consulted_at)` for consultation counts per period, and an expression index on `audit_event ((metadata ->> 'doctorId'), occurred_at DESC)` for a doctor's activity feed. Clinic activity uses the existing `audit_event (clinic_id, occurred_at)` index; appointment KPIs use the existing appointment clinic/doctor/time indexes. Overlap and upcoming-appointment checks also require `start_at` to be later than 12 hours before the window, matching `appointment_max_duration`, so those indexes do not walk a doctor's older rows.
 
 ---
 

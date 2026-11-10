@@ -19,8 +19,8 @@ public class MedicalNote extends ClinicalEntry {
 	protected MedicalNote() {
 	}
 
-	public MedicalNote(UUID medicalRecordId, String content, UUID createdBy) {
-		super(medicalRecordId, createdBy);
+	public MedicalNote(UUID clinicId, UUID medicalRecordId, String content, UUID createdBy) {
+		super(clinicId, medicalRecordId, createdBy);
 		this.content = content;
 	}
 

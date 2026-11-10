@@ -124,11 +124,12 @@ public class ScheduleService {
 		String reason = Text.trimToNull(request.reason());
 		ScheduleException exception = switch (request.type()) {
 			case UNAVAILABLE -> start == null
-					? ScheduleException.unavailableAllDay(doctor.getId(), request.date(), reason, caller.userId())
-					: ScheduleException.unavailable(doctor.getId(), request.date(), start, end, reason,
-							caller.userId());
-			case EXTRA_AVAILABILITY -> ScheduleException.extraAvailability(doctor.getId(), request.date(), start, end,
-					reason, caller.userId());
+					? ScheduleException.unavailableAllDay(doctor.getClinicId(), doctor.getId(), request.date(), reason,
+							caller.userId())
+					: ScheduleException.unavailable(doctor.getClinicId(), doctor.getId(), request.date(), start, end,
+							reason, caller.userId());
+			case EXTRA_AVAILABILITY -> ScheduleException.extraAvailability(doctor.getClinicId(), doctor.getId(),
+					request.date(), start, end, reason, caller.userId());
 		};
 		exceptions.saveAndFlush(exception);
 		audit.record(caller.clinicId(), caller.userId(), AuditActions.SCHEDULE_EXCEPTION_CREATED,

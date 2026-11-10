@@ -190,9 +190,9 @@ class PersistenceMappingTests {
 
 	@Test
 	void softDeletedClinicalEntriesAreHiddenFromNormalReads() {
-		Allergy kept = new Allergy(record.getId(), "Penicillin", owner.getId());
+		Allergy kept = new Allergy(record.getClinicId(), record.getId(), "Penicillin", owner.getId());
 		kept.update("Penicillin", "Rash", AllergySeverity.MODERATE, null, owner.getId());
-		Allergy removed = new Allergy(record.getId(), "Latex", owner.getId());
+		Allergy removed = new Allergy(record.getClinicId(), record.getId(), "Latex", owner.getId());
 		allergies.saveAll(List.of(kept, removed));
 		flushAndClear();
 
@@ -208,8 +208,8 @@ class PersistenceMappingTests {
 
 	@Test
 	void medicalNotesArePageable() {
-		notes.save(new MedicalNote(record.getId(), "First note", owner.getId()));
-		notes.save(new MedicalNote(record.getId(), "Second note", owner.getId()));
+		notes.save(new MedicalNote(record.getClinicId(), record.getId(), "First note", owner.getId()));
+		notes.save(new MedicalNote(record.getClinicId(), record.getId(), "Second note", owner.getId()));
 		flushAndClear();
 
 		assertThat(notes.findAllByMedicalRecordId(record.getId(), PageRequest.of(0, 1)).getTotalElements()).isEqualTo(2);
@@ -219,8 +219,8 @@ class PersistenceMappingTests {
 	void schedulesRoundTripAndOverlapIsReportedByConstraintName() {
 		schedulePeriods.save(new DoctorSchedulePeriod(doctor.getId(), DayOfWeek.MONDAY, LocalTime.of(9, 0),
 				LocalTime.of(12, 0)));
-		scheduleExceptions.save(ScheduleException.extraAvailability(doctor.getId(), LocalDate.of(2027, 4, 17),
-				LocalTime.of(9, 0), LocalTime.of(11, 0), null, owner.getId()));
+		scheduleExceptions.save(ScheduleException.extraAvailability(doctor.getClinicId(), doctor.getId(),
+				LocalDate.of(2027, 4, 17), LocalTime.of(9, 0), LocalTime.of(11, 0), null, owner.getId()));
 		flushAndClear();
 
 		assertThat(schedulePeriods.findAllByDoctorIdOrderByDayOfWeekAscStartTimeAsc(doctor.getId()))

@@ -171,14 +171,15 @@ class AppointmentApiTests {
 				.andExpect(status().isUnprocessableContent())
 				.andExpect(jsonPath("$.code").value("DOCTOR_UNAVAILABLE"));
 
-			exceptions.save(ScheduleException.extraAvailability(cardiologist.getId(), day, LocalTime.of(18, 0),
-					LocalTime.of(20, 0), null, owner.getId()));
+			exceptions.save(ScheduleException.extraAvailability(cardiologist.getClinicId(), cardiologist.getId(), day,
+					LocalTime.of(18, 0), LocalTime.of(20, 0), null, owner.getId()));
 			fixture.flush();
 			book(ownerSession, alice, cardiologist, at(day, "17:45"), at(day, "18:15"))
 				.andExpect(status().isCreated());
 
 			LocalDate holiday = day.plusDays(1);
-			exceptions.save(ScheduleException.unavailableAllDay(cardiologist.getId(), holiday, null, owner.getId()));
+			exceptions.save(ScheduleException.unavailableAllDay(cardiologist.getClinicId(), cardiologist.getId(), holiday,
+					null, owner.getId()));
 			fixture.flush();
 			book(ownerSession, alice, cardiologist, at(holiday, "10:00"), at(holiday, "10:30"))
 				.andExpect(status().isUnprocessableContent())

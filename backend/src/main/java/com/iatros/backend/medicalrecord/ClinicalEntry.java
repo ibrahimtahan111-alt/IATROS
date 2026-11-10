@@ -11,10 +11,14 @@ import jakarta.persistence.MappedSuperclass;
 /**
  * Common shape of medical-record entries (allergies, conditions, medications, history, notes).
  * Entries are soft-deleted and attributed to their author (decisions.md D-030).
+ * {@code clinic_id} scopes {@code created_by}, {@code updated_by}, and {@code deleted_by} to a user of that clinic.
  * Subclasses use {@code @SQLRestriction("deleted_at IS NULL")} so deleted entries never appear in normal reads.
  */
 @MappedSuperclass
 public abstract class ClinicalEntry extends AuditedEntity {
+
+	@Column(name = "clinic_id", nullable = false, updatable = false)
+	private UUID clinicId;
 
 	@Column(name = "medical_record_id", nullable = false, updatable = false)
 	private UUID medicalRecordId;
@@ -34,7 +38,8 @@ public abstract class ClinicalEntry extends AuditedEntity {
 	protected ClinicalEntry() {
 	}
 
-	protected ClinicalEntry(UUID medicalRecordId, UUID createdBy) {
+	protected ClinicalEntry(UUID clinicId, UUID medicalRecordId, UUID createdBy) {
+		this.clinicId = clinicId;
 		this.medicalRecordId = medicalRecordId;
 		this.createdBy = createdBy;
 	}
@@ -50,6 +55,10 @@ public abstract class ClinicalEntry extends AuditedEntity {
 
 	public boolean isDeleted() {
 		return deletedAt != null;
+	}
+
+	public UUID getClinicId() {
+		return clinicId;
 	}
 
 	public UUID getMedicalRecordId() {

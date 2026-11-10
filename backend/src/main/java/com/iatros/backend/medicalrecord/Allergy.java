@@ -31,8 +31,8 @@ public class Allergy extends ClinicalEntry {
 	protected Allergy() {
 	}
 
-	public Allergy(UUID medicalRecordId, String allergen, UUID createdBy) {
-		super(medicalRecordId, createdBy);
+	public Allergy(UUID clinicId, UUID medicalRecordId, String allergen, UUID createdBy) {
+		super(clinicId, medicalRecordId, createdBy);
 		this.allergen = allergen;
 	}
 

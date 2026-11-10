@@ -85,7 +85,8 @@ public class MedicalRecordService {
 	@Transactional
 	public AllergyResponse addAllergy(AuthenticatedUser caller, UUID patientId, AllergyRequest request) {
 		MedicalRecord record = recordAccess.writable(caller, patientId);
-		Allergy allergy = new Allergy(record.getId(), Text.trim(request.allergen()), caller.userId());
+		Allergy allergy = new Allergy(record.getClinicId(), record.getId(), Text.trim(request.allergen()),
+				caller.userId());
 		apply(allergy, request, caller);
 		return toResponse(writer.create(caller, record, allergy, allergies, AuditActions.ENTITY_ALLERGY));
 	}
@@ -114,7 +115,8 @@ public class MedicalRecordService {
 	public ConditionResponse addCondition(AuthenticatedUser caller, UUID patientId, ConditionRequest request) {
 		MedicalRecord record = recordAccess.writable(caller, patientId);
 		requireNotFuture(caller, request.diagnosedOn(), "diagnosedOn");
-		MedicalCondition condition = new MedicalCondition(record.getId(), Text.trim(request.name()), caller.userId());
+		MedicalCondition condition = new MedicalCondition(record.getClinicId(), record.getId(),
+				Text.trim(request.name()), caller.userId());
 		apply(condition, request, caller);
 		return toResponse(writer.create(caller, record, condition, conditions, AuditActions.ENTITY_MEDICAL_CONDITION));
 	}
@@ -144,7 +146,8 @@ public class MedicalRecordService {
 	public MedicationResponse addMedication(AuthenticatedUser caller, UUID patientId, MedicationRequest request) {
 		MedicalRecord record = recordAccess.writable(caller, patientId);
 		requireOrdered(request);
-		Medication medication = new Medication(record.getId(), Text.trim(request.name()), caller.userId());
+		Medication medication = new Medication(record.getClinicId(), record.getId(), Text.trim(request.name()),
+				caller.userId());
 		apply(medication, request, caller);
 		return toResponse(writer.create(caller, record, medication, medications, AuditActions.ENTITY_MEDICATION));
 	}
@@ -175,8 +178,8 @@ public class MedicalRecordService {
 			HistoryEntryRequest request) {
 		MedicalRecord record = recordAccess.writable(caller, patientId);
 		requireNotFuture(caller, request.occurredOn(), "occurredOn");
-		MedicalHistoryEntry entry = new MedicalHistoryEntry(record.getId(), Text.trim(request.description()),
-				caller.userId());
+		MedicalHistoryEntry entry = new MedicalHistoryEntry(record.getClinicId(), record.getId(),
+				Text.trim(request.description()), caller.userId());
 		apply(entry, request, caller);
 		return toResponse(writer.create(caller, record, entry, history, AuditActions.ENTITY_MEDICAL_HISTORY_ENTRY));
 	}

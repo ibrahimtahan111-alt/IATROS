@@ -53,6 +53,29 @@ class SchemaFixtures {
 		return id;
 	}
 
+	UUID medicalRecord(UUID clinicId, UUID patientId) {
+		UUID id = UUID.randomUUID();
+		jdbc.update("""
+				INSERT INTO medical_record (id, clinic_id, patient_id)
+				VALUES (?, ?, ?)
+				""", id, clinicId, patientId);
+		return id;
+	}
+
+	void allergy(UUID clinicId, UUID medicalRecordId, UUID createdBy) {
+		jdbc.update("""
+				INSERT INTO allergy (id, clinic_id, medical_record_id, allergen, created_by)
+				VALUES (?, ?, ?, 'Penicillin', ?)
+				""", UUID.randomUUID(), clinicId, medicalRecordId, createdBy);
+	}
+
+	void scheduleException(UUID clinicId, UUID doctorId, UUID createdBy) {
+		jdbc.update("""
+				INSERT INTO schedule_exception (id, clinic_id, doctor_id, exception_date, type, created_by)
+				VALUES (?, ?, ?, ?, 'UNAVAILABLE', ?)
+				""", UUID.randomUUID(), clinicId, doctorId, LocalDate.of(2027, 5, 1), createdBy);
+	}
+
 	void linkDoctor(UUID clinicId, UUID patientId, UUID doctorId, String relationshipType) {
 		jdbc.update("""
 				INSERT INTO patient_doctor (id, clinic_id, patient_id, doctor_id, relationship_type)

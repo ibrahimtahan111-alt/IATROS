@@ -20,6 +20,9 @@ import jakarta.persistence.Table;
 @Table(name = "schedule_exception")
 public class ScheduleException extends TimestampedEntity {
 
+	@Column(name = "clinic_id", nullable = false, updatable = false)
+	private UUID clinicId;
+
 	@Column(name = "doctor_id", nullable = false, updatable = false)
 	private UUID doctorId;
 
@@ -45,8 +48,8 @@ public class ScheduleException extends TimestampedEntity {
 	protected ScheduleException() {
 	}
 
-	private ScheduleException(UUID doctorId, LocalDate exceptionDate, LocalTime startTime, LocalTime endTime,
-			ScheduleExceptionType type, String reason, UUID createdBy) {
+	private ScheduleException(UUID clinicId, UUID doctorId, LocalDate exceptionDate, LocalTime startTime,
+			LocalTime endTime, ScheduleExceptionType type, String reason, UUID createdBy) {
 		if ((startTime == null) != (endTime == null)) {
 			throw new IllegalArgumentException("startTime and endTime must be set together");
 		}
@@ -56,6 +59,7 @@ public class ScheduleException extends TimestampedEntity {
 		if (type == ScheduleExceptionType.EXTRA_AVAILABILITY && startTime == null) {
 			throw new IllegalArgumentException("Extra availability requires a time range");
 		}
+		this.clinicId = clinicId;
 		this.doctorId = doctorId;
 		this.exceptionDate = exceptionDate;
 		this.startTime = startTime;
@@ -65,23 +69,30 @@ public class ScheduleException extends TimestampedEntity {
 		this.createdBy = createdBy;
 	}
 
-	public static ScheduleException unavailableAllDay(UUID doctorId, LocalDate date, String reason, UUID createdBy) {
-		return new ScheduleException(doctorId, date, null, null, ScheduleExceptionType.UNAVAILABLE, reason, createdBy);
-	}
-
-	public static ScheduleException unavailable(UUID doctorId, LocalDate date, LocalTime start, LocalTime end,
-			String reason, UUID createdBy) {
-		return new ScheduleException(doctorId, date, start, end, ScheduleExceptionType.UNAVAILABLE, reason, createdBy);
-	}
-
-	public static ScheduleException extraAvailability(UUID doctorId, LocalDate date, LocalTime start, LocalTime end,
-			String reason, UUID createdBy) {
-		return new ScheduleException(doctorId, date, start, end, ScheduleExceptionType.EXTRA_AVAILABILITY, reason,
+	public static ScheduleException unavailableAllDay(UUID clinicId, UUID doctorId, LocalDate date, String reason,
+			UUID createdBy) {
+		return new ScheduleException(clinicId, doctorId, date, null, null, ScheduleExceptionType.UNAVAILABLE, reason,
 				createdBy);
+	}
+
+	public static ScheduleException unavailable(UUID clinicId, UUID doctorId, LocalDate date, LocalTime start,
+			LocalTime end, String reason, UUID createdBy) {
+		return new ScheduleException(clinicId, doctorId, date, start, end, ScheduleExceptionType.UNAVAILABLE, reason,
+				createdBy);
+	}
+
+	public static ScheduleException extraAvailability(UUID clinicId, UUID doctorId, LocalDate date, LocalTime start,
+			LocalTime end, String reason, UUID createdBy) {
+		return new ScheduleException(clinicId, doctorId, date, start, end, ScheduleExceptionType.EXTRA_AVAILABILITY,
+				reason, createdBy);
 	}
 
 	public boolean isAllDay() {
 		return startTime == null;
+	}
+
+	public UUID getClinicId() {
+		return clinicId;
 	}
 
 	public UUID getDoctorId() {

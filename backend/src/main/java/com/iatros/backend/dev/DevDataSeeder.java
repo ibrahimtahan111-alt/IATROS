@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,6 +59,7 @@ import com.iatros.backend.user.Role;
  */
 @Component
 @Profile("dev")
+@Order(0)
 class DevDataSeeder implements ApplicationRunner {
 
 	static final String OWNER_EMAIL = "owner@demo.iatros.test";
@@ -157,7 +159,8 @@ class DevDataSeeder implements ApplicationRunner {
 					DoctorRelationshipType.PRIMARY, owner.getId()));
 			MedicalRecord record = medicalRecords.save(new MedicalRecord(clinic.getId(), patient.getId()));
 			if (i % 3 == 0) {
-				Allergy allergy = new Allergy(record.getId(), i % 2 == 0 ? "Penicillin" : "Pollen", owner.getId());
+				Allergy allergy = new Allergy(record.getClinicId(), record.getId(),
+						i % 2 == 0 ? "Penicillin" : "Pollen", owner.getId());
 				allergy.update(allergy.getAllergen(), "Rash", AllergySeverity.MODERATE, null, owner.getId());
 				allergies.save(allergy);
 			}

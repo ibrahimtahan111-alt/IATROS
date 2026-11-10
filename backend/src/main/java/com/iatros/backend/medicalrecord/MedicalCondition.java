@@ -32,8 +32,8 @@ public class MedicalCondition extends ClinicalEntry {
 	protected MedicalCondition() {
 	}
 
-	public MedicalCondition(UUID medicalRecordId, String name, UUID createdBy) {
-		super(medicalRecordId, createdBy);
+	public MedicalCondition(UUID clinicId, UUID medicalRecordId, String name, UUID createdBy) {
+		super(clinicId, medicalRecordId, createdBy);
 		this.name = name;
 	}
 

@@ -56,7 +56,7 @@ public class MedicalNoteService {
 	public NoteResponse add(AuthenticatedUser caller, UUID patientId, NoteRequest request) {
 		MedicalRecord record = recordAccess.writable(caller, patientId);
 		MedicalNote note = writer.create(caller, record,
-				new MedicalNote(record.getId(), Text.trim(request.content()), caller.userId()), notes,
+				new MedicalNote(record.getClinicId(), record.getId(), Text.trim(request.content()), caller.userId()), notes,
 				AuditActions.ENTITY_MEDICAL_NOTE);
 		return toResponse(caller, note, author(note));
 	}

@@ -464,15 +464,15 @@ class DashboardApiTests {
 
 	private void allergy(Patient patient, String allergen, String severity) {
 		jdbc.update("""
-				insert into allergy (id, medical_record_id, allergen, severity, created_by)
-				select ?, mr.id, ?, ?, ? from medical_record mr where mr.patient_id = ?
+				insert into allergy (id, clinic_id, medical_record_id, allergen, severity, created_by)
+				select ?, mr.clinic_id, mr.id, ?, ?, ? from medical_record mr where mr.patient_id = ?
 				""", UUID.randomUUID(), allergen, severity, owner.getId(), patient.getId());
 	}
 
 	private void condition(Patient patient, String name, String status) {
 		jdbc.update("""
-				insert into medical_condition (id, medical_record_id, name, status, created_by)
-				select ?, mr.id, ?, ?, ? from medical_record mr where mr.patient_id = ?
+				insert into medical_condition (id, clinic_id, medical_record_id, name, status, created_by)
+				select ?, mr.clinic_id, mr.id, ?, ?, ? from medical_record mr where mr.patient_id = ?
 				""", UUID.randomUUID(), name, status, owner.getId(), patient.getId());
 	}
 

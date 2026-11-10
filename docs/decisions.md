@@ -377,7 +377,7 @@ Defaults: maximum 20 MB per file; allowed types PDF, JPEG, PNG, WEBP. The conten
 
 ## D-033 — The owner can also be a doctor
 
-Each user has exactly one role, but a doctor profile can belong to a user whose role is `DOCTOR` **or** `OWNER`.
+Each user has exactly one role, but a doctor profile can belong to a user whose role is `DOCTOR` **or** `OWNER`. The database rejects a `doctor` row for any other role, and rejects changing a user who already has a doctor profile to `SECRETARY` (V13).
 
 This supports the primary target user: a solo doctor who owns the clinic and also sees patients. An owner with a doctor profile appears in calendars, schedules, and patient-doctor relationships like any other doctor, while keeping owner permissions.
 
@@ -405,7 +405,7 @@ This supports the primary target user: a solo doctor who owns the clinic and als
 
 ## D-036 — Patient management rules
 
-* **Every patient always has exactly one primary doctor**, chosen at creation. It must be a doctor of the clinic whose account is not deactivated (invited doctors are allowed). Other doctors get access only through the owner.
+* **Every patient always has exactly one primary doctor**, chosen at creation. It must be a doctor of the clinic whose account is not deactivated (invited doctors are allowed). The patient and the `PRIMARY` link are written in one transaction; a deferred constraint rejects the commit if that link is missing (V13). Other doctors get access only through the owner.
 * **Who creates patients.** Every role. A doctor can only create patients with themselves as primary doctor, so they never create a patient they cannot see. The patient's medical record is created in the same transaction.
 * **Who edits.** Identity and contact details can be edited by every role within its patient scope (D-029); edits send the loaded `version`. Doctor access and status are not part of the edit.
 * **Doctor access is owner-only.** The owner changes the primary doctor, gives other doctors access (`AUTHORIZED`), and removes it. Doctors cannot grant or remove access themselves in V1.

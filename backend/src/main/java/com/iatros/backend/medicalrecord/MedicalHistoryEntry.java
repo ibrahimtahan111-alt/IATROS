@@ -26,8 +26,8 @@ public class MedicalHistoryEntry extends ClinicalEntry {
 	protected MedicalHistoryEntry() {
 	}
 
-	public MedicalHistoryEntry(UUID medicalRecordId, String description, UUID createdBy) {
-		super(medicalRecordId, createdBy);
+	public MedicalHistoryEntry(UUID clinicId, UUID medicalRecordId, String description, UUID createdBy) {
+		super(clinicId, medicalRecordId, createdBy);
 		this.description = description;
 	}
 

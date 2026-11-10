@@ -39,8 +39,8 @@ public class Medication extends ClinicalEntry {
 	protected Medication() {
 	}
 
-	public Medication(UUID medicalRecordId, String name, UUID createdBy) {
-		super(medicalRecordId, createdBy);
+	public Medication(UUID clinicId, UUID medicalRecordId, String name, UUID createdBy) {
+		super(clinicId, medicalRecordId, createdBy);
 		this.name = name;
 	}
 

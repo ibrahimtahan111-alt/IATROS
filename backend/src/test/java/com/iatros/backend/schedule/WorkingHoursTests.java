@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 /** Working-hours composition (decisions.md D-035): weekly periods, extra availability, then unavailability. */
 class WorkingHoursTests {
 
+	private static final UUID CLINIC = UUID.randomUUID();
 	private static final UUID DOCTOR = UUID.randomUUID();
 	private static final LocalDate DATE = LocalDate.of(2030, 3, 4);
 
@@ -52,31 +53,31 @@ class WorkingHoursTests {
 	void extraAvailabilityExtendsAndUnavailabilityCutsTheDay() {
 		List<TimeRange> weekly = List.of(range("09:00", "12:00"), range("14:00", "18:00"));
 		List<TimeRange> hours = WorkingHoursService.hoursFor(weekly, List.of(
-				ScheduleException.extraAvailability(DOCTOR, DATE, time("12:00"), time("13:00"), null, null),
-				ScheduleException.unavailable(DOCTOR, DATE, time("15:00"), time("16:00"), null, null)));
+				ScheduleException.extraAvailability(CLINIC, DOCTOR, DATE, time("12:00"), time("13:00"), null, null),
+				ScheduleException.unavailable(CLINIC, DOCTOR, DATE, time("15:00"), time("16:00"), null, null)));
 		assertThat(hours).containsExactly(range("09:00", "13:00"), range("14:00", "15:00"), range("16:00", "18:00"));
 	}
 
 	@Test
 	void unavailabilityWinsOverExtraAvailability() {
 		List<TimeRange> hours = WorkingHoursService.hoursFor(List.of(), List.of(
-				ScheduleException.extraAvailability(DOCTOR, DATE, time("09:00"), time("12:00"), null, null),
-				ScheduleException.unavailable(DOCTOR, DATE, time("09:00"), time("10:00"), null, null)));
+				ScheduleException.extraAvailability(CLINIC, DOCTOR, DATE, time("09:00"), time("12:00"), null, null),
+				ScheduleException.unavailable(CLINIC, DOCTOR, DATE, time("09:00"), time("10:00"), null, null)));
 		assertThat(hours).containsExactly(range("10:00", "12:00"));
 	}
 
 	@Test
 	void anAllDayUnavailabilityClosesTheWholeDay() {
 		List<TimeRange> hours = WorkingHoursService.hoursFor(List.of(range("09:00", "18:00")), List.of(
-				ScheduleException.extraAvailability(DOCTOR, DATE, time("18:00"), time("20:00"), null, null),
-				ScheduleException.unavailableAllDay(DOCTOR, DATE, null, null)));
+				ScheduleException.extraAvailability(CLINIC, DOCTOR, DATE, time("18:00"), time("20:00"), null, null),
+				ScheduleException.unavailableAllDay(CLINIC, DOCTOR, DATE, null, null)));
 		assertThat(hours).isEmpty();
 	}
 
 	@Test
 	void extraAvailabilityOpensADayWithoutWeeklyHours() {
 		assertThat(WorkingHoursService.hoursFor(List.of(), List.of(
-				ScheduleException.extraAvailability(DOCTOR, DATE, time("08:00"), time("10:00"), null, null))))
+				ScheduleException.extraAvailability(CLINIC, DOCTOR, DATE, time("08:00"), time("10:00"), null, null))))
 			.containsExactly(range("08:00", "10:00"));
 	}
 

@@ -7,6 +7,7 @@ import { ErrorState } from '../../shared/ui/ErrorState'
 import { Page, Section } from '../../shared/ui/Page'
 import { LoadingRegion, Skeleton } from '../../shared/ui/Skeleton'
 import { UnsavedChangesDialog } from '../../shared/ui/UnsavedChangesDialog'
+import { ConfigurationSwitch } from '../../app/ConfigurationSwitch'
 import { useClinic } from './api'
 import { ClinicProfileForm } from './ClinicProfileForm'
 import { ClinicSettingsForm } from './ClinicSettingsForm'
@@ -38,7 +39,7 @@ export function SettingsPage() {
 
   return (
     <Page>
-      <ContextBar title={t('title')} />
+      <ContextBar title={t('title')} scope={<ConfigurationSwitch current="settings" />} />
       {clinic.isPending ? (
         <LoadingRegion label={tCommon('states.loading')}>
           <div className={styles.skeleton}>

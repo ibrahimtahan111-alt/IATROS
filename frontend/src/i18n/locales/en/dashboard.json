@@ -10,6 +10,22 @@
     "appointments": "Today's appointments",
     "remaining": "Still to come"
   },
+  "charts": {
+    "mixTitle": "Today's mix",
+    "mixCaption": "Today's appointment mix",
+    "mixTotal": "Appointments",
+    "mixEmpty": "No appointments to chart yet.",
+    "hoursTitle": "When the day fills up",
+    "hoursCaption": "Appointments by hour",
+    "hoursEmpty": "No appointments to place on the clock.",
+    "doctorsTitle": "Load by doctor",
+    "doctorsCaption": "Appointments by doctor",
+    "status": "Status",
+    "count": "Appointments",
+    "hour": "Hour",
+    "doctor": "Doctor",
+    "inProgress": "In progress"
+  },
   "owner": {
     "waitingRoom": "Waiting room",
     "waitingEmpty": "No one is waiting.",

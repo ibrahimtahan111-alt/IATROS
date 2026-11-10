@@ -8,21 +8,28 @@ import { ContextBar } from '../../shared/ui/ContextBar'
 import { ErrorState } from '../../shared/ui/ErrorState'
 import { KpiGrid, KpiTile } from '../../shared/ui/KpiTile'
 import { Page, Section } from '../../shared/ui/Page'
+import { useSessionUser } from '../auth/session'
 import { personName } from '../calendar/api'
 import { useDoctorDashboard, type DoctorDashboard } from './api'
 import { DashboardSkeleton, Greeting, PerformanceSection, RecentActivitySection, SectionFooter } from './DashboardParts'
 import { useGreeting } from './useGreeting'
+import { OverviewCharts } from './OverviewCharts'
 import { TodaySchedule } from './TodaySchedule'
 import styles from './Dashboard.module.css'
 
 /** A doctor's own day: schedule with clinical alerts, patients, own KPIs and activity (ui-ux.md §8). */
 export function DoctorDashboardView() {
-  const { t } = useTranslation()
+  const { t } = useTranslation('dashboard')
+  const user = useSessionUser()
+  const greeting = useGreeting(user.clinic.timeZone)
   const dashboard = useDoctorDashboard()
 
   return (
     <Page width="full">
-      <ContextBar title={t('nav.myDay')} scope={<ModuleSwitch current="overview" />} />
+      <ContextBar
+        title={greeting(t('greeting.doctorName', { lastName: user.lastName }))}
+        scope={<ModuleSwitch current="overview" />}
+      />
       {dashboard.isError ? (
         <ErrorState error={dashboard.error} onRetry={() => void dashboard.refetch()} retrying={dashboard.isFetching} />
       ) : !dashboard.data ? (
@@ -36,18 +43,13 @@ export function DoctorDashboardView() {
 
 function DoctorDashboardContent({ data }: { data: DoctorDashboard }) {
   const { t } = useTranslation('dashboard')
-  const greeting = useGreeting(data.timeZone)
   const number = useNumberFormat()
   const format = useDateTimeFormat(data.timeZone)
   const dayView = `/calendar?view=day&date=${data.today}`
 
   return (
     <>
-      <Greeting
-        title={greeting(t('greeting.doctorName', { lastName: data.doctor.lastName }))}
-        today={data.today}
-        timeZone={data.timeZone}
-      />
+      <Greeting today={data.today} timeZone={data.timeZone} />
       <div className={styles.tiles}>
         <KpiGrid label={t('today.label')}>
           <KpiTile tone="accent" label={t('doctor.todayPatients')} value={number.integer(data.summary.patients)} />
@@ -61,6 +63,8 @@ function DoctorDashboardContent({ data }: { data: DoctorDashboard }) {
           <KpiTile tone="completed" label={t('doctor.completedToday')} value={number.integer(data.summary.completed)} />
         </KpiGrid>
       </div>
+
+      <OverviewCharts summary={data.summary} schedule={data.schedule} timeZone={data.timeZone} />
 
       <div className={styles.columns}>
         <Section title={t('schedule.title')} description={t('schedule.doctorDescription')}>

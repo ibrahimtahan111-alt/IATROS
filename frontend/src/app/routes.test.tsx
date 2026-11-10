@@ -92,7 +92,7 @@ describe('routing and route protection', () => {
     const links = within(nav)
       .getAllByRole('link')
       .map((link) => link.textContent)
-    expect(links).toEqual(['My day', 'Calendar', 'Patients', 'My schedule', 'My activity'])
+    expect(links).toEqual(['My day', 'Calendar', 'Patients', 'My schedule'])
   })
 
   it('does not render modules outside the role, even by URL', async () => {
@@ -114,7 +114,9 @@ describe('routing and route protection', () => {
     fakeApi(signedInAs('OWNER', { preferredLanguage: 'fr' }))
     renderRoute('/dashboard')
 
-    expect(await screen.findByRole('heading', { name: 'Vue d’ensemble' })).toBeInTheDocument()
+    expect(
+      await screen.findByRole('heading', { name: /^(Bonjour|Bon après-midi|Bonsoir), Elena$/ }),
+    ).toBeInTheDocument()
     expect(document.documentElement.lang).toBe('fr')
   })
 

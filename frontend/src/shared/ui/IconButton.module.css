@@ -17,7 +17,7 @@
 }
 
 .iconButton:hover:not(:disabled) {
-  background: var(--color-surface-sunken);
+  background: var(--color-rail-hover);
   color: var(--color-text);
 }
 

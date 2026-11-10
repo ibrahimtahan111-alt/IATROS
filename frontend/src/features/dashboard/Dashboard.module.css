@@ -1,16 +1,8 @@
 /* Role dashboards (ui-ux.md §7–8). */
 
-.greeting {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-  margin-block-end: var(--space-6);
-}
-
-.greetingTitle {
-  font-size: var(--text-title-1);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
+.dateLine {
+  margin-block: calc(var(--space-2) * -1) var(--space-5);
+  color: var(--color-text-muted);
 }
 
 .muted {
@@ -81,6 +73,220 @@
 .missed {
   --pulse: var(--color-status-no-show);
   --pulse-soft: var(--color-danger-soft);
+}
+
+.cancelled {
+  --pulse: var(--color-status-cancelled);
+  --pulse-soft: var(--color-surface-sunken);
+}
+
+.visuals {
+  display: grid;
+  grid-template-columns: minmax(16rem, 0.9fr) minmax(0, 1.3fr);
+  gap: var(--space-8) var(--space-10);
+  margin-block: var(--space-6) var(--space-2);
+}
+
+.chartCard {
+  min-width: 0;
+  margin: 0;
+}
+
+.chartWide {
+  grid-column: 1 / -1;
+}
+
+.chartTitle {
+  margin-block-end: var(--space-3);
+  font-size: var(--text-title-2);
+  font-weight: var(--weight-semibold);
+}
+
+.mix {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.donut {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 9.5rem;
+  height: 9.5rem;
+  border-radius: var(--radius-full);
+}
+
+.donutHole {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 62%;
+  height: 62%;
+  border-radius: var(--radius-full);
+  background: var(--color-canvas);
+}
+
+.donutValue {
+  font-size: var(--text-title-1);
+  font-weight: var(--weight-semibold);
+  line-height: 1;
+}
+
+.donutCaption {
+  color: var(--color-text-muted);
+  font-size: var(--text-small);
+}
+
+.legend {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 10rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.legendItem {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--space-2);
+  align-items: baseline;
+  color: var(--color-text);
+  font-size: var(--text-small);
+}
+
+.swatch {
+  width: var(--space-3);
+  height: var(--space-3);
+  border-radius: var(--radius-full);
+  background: var(--pulse);
+}
+
+.legendCount {
+  color: var(--color-text-muted);
+}
+
+.histogram {
+  display: flex;
+  align-items: end;
+  gap: var(--space-1);
+  height: 9.5rem;
+}
+
+.column {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+  height: 100%;
+}
+
+.columnPlot {
+  display: flex;
+  flex: 1;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  min-height: 0;
+}
+
+.columnBar {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 1px;
+  width: 100%;
+  max-width: 1.75rem;
+  height: calc(var(--share) * 100%);
+  overflow: hidden;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+}
+
+.columnSegment {
+  flex: var(--part) 1 0;
+  background: var(--segment);
+}
+
+.columnLabel {
+  color: var(--color-text-muted);
+  font-size: var(--text-caption, 0.7rem);
+  line-height: 1;
+}
+
+.bars {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.barRow {
+  display: grid;
+  grid-template-columns: minmax(7rem, 12rem) minmax(0, 1fr) 2rem;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.barName {
+  overflow: hidden;
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.barTrack {
+  height: var(--space-3);
+  overflow: hidden;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-sunken);
+}
+
+.barFill {
+  display: flex;
+  gap: 1px;
+  width: calc(var(--share) * 100%);
+  height: 100%;
+  min-width: var(--space-2);
+  overflow: hidden;
+  border-radius: var(--radius-full);
+}
+
+.barSegment {
+  flex: var(--part) 1 0;
+  height: 100%;
+  background: var(--segment);
+}
+
+.chartLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chartLegendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text);
+  font-size: var(--text-small);
+}
+
+.barValue {
+  color: var(--color-text-muted);
+  font-size: var(--text-small);
+  text-align: end;
 }
 
 .doctors {
@@ -227,7 +433,8 @@
 }
 
 @media (max-width: 1023px) {
-  .columns {
+  .columns,
+  .visuals {
     grid-template-columns: minmax(0, 1fr);
   }
 }

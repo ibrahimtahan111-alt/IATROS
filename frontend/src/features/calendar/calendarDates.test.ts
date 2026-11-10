@@ -28,7 +28,7 @@ describe('calendar dates', () => {
     expect(spanOn(lateEvening, '2026-10-14', 'Europe/Athens')).toBeNull()
   })
 
-  it('lays overlapping appointments side by side and the others full width', () => {
+  it('stacks overlapping appointments and leaves the others unshifted', () => {
     const placed = layoutLanes([
       { item: 'a', start: 540, end: 600 },
       { item: 'b', start: 570, end: 630 },

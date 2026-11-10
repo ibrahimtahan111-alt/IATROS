@@ -101,12 +101,12 @@ export interface PlacedItem<T> {
   item: T
   start: number
   end: number
-  /** Zero-based column within its group of overlapping items, and the group's column count. */
+  /** Zero-based stack index within its group of overlapping items, and the group's size. */
   lane: number
   lanes: number
 }
 
-/** Side-by-side layout of overlapping items within one day column. */
+/** Stacks overlapping items so they stay full width of the day column instead of shrinking side by side. */
 export function layoutLanes<T>(spans: { item: T; start: number; end: number }[]): PlacedItem<T>[] {
   const sorted = [...spans].sort((a, b) => a.start - b.start || b.end - a.end)
   const placed: PlacedItem<T>[] = []

@@ -17,6 +17,7 @@ import { ExceptionsSection } from './ExceptionsSection'
 import styles from './SchedulesPage.module.css'
 import { WeeklyHoursEditor } from './WeeklyHoursEditor'
 import { WorkingHoursPreview } from './WorkingHoursPreview'
+import { ConfigurationSwitch } from '../../app/ConfigurationSwitch'
 
 /**
  * Doctor schedules (roadmap.md Phase 6). Owners pick any clinic doctor (`?doctor=`); doctors manage their own
@@ -48,7 +49,7 @@ function OwnerSchedules() {
   if (doctors.isPending) {
     return (
       <Page>
-        <ContextBar title={title} />
+        <ContextBar title={title} scope={<ConfigurationSwitch current="schedules" />} />
         <LoadingRegion label={tCommon('states.loading')}>
           <Skeleton height="var(--space-16)" />
         </LoadingRegion>
@@ -58,7 +59,7 @@ function OwnerSchedules() {
   if (doctors.isError) {
     return (
       <Page>
-        <ContextBar title={title} />
+        <ContextBar title={title} scope={<ConfigurationSwitch current="schedules" />} />
         <ErrorState error={doctors.error} onRetry={() => void doctors.refetch()} retrying={doctors.isFetching} />
       </Page>
     )
@@ -66,7 +67,7 @@ function OwnerSchedules() {
   if (doctors.data.length === 0) {
     return (
       <Page>
-        <ContextBar title={title} />
+        <ContextBar title={title} scope={<ConfigurationSwitch current="schedules" />} />
         <NoDoctors canAdd />
       </Page>
     )
@@ -83,23 +84,26 @@ function OwnerSchedules() {
       <ContextBar
         title={title}
         scope={
-          <div className={styles.picker}>
-            <Select
-              aria-label={t('picker.label')}
-              value={selected.id}
-              onValueChange={(id) =>
-                setSearchParams(
-                  (current) => {
-                    const next = new URLSearchParams(current)
-                    next.set('doctor', id)
-                    return next
-                  },
-                  { replace: true },
-                )
-              }
-              options={doctors.data.map((doctor) => ({ value: doctor.id, label: label(doctor) }))}
-            />
-          </div>
+          <>
+            <ConfigurationSwitch current="schedules" />
+            <div className={styles.picker}>
+              <Select
+                aria-label={t('picker.label')}
+                value={selected.id}
+                onValueChange={(id) =>
+                  setSearchParams(
+                    (current) => {
+                      const next = new URLSearchParams(current)
+                      next.set('doctor', id)
+                      return next
+                    },
+                    { replace: true },
+                  )
+                }
+                options={doctors.data.map((doctor) => ({ value: doctor.id, label: label(doctor) }))}
+              />
+            </div>
+          </>
         }
       />
       {selected.status === 'DEACTIVATED' && (

@@ -265,7 +265,7 @@ Examples:
 
 The exact KPI calculations belong to the KPI requirements/API definition.
 
-**Implementation (`decisions.md` D-039):** Overview is today's clinic pulse. The context bar ends with a two-way switch, Overview then Activity. The current page matches the side menu: a light surface with a sage outline. The page shows the greeting and the live pulse: status-colored figures for waiting, in consultation, still to come, and completed (no-shows only when there is at least one), the waiting room, consultations in progress, each doctor's load, and appointments that have not started. Appointment rows and figures open the calendar. The pulse refreshes every minute. Activity is its own page (§22).
+**Implementation (`decisions.md` D-039):** Overview is today's clinic pulse. The context bar ends with a two-way switch, Overview then Activity. The current page matches the side menu: a light surface with a sage outline. The context bar title is the time-of-day greeting. The page then shows the date and the live pulse: status-colored figures for waiting, in consultation, still to come, and completed (no-shows only when there is at least one), then today's mix as a ring, an hourly histogram, and each doctor's load as a bar. The histogram and the doctor bars use the same status colors as the ring, so a no-show stays visible instead of disappearing into the total. Under that: the waiting room, consultations in progress, each doctor's detail, and appointments that have not started. Appointment rows and figures open the calendar. The pulse refreshes every minute. Activity is its own page (§22).
 
 ---
 
@@ -394,8 +394,8 @@ The backend remains authoritative.
 
 ## Implementation (D-038)
 
-* View, date, doctor filter, the open appointment, and "Show cancelled" live in the URL (`/calendar?view=day&date=2026-10-12&doctor=…&appointment=…&cancelled=1`), so a refresh or a shared link reopens the same place. Week is the default view and weeks start on the clinic's week start day.
-* Day view shows one column per doctor; week view shows one column per date, with each event naming its doctor when several are shown. Time outside working hours is shaded and a Now line marks the current time. Overlapping appointments sit side by side.
+* View, date, doctor filter, the open appointment, and "Show cancelled" live in the URL (`/calendar?view=day&date=2026-10-12&doctor=…&appointment=…&cancelled=1`), so a refresh or a shared link reopens the same place. Week is the default view and weeks start on the clinic's week start day. The toolbar date picker jumps to that day, week, or month; the arrows still step one period at a time.
+* Day view shows one column per doctor; week view shows one column per date, with each event naming its doctor when several are shown. Time outside working hours is shaded and a Now line marks the current time. Overlapping appointments stack vertically at full column width so names stay readable.
 * Month view shows up to three appointments per day plus "+N more"; a day opens its day view.
 * The doctor filter is offered to owners and secretaries; doctors only ever see their own calendar.
 * Appointment details open in a right-side panel with the actions the server allows. Start consultation appears for the appointment's doctor once the patient is waiting, in consultation, or completed, and links the consultation to the appointment.
@@ -1299,23 +1299,19 @@ The secretary does not receive unrestricted access to clinical information.
 ## Owner
 
 ```text
-Overview        /dashboard
+Overview        /dashboard   (Activity /activity is the other side of this item)
 Calendar        /calendar
 Patients        /patients
-Team            /team
-Schedules       /schedules
-Activity        /activity
-Settings        /settings
+Configuration   /team        (Team, Schedules /schedules, Settings /settings)
 ```
 
 ## Doctor
 
 ```text
-My day          /dashboard
+My day          /dashboard   (My activity /activity is the other side of this item)
 Calendar        /calendar
 Patients        /patients
 My schedule     /schedules
-My activity     /activity
 ```
 
 ## Secretary

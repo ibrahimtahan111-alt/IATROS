@@ -10,6 +10,22 @@
     "appointments": "Rendez-vous du jour",
     "remaining": "À venir"
   },
+  "charts": {
+    "mixTitle": "Répartition du jour",
+    "mixCaption": "Répartition des rendez-vous du jour",
+    "mixTotal": "Rendez-vous",
+    "mixEmpty": "Aucun rendez-vous à représenter.",
+    "hoursTitle": "Quand la journée se remplit",
+    "hoursCaption": "Rendez-vous par heure",
+    "hoursEmpty": "Aucun rendez-vous à placer sur la journée.",
+    "doctorsTitle": "Charge par médecin",
+    "doctorsCaption": "Rendez-vous par médecin",
+    "status": "Statut",
+    "count": "Rendez-vous",
+    "hour": "Heure",
+    "doctor": "Médecin",
+    "inProgress": "En cours"
+  },
   "owner": {
     "waitingRoom": "Salle d’attente",
     "waitingEmpty": "Personne n’attend.",

@@ -12,6 +12,7 @@ import { personName } from '../calendar/api'
 import { useOwnerDashboard, type OwnerDashboard, type ScheduleItem } from './api'
 import { DashboardSkeleton, Greeting, SectionFooter } from './DashboardParts'
 import { useGreeting } from './useGreeting'
+import { OverviewCharts } from './OverviewCharts'
 import { TodaySchedule } from './TodaySchedule'
 import styles from './Dashboard.module.css'
 
@@ -20,12 +21,13 @@ const COMING_UP_LIMIT = 6
 
 /** The clinic today. Activity is the next module, reached from the switch (ui-ux.md §7). */
 export function OwnerDashboardView() {
-  const { t } = useTranslation()
+  const user = useSessionUser()
+  const greeting = useGreeting(user.clinic.timeZone)
   const dashboard = useOwnerDashboard()
 
   return (
     <Page width="full">
-      <ContextBar title={t('nav.overview')} scope={<ModuleSwitch current="overview" />} />
+      <ContextBar title={greeting(user.firstName)} scope={<ModuleSwitch current="overview" />} />
       {dashboard.isError ? (
         <ErrorState error={dashboard.error} onRetry={() => void dashboard.refetch()} retrying={dashboard.isFetching} />
       ) : !dashboard.data ? (
@@ -40,8 +42,6 @@ export function OwnerDashboardView() {
 function OwnerDashboardContent({ data }: { data: OwnerDashboard }) {
   const { t } = useTranslation('dashboard')
   const { t: tCommon } = useTranslation()
-  const user = useSessionUser()
-  const greeting = useGreeting(data.timeZone)
   const number = useNumberFormat()
   const dayView = `/calendar?view=day&date=${data.today}`
   const waiting = data.schedule.filter((item) => item.status === 'WAITING')
@@ -50,7 +50,7 @@ function OwnerDashboardContent({ data }: { data: OwnerDashboard }) {
 
   return (
     <>
-      <Greeting title={greeting(user.firstName)} today={data.today} timeZone={data.timeZone} />
+      <Greeting today={data.today} timeZone={data.timeZone} />
 
       <div className={styles.pulse} role="group" aria-label={t('today.label')}>
         <PulseLink
@@ -86,6 +86,14 @@ function OwnerDashboardContent({ data }: { data: OwnerDashboard }) {
           />
         )}
       </div>
+
+      <OverviewCharts
+        summary={data.summary}
+        schedule={data.schedule}
+        timeZone={data.timeZone}
+        doctors={data.doctors}
+        hoursPartial={data.scheduleTruncated}
+      />
 
       <div className={styles.columns}>
         <Section title={t('owner.waitingRoom')}>

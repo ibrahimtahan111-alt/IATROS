@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { NavLink, Outlet } from 'react-router'
-import { navItemsFor, navLabelKey } from '../app/navigation'
+import { Link, Outlet, useLocation } from 'react-router'
+import { navLabelKey, railIsCurrent, railItemsFor } from '../app/navigation'
 import { useApplyAccountLanguage } from '../features/auth/useLanguagePreference'
 import { useSessionUser } from '../features/auth/session'
 import { cx } from '../shared/lib/cx'
@@ -19,7 +19,8 @@ export function AppShell() {
   const user = useSessionUser()
   useApplyAccountLanguage(user)
 
-  const items = navItemsFor(user.role)
+  const { pathname } = useLocation()
+  const items = railItemsFor(user.role)
 
   // Tooltips and toasts live here, not in App, to keep them out of the sign-in bundle.
   return (
@@ -43,16 +44,18 @@ export function AppShell() {
               <ul className={styles.navList}>
                 {items.map((item) => {
                   const label = t(navLabelKey(item, user.role) as 'nav.overview')
+                  const current = railIsCurrent(pathname, item)
                   return (
                     <li key={item.path}>
-                      <NavLink
+                      <Link
                         to={item.path}
-                        className={({ isActive }) => cx(styles.navLink, isActive && styles.active)}
+                        className={cx(styles.navLink, current && styles.active)}
+                        aria-current={current ? 'page' : undefined}
                         title={label}
                       >
                         <item.icon className={styles.navIcon} aria-hidden="true" />
                         <span className={styles.navLabel}>{label}</span>
-                      </NavLink>
+                      </Link>
                     </li>
                   )
                 })}

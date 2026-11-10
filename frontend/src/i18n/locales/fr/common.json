@@ -16,10 +16,12 @@
     "mySchedule": "Mon planning",
     "activity": "Activité",
     "myActivity": "Mon activité",
-    "settings": "Paramètres"
+    "settings": "Paramètres",
+    "configuration": "Configuration"
   },
   "moduleSwitch": {
-    "label": "Vue d’ensemble ou activité"
+    "label": "Vue d’ensemble ou activité",
+    "configuration": "Configuration"
   },
   "userMenu": {
     "open": "Menu du compte de {{name}}",
@@ -57,6 +59,7 @@
     "next": "Suivant",
     "clearSearch": "Effacer la recherche",
     "edit": "Modifier",
+    "back": "Retour",
     "showPassword": "Afficher le mot de passe",
     "hidePassword": "Masquer le mot de passe"
   },

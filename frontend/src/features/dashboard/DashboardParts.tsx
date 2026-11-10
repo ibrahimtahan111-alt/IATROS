@@ -14,14 +14,9 @@ import { TrendChart } from '../activity/TrendChart'
 import { useSessionUser } from '../auth/session'
 import styles from './Dashboard.module.css'
 
-export function Greeting({ title, today, timeZone }: { title: string; today: string; timeZone: string }) {
+export function Greeting({ today, timeZone }: { today: string; timeZone: string }) {
   const format = useDateTimeFormat(timeZone)
-  return (
-    <div className={styles.greeting}>
-      <p className={styles.greetingTitle}>{title}</p>
-      <p className={styles.muted}>{format.longDate(today)}</p>
-    </div>
-  )
+  return <p className={styles.dateLine}>{format.longDate(today)}</p>
 }
 
 export function SectionFooter({ children }: { children: ReactNode }) {

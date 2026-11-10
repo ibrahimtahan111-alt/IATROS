@@ -21,6 +21,7 @@ import { MemberActionsMenu } from './MemberActionsMenu'
 import { StaffStatusBadge } from './StaffStatusBadge'
 import styles from './TeamPage.module.css'
 import { useMemberActions } from './useMemberActions'
+import { ConfigurationSwitch } from '../../app/ConfigurationSwitch'
 
 const FILTERS: readonly StaffFilter[] = ['role', 'status']
 const DEFAULT_SORT: SortState = { field: 'lastName', direction: 'asc' }
@@ -51,6 +52,7 @@ export function TeamPage() {
     <Page width="full">
       <ContextBar
         title={t('title')}
+        scope={<ConfigurationSwitch current="team" />}
         action={
           <ButtonLink to="new" variant="primary" icon={<UserPlus aria-hidden="true" />}>
             {t('add')}

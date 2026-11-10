@@ -35,7 +35,7 @@ const DEFAULT_END = 20 * 60
 
 /**
  * Day and week time grid (design-system.md §11.7): hour lines, non-working time on a sunken background, the Now
- * line, and appointments placed side by side when they overlap. Clicking free space books at that time.
+ * line, and overlapping appointments stacked vertically at full width. Clicking free space books at that time.
  */
 export function TimeGrid({ columns, events, timeZone, now, doctorNames, onSlotClick, onEventClick }: TimeGridProps) {
   const { t } = useTranslation('calendar')

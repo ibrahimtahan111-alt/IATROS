@@ -14,6 +14,11 @@
   gap: var(--space-1);
 }
 
+.dateJump {
+  width: auto;
+  max-width: 12rem;
+}
+
 .period {
   min-width: 12rem;
   font-weight: var(--weight-semibold);
@@ -191,14 +196,16 @@
 }
 
 .event {
+  --event-stack: var(--space-5);
+
   position: absolute;
-  z-index: 1;
-  top: calc(var(--top) * var(--hour-height) / 60 + 1px);
-  inset-inline-start: calc(var(--lane) * 100% / var(--lanes) + 2px);
+  z-index: calc(1 + var(--lane));
+  top: calc(var(--top) * var(--hour-height) / 60 + var(--lane) * var(--event-stack) + 1px);
+  inset-inline: 2px;
   display: flex;
   flex-direction: column;
   gap: 1px;
-  width: calc(100% / var(--lanes) - 4px);
+  width: auto;
   height: calc(var(--height) * var(--hour-height) / 60 - 2px);
   min-height: var(--space-5);
   padding: 2px var(--space-2);
@@ -282,7 +289,7 @@
 }
 
 .outside {
-  background: var(--color-surface-sunken);
+  background: var(--color-rail);
 }
 
 .outside .dayNumber {
@@ -303,7 +310,7 @@
 }
 
 .dayNumber:hover {
-  background: var(--color-surface-sunken);
+  background: var(--color-rail-hover);
 }
 
 .todayNumber {
@@ -317,10 +324,10 @@
 
 .monthEvent {
   padding: 1px var(--space-1);
-  border: none;
+  border: 1px solid var(--color-border);
   border-inline-start: 3px solid var(--status-color);
   border-radius: var(--radius-sm);
-  background: var(--color-surface-sunken);
+  background: var(--color-surface-raised);
   color: var(--color-text);
   font-size: var(--text-label);
   text-align: start;

@@ -2,6 +2,7 @@
   "today": "Today",
   "previous": "Previous period",
   "next": "Next period",
+  "goToDate": "Go to date",
   "view": {
     "label": "Calendar view",
     "day": "Day",

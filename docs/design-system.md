@@ -140,7 +140,7 @@ Each role lands on the screen that matches its real workflow:
 
 * **Doctor → "My day".** A vertical timeline of today's appointments with the Now line, the current/next patient emphasized, one-click "Start consultation", and a short list of patients needing follow-up.
 * **Secretary → Calendar.** Opens on today's calendar for all doctors, with a fast "Book" flow: find patient → choose slot → confirm.
-* **Owner → Overview.** Today's clinic pulse (appointments by status, waiting room, doctors' load). A switch at the end of the context bar, Overview first, opens Activity. The current page and the current side-menu item are a light surface with a sage outline. Charts only when a trend matters.
+* **Owner → Overview.** Today's clinic pulse (appointments by status, waiting room, doctors' load). A switch at the end of the context bar, Overview first, opens Activity. Both pages keep the Overview rail item current. The current page is a light surface with a sage outline. Charts only when a trend matters. Team, Schedules, and Settings share one Configuration rail item and the same kind of switch. Calendar and Patients stay separate.
 
 ---
 
@@ -163,7 +163,7 @@ Components must use **semantic tokens only**, never raw color values.
 
 ```text
 --color-canvas          page background ("paper" / "ink")
---color-rail            navigation rail
+--color-rail            navigation rail, and the well behind grouped controls (view switch, module switch, filter menus)
 --color-rail-hover      rail item under the pointer
 --color-surface         working surfaces (tables, panels, forms)
 --color-surface-raised  overlays (dialogs, popovers, panels)
@@ -362,7 +362,7 @@ Sticky band: avatar initials, full name, age · date of birth, primary doctor, a
 
 * Day / week / month views; week view is default on desktop, day view on small screens.
 * Time grid with hairlines every hour and lighter lines every 30 minutes; non-working hours shown on a sunken background so availability is instantly visible.
-* Appointment blocks: patient name (strong), time range (tabular), type; status dot on the leading edge.
+* Appointment blocks: patient name (strong), time range (tabular), type; status colour on the leading edge. Overlaps stack vertically at full column width rather than splitting the column.
 * The Now line spans the current day.
 * Clicking a free slot inside working hours opens the booking dialog prefilled with doctor, date, and time.
 * Multi-doctor view: doctors as columns in day view.

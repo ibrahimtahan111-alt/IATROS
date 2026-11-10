@@ -5,6 +5,7 @@ import { useSearchParams } from 'react-router'
 import { useDateTimeFormat } from '../../shared/hooks/useDateTimeFormat'
 import { Button } from '../../shared/ui/Button'
 import { ContextBar } from '../../shared/ui/ContextBar'
+import { DateInput } from '../../shared/ui/Input'
 import { EmptyState } from '../../shared/ui/EmptyState'
 import { ErrorState } from '../../shared/ui/ErrorState'
 import { IconButton } from '../../shared/ui/IconButton'
@@ -124,6 +125,15 @@ function CalendarWorkspace({ settings }: { settings: ClinicSettings }) {
               </Button>
               <IconButton label={t('previous')} icon={<ChevronLeft />} onClick={() => update({ date: shiftDate(view, date, -1) })} />
               <IconButton label={t('next')} icon={<ChevronRight />} onClick={() => update({ date: shiftDate(view, date, 1) })} />
+              <DateInput
+                className={styles.dateJump}
+                aria-label={t('goToDate')}
+                value={date}
+                onChange={(event) => {
+                  const next = event.target.value
+                  if (DATE_PATTERN.test(next)) update({ date: next === now.date ? null : next })
+                }}
+              />
             </div>
             <span className={styles.period} aria-live="polite">
               {period}
@@ -144,6 +154,7 @@ function CalendarWorkspace({ settings }: { settings: ClinicSettings }) {
           {user.role !== 'DOCTOR' && (
             <div className={styles.doctorFilter}>
               <Select
+                variant="filter"
                 aria-label={t('filters.doctor')}
                 value={doctorFilter ?? ALL}
                 onValueChange={(value) => update({ doctor: value === ALL ? null : value })}

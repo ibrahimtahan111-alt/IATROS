@@ -1,4 +1,4 @@
-import { screen, waitFor, within } from '@testing-library/react'
+import { fireEvent, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { fakeApi, json, problem, testUser } from '../../test/fakeApi'
@@ -95,6 +95,25 @@ describe('calendar', () => {
     expect(query.get('to')).toBe('2026-10-18')
     expect(screen.getByRole('button', { name: 'Week' })).toHaveAttribute('aria-pressed', 'true')
     expect(screen.getByRole('combobox', { name: 'Doctor' })).toBeInTheDocument()
+  })
+
+  it('jumps to a picked date in day, week, and month views', async () => {
+    fakeApi(calendarApi('OWNER'))
+    const { router } = renderRoute('/calendar?view=day&date=2026-10-12')
+    const user = userEvent.setup()
+
+    const picker = await screen.findByLabelText('Go to date')
+    expect(picker).toHaveValue('2026-10-12')
+    fireEvent.change(picker, { target: { value: '2026-11-03' } })
+    await waitFor(() => expect(router.state.location.search).toContain('date=2026-11-03'))
+
+    await user.click(screen.getByRole('button', { name: 'Week' }))
+    await waitFor(() => expect(router.state.location.search).not.toContain('view=day'))
+    expect(screen.getByLabelText('Go to date')).toHaveValue('2026-11-03')
+
+    await user.click(screen.getByRole('button', { name: 'Month' }))
+    await waitFor(() => expect(router.state.location.search).toContain('view=month'))
+    expect(screen.getByLabelText('Go to date')).toHaveValue('2026-11-03')
   })
 
   it('shows one column per doctor in the day view', async () => {

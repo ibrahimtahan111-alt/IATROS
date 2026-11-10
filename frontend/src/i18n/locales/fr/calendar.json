@@ -2,6 +2,7 @@
   "today": "Aujourd’hui",
   "previous": "Période précédente",
   "next": "Période suivante",
+  "goToDate": "Aller à une date",
   "view": {
     "label": "Vue du calendrier",
     "day": "Jour",

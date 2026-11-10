@@ -42,11 +42,11 @@ const ownerDashboard: OwnerDashboard = {
   doctors: [
     {
       doctor: daniel,
-      appointments: 3,
+      appointments: 4,
       completed: 1,
       inProgress: 1,
       remaining: 1,
-      noShows: 0,
+      noShows: 1,
     },
     {
       doctor: chloe,
@@ -57,7 +57,15 @@ const ownerDashboard: OwnerDashboard = {
       noShows: 0,
     },
   ],
-  schedule: [scheduleItem()],
+  schedule: [
+    scheduleItem(),
+    scheduleItem({
+      id: '0190a000-0000-7000-8000-0000000000a2',
+      startAt: '2026-10-10T13:00:00Z',
+      endAt: '2026-10-10T13:30:00Z',
+      status: 'NO_SHOW',
+    }),
+  ],
   scheduleTruncated: false,
   recentActivity: [activityItem()],
 }
@@ -95,9 +103,9 @@ describe('dashboards', () => {
     })
     renderRoute('/dashboard')
 
-    expect(await screen.findByRole('heading', { name: 'Overview' })).toBeInTheDocument()
-    expect(await screen.findByText(/Good (morning|afternoon|evening), Elena/)).toBeInTheDocument()
-    const today = screen.getByRole('group', { name: 'Today' })
+    expect(await screen.findByRole('heading', { name: /Good (morning|afternoon|evening), Elena/ })).toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: 'Overview' })).not.toBeInTheDocument()
+    const today = await screen.findByRole('group', { name: 'Today' })
     expect(within(today).getByRole('link', { name: /In consultation\s*1/ })).toHaveAttribute(
       'href',
       '/calendar?view=day&date=2026-10-10',
@@ -117,7 +125,19 @@ describe('dashboards', () => {
       'href',
       '/calendar?view=day&date=2026-10-10&doctor=0190a000-0000-7000-8000-000000000002',
     )
-    expect(screen.getByText('3 appointments')).toBeInTheDocument()
+    expect(screen.getByText('4 appointments')).toBeInTheDocument()
+    const mix = screen.getByRole('table', { name: "Today's appointment mix" })
+    expect(within(mix).getByRole('row', { name: /In consultation\s+1/ })).toBeInTheDocument()
+    expect(within(mix).getByRole('row', { name: /Still to come\s+2/ })).toBeInTheDocument()
+    const hours = screen.getByRole('table', { name: 'Appointments by hour' })
+    const missedHour = within(hours)
+      .getAllByRole('row')
+      .find((row) => within(row).queryAllByRole('cell')[1]?.textContent === '1')
+    expect(missedHour).toBeTruthy()
+    const daniel = within(screen.getByRole('table', { name: 'Appointments by doctor' })).getByRole('row', {
+      name: /Daniel Brown\s+4/,
+    })
+    expect(within(daniel).getAllByRole('cell')[1]).toHaveTextContent('1')
     const switcher = screen.getByRole('group', { name: 'Overview or activity' })
     expect(within(switcher).getByRole('link', { name: 'Overview' })).toHaveAttribute('aria-current', 'page')
     expect(within(switcher).getByRole('link', { name: 'Activity' })).toHaveAttribute('href', '/activity')
@@ -132,9 +152,9 @@ describe('dashboards', () => {
     })
     renderRoute('/dashboard')
 
-    expect(await screen.findByRole('heading', { name: 'My day' })).toBeInTheDocument()
-    expect(await screen.findByText(/Good (morning|afternoon|evening), Dr\. Brown/)).toBeInTheDocument()
-    expect(screen.getByText('Allergy: Penicillin')).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: /Good (morning|afternoon|evening), Dr\. Martin/ })).toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: 'My day' })).not.toBeInTheDocument()
+    expect(await screen.findByText('Allergy: Penicillin')).toBeInTheDocument()
     expect(screen.getByText('Hypertension')).toBeInTheDocument()
     expect(screen.getByText('42 patients, 30 as primary doctor')).toBeInTheDocument()
     expect(

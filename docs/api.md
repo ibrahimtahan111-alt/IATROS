@@ -161,7 +161,7 @@ Requires an authenticated session. Returns `204` and invalidates the user's othe
 
 Errors: `400 VALIDATION_ERROR` with field codes `INCORRECT_PASSWORD` (`currentPassword`) or `PASSWORD_MISMATCH` (`confirmPassword`), `401 UNAUTHENTICATED`, `429 RATE_LIMITED`.
 
-Passwords must be 12–128 characters (D-013).
+Passwords must be 8–128 characters (D-013).
 
 ---
 

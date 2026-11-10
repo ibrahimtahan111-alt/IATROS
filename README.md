@@ -34,7 +34,7 @@ Copy `.env.example` to `.env` for reference and set the variables in your shell 
 $env:IATROS_DB_PASSWORD = "choose-a-local-password"
 ```
 
-To create a fictional demo clinic on the first `dev` start, also set a demo password (at least 12 characters):
+To create a fictional demo clinic on the first `dev` start, also set a demo password (at least 8 characters):
 
 ```powershell
 $env:IATROS_DEMO_PASSWORD = "choose-a-demo-password"

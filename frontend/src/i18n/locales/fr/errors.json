@@ -50,7 +50,7 @@
     "INVALID_EMAIL": "Saisissez une adresse e-mail valide.",
     "INVALID_LENGTH": "Cette valeur est trop longue ou trop courte.",
     "INVALID_FORMAT": "Cette valeur n’a pas le format attendu.",
-    "PASSWORD_TOO_SHORT": "Utilisez au moins 12 caractères.",
+    "PASSWORD_TOO_SHORT": "Utilisez au moins 8 caractères.",
     "PASSWORD_TOO_LONG": "Utilisez au plus 128 caractères.",
     "PASSWORD_MISMATCH": "Les mots de passe ne correspondent pas.",
     "INCORRECT_PASSWORD": "Le mot de passe actuel est incorrect."

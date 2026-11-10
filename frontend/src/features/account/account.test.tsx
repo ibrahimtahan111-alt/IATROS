@@ -111,7 +111,7 @@ describe('account', () => {
     await user.type(screen.getByLabelText('New password'), 'short')
     await user.type(screen.getByLabelText('Confirm new password'), 'other')
     await user.click(screen.getByRole('button', { name: 'Change password' }))
-    expect(await screen.findByText('Use at least 12 characters.')).toBeInTheDocument()
+    expect(await screen.findByText('Use at least 8 characters.')).toBeInTheDocument()
     expect(requests.some((request) => request.path === '/auth/change-password')).toBe(false)
 
     await user.clear(screen.getByLabelText('New password'))

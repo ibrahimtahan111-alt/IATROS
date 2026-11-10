@@ -130,7 +130,7 @@ Use Spring Security's `DelegatingPasswordEncoder` with **Argon2id** as the defau
 
 * Parameters: 16-byte salt, 32-byte hash, parallelism 1, 19 MiB memory, 2 iterations (OWASP minimum for Argon2id).
 * Hashes are stored as `{argon2}...`; `{bcrypt}` hashes are still accepted, so imported accounts keep working.
-* Password policy: 12–128 characters, length only, no composition rules (NIST SP 800-63B). The new password and its confirmation must match (`PASSWORD_MISMATCH`).
+* Password policy: 8–128 characters, length only, no composition rules (NIST SP 800-63B). The new password and its confirmation must match (`PASSWORD_MISMATCH`).
 
 ## D-014 — Error responses
 

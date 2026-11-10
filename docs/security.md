@@ -126,7 +126,7 @@ Passwords must never be stored as plaintext.
 
 Passwords must be stored using a modern, strong, one-way password hashing algorithm supported by the chosen Spring Security configuration.
 
-**Decision:** `DelegatingPasswordEncoder` with Argon2id as the default (`decisions.md` D-013).
+**Decision:** `DelegatingPasswordEncoder` with Argon2id as the default (`decisions.md` D-013). Password policy is length only: 8–128 characters, no composition rules.
 
 Requirements:
 

@@ -2,7 +2,7 @@ import { z } from 'zod/mini'
 import { emailField as email } from '../../shared/forms/fields'
 
 /** Mirrors the backend policy (decisions.md D-013); the backend remains the authority. */
-export const PASSWORD_MIN_LENGTH = 12
+export const PASSWORD_MIN_LENGTH = 8
 export const PASSWORD_MAX_LENGTH = 128
 
 // zod/mini keeps the sign-in route within its bundle budget (design-system.md §17).

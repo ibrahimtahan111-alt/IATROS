@@ -42,7 +42,7 @@ describe('reset password page', () => {
     await user.type(screen.getByLabelText('Confirm new password'), 'different')
     await user.click(screen.getByRole('button', { name: 'Save new password' }))
 
-    expect(await screen.findByText('Use at least 12 characters.')).toBeInTheDocument()
+    expect(await screen.findByText('Use at least 8 characters.')).toBeInTheDocument()
     expect(requests).toHaveLength(0)
   })
 

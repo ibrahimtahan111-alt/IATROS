@@ -1,4 +1,4 @@
-import { MailPlus, Pencil, UserCheck, UserX } from 'lucide-react'
+import { KeyRound, MailPlus, Pencil, UserCheck, UserX } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useParams, useSearchParams } from 'react-router'
 import { useDateTimeFormat } from '../../shared/hooks/useDateTimeFormat'
@@ -69,6 +69,7 @@ function MemberDetails({ member }: { member: StaffMember }) {
   return (
     <Page>
       <ContextBar
+        back={{ to: '/team', label: tCommon('actions.back') }}
         title={name}
         scope={<StaffStatusBadge status={member.status} />}
         action={
@@ -127,6 +128,20 @@ function MemberDetails({ member }: { member: StaffMember }) {
 
       {member.doctor && (
         <DoctorProfileSection doctorId={member.doctor.id} scheduleLink={`/schedules?doctor=${member.doctor.id}`} />
+      )}
+
+      {member.status === 'ACTIVE' && (
+        <Section title={t('passwordReset.section')} description={t('passwordReset.consequence', { name, email: member.email })}>
+          <div>
+            <Button
+              icon={<KeyRound aria-hidden="true" />}
+              loading={actions.resetPending}
+              onClick={() => actions.resetPassword(member)}
+            >
+              {t('passwordReset.confirm')}
+            </Button>
+          </div>
+        </Section>
       )}
 
       {!isOwner && member.status !== 'DEACTIVATED' && (

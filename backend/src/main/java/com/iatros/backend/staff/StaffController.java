@@ -87,4 +87,10 @@ class StaffController {
 		staffService.resendInvitation(user, id);
 	}
 
+	@PostMapping("/{id}/password-reset")
+	@ResponseStatus(HttpStatus.ACCEPTED)
+	void requestPasswordReset(@AuthenticationPrincipal AuthenticatedUser user, @PathVariable UUID id) {
+		staffService.requestPasswordReset(user, id);
+	}
+
 }

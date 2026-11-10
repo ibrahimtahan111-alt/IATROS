@@ -763,6 +763,9 @@ Columns:
 * Edit
 * Deactivate
 * Reactivate where applicable
+* Reset password, for an active account: emails a one-hour link. The member chooses the new password.
+
+The member page has a Back control that returns to the team list.
 
 Search/filter/sort/pagination are required.
 

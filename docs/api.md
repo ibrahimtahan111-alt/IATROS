@@ -465,6 +465,16 @@ Issues a new invitation link (previous links stop working) and returns `202`. Li
 
 Errors: `422 USER_NOT_INVITED`, `429 RATE_LIMITED`.
 
+## Reset Password
+
+```text
+POST /api/v1/staff/{id}/password-reset
+```
+
+Emails an active member a one-hour link to choose a new password (the same link as Forgot Password). The previous unused reset link stops working. Returns `202`. Limited to 5 per member per hour. The owner never sees or sets the new password.
+
+Errors: `422 USER_NOT_ACTIVE` (invited or deactivated), `429 RATE_LIMITED`.
+
 ---
 
 # 8. Doctor API

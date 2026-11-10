@@ -56,6 +56,13 @@
   "invitation": {
     "sent": "Une nouvelle invitation a été envoyée à {{email}}."
   },
+  "passwordReset": {
+    "section": "Réinitialiser le mot de passe",
+    "title": "Réinitialiser le mot de passe de {{name}} ?",
+    "consequence": "{{name}} reçoit un e-mail à {{email}} avec un lien pour choisir un nouveau mot de passe. Le lien est valable une heure. En l’utilisant, la personne est déconnectée partout.",
+    "confirm": "Réinitialiser le mot de passe",
+    "done": "Un lien de réinitialisation a été envoyé à {{email}}."
+  },
   "fields": {
     "firstName": "Prénom",
     "lastName": "Nom",

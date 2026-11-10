@@ -179,6 +179,25 @@ describe('team management', () => {
     await waitFor(() => expect(router.state.location.pathname).toBe('/team'))
   })
 
+  it('goes back to the team and emails a password reset link', async () => {
+    const { requests } = fakeApi({
+      ...owner,
+      ...specialties,
+      [`GET /staff/${DOCTOR_ID}`]: () => json(member()),
+      [`POST /staff/${DOCTOR_ID}/password-reset`]: () => json(null, 202),
+    })
+    renderRoute(`/team/${DOCTOR_ID}`)
+    const user = userEvent.setup()
+
+    expect(await screen.findByRole('link', { name: 'Back' })).toHaveAttribute('href', '/team')
+    await user.click(screen.getByRole('button', { name: 'Reset password' }))
+    const dialog = await screen.findByRole('dialog', { name: 'Reset password for Daniel Brown?' })
+    await user.click(within(dialog).getByRole('button', { name: 'Reset password' }))
+
+    expect(await screen.findByText('A password reset link has been sent to daniel@demo.iatros.test.')).toBeInTheDocument()
+    expect(requests.some((request) => request.method === 'POST' && request.path === `/staff/${DOCTOR_ID}/password-reset`)).toBe(true)
+  })
+
   it('deactivates a member after confirmation', async () => {
     let current = member()
     const { requests } = fakeApi({

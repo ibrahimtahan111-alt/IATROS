@@ -20,6 +20,7 @@ import com.iatros.backend.audit.AuditService;
 import com.iatros.backend.audit.ChangedFields;
 import com.iatros.backend.auth.AuthTokenService;
 import com.iatros.backend.auth.InvitationService;
+import com.iatros.backend.auth.PasswordService;
 import com.iatros.backend.doctor.Doctor;
 import com.iatros.backend.doctor.DoctorRepository;
 import com.iatros.backend.doctor.Specialty;
@@ -53,12 +54,14 @@ public class StaffService {
 
 	private static final Duration INVITATION_RESEND_WINDOW = Duration.ofHours(1);
 	private static final int INVITATION_RESENDS_PER_WINDOW = 5;
+	private static final int PASSWORD_RESETS_PER_WINDOW = 5;
 
 	private final AppUserRepository users;
 	private final DoctorRepository doctors;
 	private final SpecialtyService specialties;
 	private final AppointmentRepository appointments;
 	private final InvitationService invitations;
+	private final PasswordService passwords;
 	private final AuthTokenService tokens;
 	private final UserSessionService sessions;
 	private final RateLimiter rateLimiter;
@@ -66,13 +69,15 @@ public class StaffService {
 	private final Clock clock;
 
 	public StaffService(AppUserRepository users, DoctorRepository doctors, SpecialtyService specialties,
-			AppointmentRepository appointments, InvitationService invitations, AuthTokenService tokens,
+			AppointmentRepository appointments, InvitationService invitations, PasswordService passwords,
+			AuthTokenService tokens,
 			UserSessionService sessions, RateLimiter rateLimiter, AuditService audit, Clock clock) {
 		this.users = users;
 		this.doctors = doctors;
 		this.specialties = specialties;
 		this.appointments = appointments;
 		this.invitations = invitations;
+		this.passwords = passwords;
 		this.tokens = tokens;
 		this.sessions = sessions;
 		this.rateLimiter = rateLimiter;
@@ -214,6 +219,20 @@ public class StaffService {
 		rateLimiter.acquire("invitation:user:" + user.getId(), INVITATION_RESENDS_PER_WINDOW,
 				INVITATION_RESEND_WINDOW);
 		invitations.sendInvitation(user, caller.userId());
+	}
+
+	/**
+	 * Emails an active member a link to choose a new password. Invited members still use the invitation, and a
+	 * deactivated account cannot sign in.
+	 */
+	@Transactional
+	public void requestPasswordReset(AuthenticatedUser caller, UUID id) {
+		AppUser user = member(caller, id);
+		if (!user.canAuthenticate()) {
+			throw new BusinessRuleException("USER_NOT_ACTIVE", "Only an active account can receive a password reset");
+		}
+		rateLimiter.acquire("password-reset:user:" + user.getId(), PASSWORD_RESETS_PER_WINDOW, INVITATION_RESEND_WINDOW);
+		passwords.issueResetLink(user, caller.userId());
 	}
 
 	private Specialty requireDoctorProfile(DoctorProfileRequest profile) {

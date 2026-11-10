@@ -1,4 +1,4 @@
-import { Ellipsis, Eye, MailPlus, Pencil, UserCheck, UserX } from 'lucide-react'
+import { Ellipsis, Eye, KeyRound, MailPlus, Pencil, UserCheck, UserX } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import iconButtonStyles from '../../shared/ui/IconButton.module.css'
@@ -34,6 +34,11 @@ export function MemberActionsMenu({ member, actions }: MemberActionsMenuProps) {
       {member.status === 'INVITED' && (
         <MenuItem icon={<MailPlus />} onSelect={() => actions.resendInvitation(member)}>
           {t('actions.resendInvitation')}
+        </MenuItem>
+      )}
+      {member.status === 'ACTIVE' && (
+        <MenuItem icon={<KeyRound />} onSelect={() => actions.resetPassword(member)}>
+          {t('passwordReset.confirm')}
         </MenuItem>
       )}
       {!isOwner && member.status !== 'DEACTIVATED' && (

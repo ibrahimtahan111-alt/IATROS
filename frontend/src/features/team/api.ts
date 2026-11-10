@@ -107,6 +107,12 @@ export function useResendInvitation() {
   })
 }
 
+export function useRequestPasswordReset() {
+  return useMutation({
+    mutationFn: (id: string) => apiRequest<void>(`/staff/${id}/password-reset`, { method: 'POST' }),
+  })
+}
+
 export function fullName(member: Pick<StaffMember, 'firstName' | 'lastName'>): string {
   return `${member.firstName} ${member.lastName}`
 }

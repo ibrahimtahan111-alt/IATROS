@@ -438,6 +438,53 @@ class StaffApiTests {
 	}
 
 	@Nested
+	class PasswordResets {
+
+		@Test
+		void anOwnerEmailsAnActiveMemberAResetLink() throws Exception {
+			outbox().clear();
+			requestPasswordReset(secretary.getId()).andExpect(status().isAccepted());
+
+			EmailMessage email = outbox().sentMessages().getFirst();
+			assertThat(email.to()).isEqualTo(secretary.getEmail());
+			assertThat(email.body()).contains("/reset-password#token=");
+			String token = tokenFrom(email);
+			mockMvc.perform(withJson(post("/api/v1/auth/reset-password"), """
+					{"token": "%s", "newPassword": "replacement-passphrase", "confirmPassword": "replacement-passphrase"}
+					""".formatted(token))).andExpect(status().isNoContent());
+			assertThat(auditActions()).contains("PASSWORD_RESET_REQUESTED");
+		}
+
+		@Test
+		void invitedAndDeactivatedMembersCannotBeReset() throws Exception {
+			AppUser invited = fixture.invitedUser(clinic, Role.SECRETARY, "Ivy", "Pending");
+			requestPasswordReset(invited.getId())
+				.andExpect(status().isUnprocessableContent())
+				.andExpect(jsonPath("$.code").value("USER_NOT_ACTIVE"));
+
+			changeStatus(secretary.getId(), "DEACTIVATED").andExpect(status().isOk());
+			requestPasswordReset(secretary.getId())
+				.andExpect(status().isUnprocessableContent())
+				.andExpect(jsonPath("$.code").value("USER_NOT_ACTIVE"));
+		}
+
+		@Test
+		void aNewLinkReplacesThePreviousOne() throws Exception {
+			requestPasswordReset(secretary.getId()).andExpect(status().isAccepted());
+			requestPasswordReset(secretary.getId()).andExpect(status().isAccepted());
+			List<EmailMessage> sent = outbox().sentMessages();
+			assertThat(sent).hasSize(2);
+			mockMvc.perform(withJson(post("/api/v1/auth/reset-password"), """
+					{"token": "%s", "newPassword": "replacement-passphrase", "confirmPassword": "replacement-passphrase"}
+					""".formatted(tokenFrom(sent.get(0))))).andExpect(jsonPath("$.code").value("INVALID_TOKEN"));
+			mockMvc.perform(withJson(post("/api/v1/auth/reset-password"), """
+					{"token": "%s", "newPassword": "replacement-passphrase", "confirmPassword": "replacement-passphrase"}
+					""".formatted(tokenFrom(sent.get(1))))).andExpect(status().isNoContent());
+		}
+
+	}
+
+	@Nested
 	class Authorization {
 
 		@Test
@@ -453,7 +500,8 @@ class StaffApiTests {
 								{"firstName": "X", "lastName": "Y", "email": "%s", "version": 0}"""
 								.formatted(member.getEmail())),
 						withJson(patch("/api/v1/staff/{id}/status", owner.getId()), "{\"status\": \"DEACTIVATED\"}"),
-						post("/api/v1/staff/{id}/invitation", member.getId()).with(spaCsrf()))) {
+						post("/api/v1/staff/{id}/invitation", member.getId()).with(spaCsrf()),
+						post("/api/v1/staff/{id}/password-reset", member.getId()).with(spaCsrf()))) {
 					mockMvc.perform(request.cookie(session))
 						.andExpect(status().isForbidden())
 						.andExpect(jsonPath("$.code").value("FORBIDDEN"));
@@ -477,7 +525,8 @@ class StaffApiTests {
 							{"firstName": "X", "lastName": "Y", "email": "%s", "version": %d}"""
 							.formatted(otherClinicMember.getEmail(), otherClinicMember.getVersion())),
 					withJson(patch("/api/v1/staff/{id}/status", foreignId), "{\"status\": \"DEACTIVATED\"}"),
-					post("/api/v1/staff/{id}/invitation", foreignId).with(spaCsrf()))) {
+					post("/api/v1/staff/{id}/invitation", foreignId).with(spaCsrf()),
+					post("/api/v1/staff/{id}/password-reset", foreignId).with(spaCsrf()))) {
 				mockMvc.perform(request.cookie(ownerSession))
 					.andExpect(status().isNotFound())
 					.andExpect(jsonPath("$.code").value("STAFF_NOT_FOUND"));
@@ -511,6 +560,10 @@ class StaffApiTests {
 
 	private ResultActions resendInvitation(UUID id) throws Exception {
 		return mockMvc.perform(post("/api/v1/staff/{id}/invitation", id).with(spaCsrf()).cookie(ownerSession));
+	}
+
+	private ResultActions requestPasswordReset(UUID id) throws Exception {
+		return mockMvc.perform(post("/api/v1/staff/{id}/password-reset", id).with(spaCsrf()).cookie(ownerSession));
 	}
 
 	private ResultActions acceptInvitation(String token) throws Exception {

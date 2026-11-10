@@ -56,6 +56,13 @@
   "invitation": {
     "sent": "A new invitation has been sent to {{email}}."
   },
+  "passwordReset": {
+    "section": "Reset password",
+    "title": "Reset password for {{name}}?",
+    "consequence": "{{name}} receives an email at {{email}} with a link to choose a new password. The link works for one hour. When they use it, they are signed out everywhere.",
+    "confirm": "Reset password",
+    "done": "A password reset link has been sent to {{email}}."
+  },
   "fields": {
     "firstName": "First name",
     "lastName": "Last name",

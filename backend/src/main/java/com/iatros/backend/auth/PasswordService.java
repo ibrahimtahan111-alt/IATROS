@@ -1,6 +1,7 @@
 package com.iatros.backend.auth;
 
 import java.time.Duration;
+import java.util.UUID;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -76,12 +77,19 @@ public class PasswordService {
 		users.findByEmail(normalized)
 			.filter(AppUser::canAuthenticate)
 			.filter(this::clinicIsActive)
-			.ifPresent(user -> {
-				String rawToken = tokens.issue(user.getId(), TokenPurpose.PASSWORD_RESET, RESET_TOKEN_LIFETIME);
-				emailSender.send(emails.passwordReset(user, rawToken));
-				audit.record(user.getClinicId(), user.getId(), AuditActions.PASSWORD_RESET_REQUESTED,
-						AuditActions.ENTITY_USER, user.getId());
-			});
+			.ifPresent(user -> issueResetLink(user, user.getId()));
+	}
+
+	/**
+	 * Sends a one-hour reset link to an active account. Used when the clinic owner starts the reset; the member
+	 * still chooses the new password, and completing it signs them out everywhere.
+	 */
+	@Transactional
+	public void issueResetLink(AppUser user, UUID actorId) {
+		String rawToken = tokens.issue(user.getId(), TokenPurpose.PASSWORD_RESET, RESET_TOKEN_LIFETIME);
+		emailSender.send(emails.passwordReset(user, rawToken));
+		audit.record(user.getClinicId(), actorId, AuditActions.PASSWORD_RESET_REQUESTED, AuditActions.ENTITY_USER,
+				user.getId());
 	}
 
 	/** Sets a new password from a reset token and signs the user out everywhere. */
